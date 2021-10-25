@@ -8,7 +8,7 @@ RUN apt-get install curl -y
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 
 RUN mkdir -p /backend
-#RUN mkdir -p /frontend
+RUN mkdir -p /frontend
 
 
 COPY ./backend/requirements.yml /backend
@@ -22,10 +22,10 @@ RUN mkdir -p /scripts
 COPY ./scripts /scripts
 RUN chmod +x /scripts
 
-# WORKDIR /frontend
-# COPY ./frontend/package.json /frontend/
-# RUN npm install
-# COPY ./frontend /frontend
-# RUN npm run build
+WORKDIR /frontend
+COPY ./frontend/package.json /frontend/
+RUN npm install
+COPY ./frontend /frontend
+RUN npm run build
 
 WORKDIR /backend

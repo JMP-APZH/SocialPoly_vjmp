@@ -31,6 +31,7 @@ schema_view = get_schema_view(
         default_version='v0.1',
         description="Motion Social Media App API",
     ),
+    base_url="https://djpp.propulsion-learn.ch/backend/api/"
     public=True,  # Set to False restrict access to protected endpoints
     permission_classes=(permissions.AllowAny,),  # Permissions for docs access
 )

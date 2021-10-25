@@ -1,4 +1,4 @@
-name: Luna_Team2
+name: djpp
 dependencies:
   - python=3.9.7
   - pip
