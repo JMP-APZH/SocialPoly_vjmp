@@ -240,3 +240,5 @@ db.*
 
 media-files
 static-files
+
+package-lock.json
