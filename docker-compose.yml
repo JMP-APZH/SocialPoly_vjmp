@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: registry.gitlab.propulsion-home.ch/full-stack/batch-17-aug-2021/final-projects/djpp:latest
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-17-aug-2021/luna-project/luna-team2:latest
     ports:
       - 8000:8000
     env_file:
