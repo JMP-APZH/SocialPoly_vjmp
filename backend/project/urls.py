@@ -31,7 +31,7 @@ schema_view = get_schema_view(
         default_version='v0.1',
         description="Social Media Manager API",
     ),
-    url="https://djpp.propulsion-learn.ch/backend/api/",
+    url="https://djpp.propulsion-learn.ch/",
     public=True,  # Set to False restrict access to protected endpoints
     permission_classes=(permissions.AllowAny,),  # Permissions for docs access
 )
