@@ -15,8 +15,8 @@ COPY ./backend/requirements.yml /backend
 RUN /opt/conda/bin/conda env create -f /backend/requirements.yml
 COPY ./backend /backend
 
-ENV PATH /opt/conda/envs/Luna_Team2/bin:$PATH
-RUN echo "source activate Luna_Team2" >~/.bashrc
+ENV PATH /opt/conda/envs/djpp/bin:$PATH
+RUN echo "source activate djpp" >~/.bashrc
 
 RUN mkdir -p /scripts
 COPY ./scripts /scripts

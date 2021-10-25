@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   backend:
-    image: registry.gitlab.propulsion-home.ch/full-stack/batch-17-aug-2021/luna-project/luna-team2:master
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-17-aug-2021/final-projects/djpp:master
     env_file:
       - ./env/prod.env
     command: "sh /scripts/prod.sh"
