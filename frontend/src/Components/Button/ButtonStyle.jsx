@@ -7,12 +7,13 @@ const buttonHeight = '50px'
 
 export const ButtonMain = styled(Button)`
 
+    &&{
     margin: 10px;
     width: ${buttonWidth};
     height: ${buttonHeight};
     border: solid 1px ${global.borderColor};
     box-shadow: 0px 0px 10px ${global.borderColor};
-    border-radius: calc(${buttonHeight} / 2);
+    border-radius: 4px;
     background-color: ${(props) => props.backgroundColor ? props.backgroundColor : global.colorMain};
     ${(props) => props.fontSize ? 'font-size: ' + props.fontSize : global.fontL};
     font-family: ${(props) => props.fontFamily ? props.fontFamily : global.openSans};
@@ -23,16 +24,20 @@ export const ButtonMain = styled(Button)`
     transition: .5s;
     
     &:hover {
+        background-color: ${(props) => props.backgroundColor ? props.backgroundColor : global.colorMain};
         transition: .5s;
         filter: brightness(130%);
-    }
+    }}
 `
 
 export const ButtonMinor = styled(ButtonMain)`
+
+    &&{
     background-color: ${(props) => props.backgroundColor ? props.backgroundColor : 'white'};
     color: ${(props) => props.fontColor ? props.fontColor : '#525252'};
-
+    
     &:hover {
+        background-color: ${(props) => props.backgroundColor ? props.backgroundColor : 'white'};
         filter: brightness(90%);
-    }
+    }}
 `

@@ -8,8 +8,8 @@ export default function PostCreation() {
             <div className='postWrapper'>
                 <div className='postContent'>
                     <textarea name="textContent" id="" cols="50" rows="10"></textarea>
-                    <TestButton variant="contained">Hello World</TestButton>
-                    {/* <Button
+                    {/* <TestButton variant="contained">Hello World</TestButton> */}
+                    <ButtonMain
                         variant="contained"
                         component="label"
                         >
@@ -18,7 +18,7 @@ export default function PostCreation() {
                             type="file"
                             hidden
                         />
-                    </Button> */}
+                    </ButtonMain>
                 </div>
 
                 <div className='postControls'>

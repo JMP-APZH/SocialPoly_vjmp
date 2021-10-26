@@ -3,7 +3,10 @@ import * as global from '../../indexStyle'
 import Button from '@mui/material/Button';
 
 export const TestButton = styled(Button)`
-    background-color: red;
+    && {
+
+        background-color: red;
+    }
 `
 
 export const PostCreationWrapper = styled.div`
