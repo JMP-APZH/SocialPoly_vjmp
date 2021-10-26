@@ -6,6 +6,7 @@ import FacebookIcon from '../../assets/svgs/facebook-icon.svg'
 import InstagramIcon from '../../assets/svgs/instagram-icon.svg'
 import LinkedIn from '../../assets/svgs/linkedin-icon.svg'
 import TiktokIcon from '../../assets/svgs/tiktok-icon.svg'
+import TwitterPreview from '../Previews/TwitterPreview';
 
 export default function PostCreation() {
     const [statusTwitter, setStatusTwitter] = useState(false)
@@ -71,8 +72,8 @@ export default function PostCreation() {
                     <ButtonMain>Post</ButtonMain>
                     <ButtonMinor>Delete</ButtonMinor>
                 </div>
-
             </div>
+            <TwitterPreview />
         </PostCreationWrapper>
     )
 }

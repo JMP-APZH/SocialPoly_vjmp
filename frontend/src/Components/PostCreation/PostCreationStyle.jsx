@@ -15,13 +15,16 @@ export const PostTextArea = styled(TextField)`
         font-family: ${(props) => props.fontFamily ? props.fontFamily : global.openSans};
         color: blue;
     }
-`
+    `
 
 export const PostCreationWrapper = styled.div`
     
     
     .postWrapper {
-        border: crimson 2px solid;
+        border: ${global.borderColor} 2px solid;
+        border-width: 2px 2px 0 2px;
+        border-radius: 6px 6px 0 0;
+        box-shadow: 0px 0px 10px ${global.borderColor};
         width: 60%;
         display: flex;
         unicode-bidi:bidi-override;
