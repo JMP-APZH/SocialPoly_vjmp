@@ -1,10 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
 
-export const fontXS = 'font-size: 14px'
-export const fontS = 'font-size: 16px'
-export const fontM = 'font-size: 18px'
-export const fontL = 'font-size: 22px'
-export const fontXL = 'font-size: 24px'
+export const fontXS = '14px'
+export const fontS = '16px'
+export const fontM = '18px'
+export const fontL = '22px'
+export const fontXL = '24px'
 
 export const openSans = "'Open Sans', sans-serif"
 export const overpass = "'Overpass', sans-serif"

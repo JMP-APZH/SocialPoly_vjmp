@@ -15,18 +15,19 @@ export const ButtonMain = styled(Button)`
     box-shadow: 0px 0px 10px ${global.borderColor};
     border-radius: 4px;
     background-color: ${(props) => props.backgroundColor ? props.backgroundColor : global.colorMain};
-    ${(props) => props.fontSize ? 'font-size: ' + props.fontSize : global.fontL};
+    font-size: ${(props) => props.fontSize ? props.fontSize : global.fontL};
     font-family: ${(props) => props.fontFamily ? props.fontFamily : global.openSans};
     font-weight: ${(props) => props.fontWeight ? props.fontWeight : 600};
-    text-transform: uppercase;
+    text-transform: ${(props) => props.texttransform ? props.texttransform : 'uppercase'};
     color: ${(props) => props.fontColor ? props.fontColor : 'white'};
     cursor: pointer;
     transition: .5s;
     
     &:hover {
+        box-shadow: 0px 0px 10px ${global.borderColor};
         background-color: ${(props) => props.backgroundColor ? props.backgroundColor : global.colorMain};
         transition: .5s;
-        filter: brightness(130%);
+        filter: brightness(85%);
     }}
 `
 

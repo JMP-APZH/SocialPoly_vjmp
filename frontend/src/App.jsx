@@ -1,22 +1,16 @@
 import "./AppStyle";
 import { AppMain } from './AppStyle';
-import { ButtonMain, ButtonMinor } from './Components/Button/ButtonStyle';
-import PostCreation from './Components/PostCreation/PostCreation';
-import Searchbar from './Components/Searchbar/Searchbar';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import TestPage from './Pages/TestPage/TestPage';
 
 function App() {
-  return (
-    <AppMain>
-
-      <ButtonMain>test</ButtonMain>
-      <ButtonMain backgroundColor='crimson' fontSize='16px' fontColor='black' fontWeight='400' >test with props</ButtonMain>
-      <ButtonMinor>minor</ButtonMinor>
-
-      <Searchbar w='400px' h='40px' />
-      <br />
-      <PostCreation />
-    </AppMain>
-  );
+    return (
+        <Router>
+            <AppMain>
+                <Route path='/' component={TestPage} exact />
+            </AppMain>
+        </Router>
+    );
 }
 
 export default App;
