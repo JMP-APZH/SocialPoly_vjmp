@@ -6,7 +6,6 @@ import LikeIcon from '../../assets/svgs/twitter-like.svg'
 import ShareIcon from '../../assets/svgs/twitter-share.svg'
 import MoreIcon from '../../assets/svgs/more_horiz.svg'
 import DefaultIcon from '../../assets/images/default-user-icon.png'
-import TestImage from '../../assets/images/test-tweet.png'
 
 export default function TwitterPreview(props) {
     const [image, setImage] = useState('')

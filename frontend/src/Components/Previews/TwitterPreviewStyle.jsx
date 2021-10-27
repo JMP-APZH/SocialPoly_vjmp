@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import * as global from '../../indexStyle';
-import TestImage from '../../assets/images/test-tweet.png'
 
 export const TwitterPreviewWrapper = styled.div`
 

@@ -38,14 +38,6 @@ export default function PostCreation() {
         setPostText(e.target.value)
     }
 
-    const handlefileName = (e) => {
-        setFileName(e.target.files[0].name)
-        const reader = new FileReader()
-        reader.onloadend = () => {setFilePreview(reader.result)}
-        reader.readAsDataURL(e.target.files[0])
-        setFile(e.target.files[0])
-    }
-
     return (
         <PostCreationWrapper remainingText={280 - postText.length}>
             <div className='postWrapper'>
