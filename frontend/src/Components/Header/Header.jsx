@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderMain } from "./HeaderStyle";
-import logoDuotone from "../../assets/images/ParrotHead.png";
+import logoHead from "../../assets/images/ParrotHead.png";
 import { AppBar, Badge, IconButton } from "@mui/material";
 import {
   Menu,
@@ -12,19 +12,18 @@ import {
   Brightness4,
 } from "@mui/icons-material";
 
-export default function Header({
-  handleDrawerToggle,
-  toggleDarkMode,
-  darkMode,
-}) {
+export default function Header({ toggleDrawer, toggleDarkMode, darkMode }) {
   return (
-    <AppBar>
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <HeaderMain>
         <div className="TopLeft">
-          <IconButton color="inherit" onClick={handleDrawerToggle}>
+          <IconButton color="inherit" onClick={toggleDrawer}>
             <Menu />
           </IconButton>
-          <img src={logoDuotone} className="Logo" alt="Logo" />
+          <img src={logoHead} className="Logo" alt="Logo" />
         </div>
         <div className="TopRight">
           <IconButton color="inherit" onClick={toggleDarkMode}>
