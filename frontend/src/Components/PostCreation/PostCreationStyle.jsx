@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as global from '../../indexStyle'
 import { TextField } from '@mui/material';
+import Upload from '../../assets/svgs/twitter-share.svg'
 
 
 
@@ -18,16 +19,24 @@ export const PostTextArea = styled(TextField)`
     `
 
 export const PostCreationWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     
     
+    border: ${global.borderColor} 2px solid;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px ${global.borderColor};
+    width: 60%;
+    display: flex;
+    overflow: auto;
+
     .postWrapper {
-        border: ${global.borderColor} 2px solid;
-        border-width: 2px 2px 0 2px;
-        border-radius: 6px 6px 0 0;
-        box-shadow: 0px 0px 10px ${global.borderColor};
-        width: 60%;
+        width: 100%;
         display: flex;
-        unicode-bidi:bidi-override;
+        overflow: auto;
 
     }
     
@@ -67,7 +76,49 @@ export const PostCreationWrapper = styled.div`
         align-items: center;
         
     }
+
+    .previewWrapper {
+        border: ${global.colorMain} solid 5px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px ${global.colorMainD};
+    }
+    margin-bottom: 200px;
     `
+
+export const FileDropWrapper = styled.div`
+    display: flex;
+    height: 80px;
+    width: 400px;
+    /* background-color: ${(props) => props.dragover ? 'blue' : 'coral'}; */
+    border: ${global.borderColor} 3px ${(props) => props.dragover ? 'dashed' : 'solid'};
+    border-radius: 8px;
+    
+    div {
+        display: ${(props) => props.dragover ? 'none' : 'flex'};
+        border-radius: 5px;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+    .fileDrop {
+        background-color: ${global.colorMainL};
+    }
+    .dragOverlay {
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        display: ${(props) => props.dragover ? 'flex' : 'none'};
+        background-color: white;
+        background-image: url(${Upload}) ;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 40px;
+    }
+
+`
 
 export const PlatformButton = styled.button`
     display: flex;
