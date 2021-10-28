@@ -27,10 +27,11 @@ from project import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Motion Project API",
+        title="Social Media Manager API",
         default_version='v0.1',
         description="Social Media Manager API",
     ),
+    url="https://djpp.propulsion-learn.ch/backend/api/",
     public=True,  # Set to False restrict access to protected endpoints
     permission_classes=(permissions.AllowAny,),  # Permissions for docs access
 )
