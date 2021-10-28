@@ -20,6 +20,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework_simplejwt import views as jwt_views
+from registration_profile.views import CreateRegistrationView, ValidateCreateRegistrationView
+
+
 
 from user.views import CustomTokenObtainPairView
 
@@ -27,7 +30,7 @@ from project import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Motion Project API",
+        title="DJPP API",
         default_version='v0.1',
         description="Social Media Manager API",
     ),
@@ -38,6 +41,9 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('backend/admin/', admin.site.urls),
     path('users/', include('user.urls')),
+    path('twitter/', include('twitter.urls')),
+    path('backend/api/registration/', CreateRegistrationView.as_view()),
+    path('backend/api/registration/validate/', ValidateCreateRegistrationView.as_view()),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('backend/api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
@@ -46,4 +52,4 @@ urlpatterns = [
     path('backend/api/social/comments/', include('comment.urls')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
