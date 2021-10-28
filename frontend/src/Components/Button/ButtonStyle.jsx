@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as global from '../../indexStyle'
+import * as global from '../../globalStyle'
 import Button from '@mui/material/Button';
 
 const buttonWidth = '200px'
@@ -11,8 +11,8 @@ export const ButtonMain = styled(Button)`
     margin: 10px;
     width: ${buttonWidth};
     height: ${buttonHeight};
-    border: solid 1px ${global.borderColor};
-    box-shadow: 0px 0px 10px ${global.borderColor};
+    /* border: solid 1px ${global.borderColor}; */
+    /* box-shadow: 0px 0px 10px ${global.borderColor}; */
     border-radius: 4px;
     background-color: ${(props) => props.backgroundColor ? props.backgroundColor : global.colorMain};
     font-size: ${(props) => props.fontSize ? props.fontSize : global.fontL};

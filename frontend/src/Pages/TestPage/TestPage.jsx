@@ -5,7 +5,7 @@ import Searchbar from '../../Components/Searchbar/Searchbar'
 
 export default function TestPage() {
     return (
-        <div>
+        <div >
             
             <ButtonMain>test</ButtonMain>
             <ButtonMain backgroundColor='crimson' fontSize='16px' fontColor='black' fontWeight='400' >test with props</ButtonMain>
