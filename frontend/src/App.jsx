@@ -54,7 +54,7 @@ function App() {
           <SideBar drawerWidth={drawerWidth} />
           <Box style={{ marginLeft: drawerWidth + 20 }}>
             <Route path="/" component={TestPage} exact />
-            <Route path="/grid" component={GridDND} exact />
+            <Route path="/dashboard" component={GridDND} exact />
           </Box>
         </AppMain>
       </Router>

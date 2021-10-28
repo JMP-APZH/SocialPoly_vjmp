@@ -11,8 +11,15 @@ import {
   BrightnessHigh,
   Brightness4,
 } from "@mui/icons-material";
+import { useHistory } from "react-router";
 
 export default function Header({ toggleDrawer, toggleDarkMode, darkMode }) {
+  const history = useHistory();
+  const HomeHandler = (e) => {
+    e.preventDefault();
+    history.push("/");
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -23,7 +30,12 @@ export default function Header({ toggleDrawer, toggleDarkMode, darkMode }) {
           <IconButton color="inherit" onClick={toggleDrawer}>
             <Menu />
           </IconButton>
-          <img src={logoHead} className="Logo" alt="Logo" />
+          <img
+            src={logoHead}
+            className="Logo"
+            alt="Logo"
+            onClick={HomeHandler}
+          />
         </div>
         <div className="TopRight">
           <IconButton color="inherit" onClick={toggleDarkMode}>
