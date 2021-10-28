@@ -24,7 +24,7 @@ export default function SideBarContent() {
   };
   const AccountsHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/accounts");
   };
   const PostsHandler = (e) => {
     e.preventDefault();
