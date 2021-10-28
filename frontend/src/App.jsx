@@ -4,6 +4,7 @@ import "./AppStyle";
 import { AppMain } from "./AppStyle";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TestPage from "./Pages/TestPage/TestPage";
+import Accounts from "./Pages/Accounts/Accounts";
 import GridDND from "./Components/GridDND/GridDND";
 import Header from "./Components/Header/Header";
 import SideBar from "./Components/SideBar/SideBar";
@@ -55,6 +56,7 @@ function App() {
           <Box style={{ marginLeft: drawerWidth + 20 }}>
             <Route path="/" component={TestPage} exact />
             <Route path="/dashboard" component={GridDND} exact />
+            <Route path="/accounts" component={Accounts} exact />
           </Box>
         </AppMain>
       </Router>
