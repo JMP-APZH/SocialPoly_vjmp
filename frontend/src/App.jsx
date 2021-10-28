@@ -13,7 +13,6 @@ import { setToLS, getFromLS } from "./utils/storage";
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 function App() {
-  /* let drawerWidth = 180; */
   const UserSystemTheme = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
