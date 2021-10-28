@@ -8,5 +8,5 @@ class Tweet(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='tweets')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    send_time = models.DateTimeField(input_formats=["%Y-%m-%dT%H:%M", ])
+    send_time = models.DateTimeField(blank=True)
 
