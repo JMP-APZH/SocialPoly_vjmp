@@ -20,8 +20,8 @@ export default function TwitterPreview(props) {
                 <div className='postHeader'>
                     <img className='profileIcon' src={DefaultIcon} alt="" />
                     <div className='nameWrapper'>
-                        <h6>dunkey</h6>
-                        <span>@vgdunkey</span>
+                        <h6>DISPLAY NAME</h6>
+                        <span>@USERNAME</span>
                     </div>
                     <button><img src={MoreIcon} alt="more" /></button>
                 </div>

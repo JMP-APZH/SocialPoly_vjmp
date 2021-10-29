@@ -10,6 +10,8 @@ import Header from "./Components/Header/Header";
 import SideBar from "./Components/SideBar/SideBar";
 import { Box, CssBaseline } from "@mui/material";
 import { setToLS, getFromLS } from "./utils/storage";
+import {GlobalStyle} from './globalStyle'
+import Auth from './Pages/Auth/Auth';
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -44,6 +46,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyle />
       <Router>
         <AppMain>
           <Header
@@ -55,6 +58,7 @@ function App() {
           <SideBar drawerWidth={drawerWidth} />
           <Box style={{ marginLeft: drawerWidth + 20 }}>
             <Route path="/" component={TestPage} exact />
+            <Route path='/auth' component={Auth} exact />
             <Route path="/dashboard" component={GridDND} exact />
             <Route path="/accounts" component={Accounts} exact />
           </Box>

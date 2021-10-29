@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as global from '../../indexStyle'
+import * as global from '../../globalStyle'
 import searchIcon from '../../assets/svgs/search.svg'
 import cancelIcon from '../../assets/svgs/cancel.svg'
 

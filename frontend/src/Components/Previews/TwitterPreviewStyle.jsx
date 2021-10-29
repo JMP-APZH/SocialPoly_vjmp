@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import * as global from "../../indexStyle";
+import * as global from "../../globalStyle";
 
 export const TwitterPreviewWrapper = styled.div`
   .twitterPostWrapper {
@@ -56,6 +56,7 @@ export const TwitterPreviewWrapper = styled.div`
     .postBody {
       width: 100%;
       font-size: 20px;
+      white-space: pre-wrap;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
