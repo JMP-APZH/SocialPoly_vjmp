@@ -24,7 +24,7 @@ class CreateRegistrationView(GenericAPIView):
             'Thank you for registering!',
             'Thank you for registering for Motion\n'
             f'Here is your code for registration:\n{instance.code}',
-            'propulsionteamphp@gmail.com',
+            'djppfinal@gmail.com',
             [request.data['email']],
             fail_silently=False,
         )
@@ -59,7 +59,7 @@ class PasswordResetView(GenericAPIView):
         send_mail(
             'Your password reset code!',
             f'Here is your password reset code:\n{instance.code}',
-            'propulsionteamphp@gmail.com',
+            'djppfinal@gmail.com',
             [request.data['email']],
             fail_silently=False,
         )
@@ -79,7 +79,7 @@ class PasswordResetValidationView(GenericAPIView):
             send_mail(
                 'Password reset',
                 'Your password was successfully reset\nCongratulations!!!',
-                'propulsionteamphp@gmail.com',
+                'djppfinal@gmail.com',
                 [request.data['email']],
                 fail_silently=False,
             )

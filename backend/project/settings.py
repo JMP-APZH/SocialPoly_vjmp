@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import ast
 from datetime import timedelta
 from pathlib import Path
 import os
@@ -24,9 +25,14 @@ SECRET_KEY = 'django-insecure-!t!oej#hj5!!dod93vzr8e)8ln=b*jmg%1j63s^w8$#rujgw-4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DJANGO_DEBUG')
+DEBUG = ast.literal_eval(os.environ.get('DJANGO_DEBUG'))
 
-ALLOWED_HOSTS = ['159.223.23.37', 'backend', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['159.89.109.86', 'backend', '127.0.0.1', '*']
+
+API_KEY = 'mdJzjwqdN7NdrzQPBnlcT426E'
+API_KEY_SECRET = 'Kav2h8Stwzpz5vwhbhJI6sZSBrBiL31ZmN6GsXMkD0RnVRNq7n'
+ACCESS_TOKEN = '1452548837894246401-lKsjkGgrUdpBj00NXM7aJlpHObCA2k'
+ACCESS_TOKEN_SECRET = '7oB1j3ULYNzR08saITtzbF8Q7DHJ47wYiC0phBkNVM7ug'
 
 # Application definition
 
@@ -40,8 +46,8 @@ INSTALLED_APPS = [
 
     # OWN
     'user',
-    'comment',
     'registration_profile',
+    'twitter',
 
     # 3RD PARTY
     'rest_framework',

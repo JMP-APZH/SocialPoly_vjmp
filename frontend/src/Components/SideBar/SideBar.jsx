@@ -14,6 +14,7 @@ export default function SideBar(props) {
           [`& .MuiDrawer-paper`]: {
             width: props.drawerWidth,
             boxSizing: "border-box",
+            overflow: "hidden",
           },
         }}
       >

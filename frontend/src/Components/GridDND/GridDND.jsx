@@ -1,9 +1,10 @@
 import React from "react";
 import logo from "../../Parrot.png";
-import { GridDiv } from "./GridDNDStyle";
+import { GridLayout, GridDiv } from "./GridDNDStyle";
+import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { WidthProvider, Responsive } from "react-grid-layout";
-import { IconButton } from "@mui/material";
+import { Fab } from "@mui/material";
 import { Edit, EditOff } from "@mui/icons-material";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -51,19 +52,24 @@ export default class GridDND extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <GridLayout layout>
         <div>
-          <IconButton
-            color="inherit"
+          <Fab
+            color="primary"
             onClick={this.toggleEditGrid}
-            style={{ float: "right", zIndex: "100" }}
+            style={{
+              zIndex: "100",
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+            }}
           >
             {this.state.editGrid ? (
               <EditOff className="Icon" />
             ) : (
               <Edit className="Icon" />
             )}
-          </IconButton>
+          </Fab>
         </div>
         <ResponsiveReactGridLayout
           className="layout"
@@ -105,7 +111,7 @@ export default class GridDND extends React.PureComponent {
             </span>
           </GridDiv>
         </ResponsiveReactGridLayout>
-      </div>
+      </GridLayout>
     );
   }
 }
