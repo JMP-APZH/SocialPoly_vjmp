@@ -56,7 +56,7 @@ export const TwitterPreviewWrapper = styled.div`
     .postBody {
       width: 100%;
       font-size: 20px;
-      white-space: pre-wrap;
+      overflow-wrap: anywhere;
       display: flex;
       flex-direction: column;
       align-items: flex-start;

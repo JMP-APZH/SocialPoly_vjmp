@@ -14,6 +14,7 @@ import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
 import TwitterPreview from "../Previews/TwitterPreview";
 import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
+import axios from 'axios'
 
 export default function PostCreation() {
   const theme = useTheme()
@@ -47,6 +48,17 @@ export default function PostCreation() {
   const postTextHandler = (e) => {
     setPostText(e.target.value);
   };
+  const postButtonHandler = async () => {
+        const token = localStorage.getItem('token')
+        const config = {headers: {Authorization: `Bearer ${token}`}}
+        const response = await axios.post( `https://djpp.propulsion-learn.ch/backend/api/twitter/send/`, {
+            title: 'title',
+            content: postText,
+            send_time: "2021-10-29T15:47:53.074Z",
+            },
+            config)
+        console.log(response)
+  }
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme} >
@@ -106,7 +118,7 @@ export default function PostCreation() {
             <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Save Draft</ButtonMinor>
             {/* <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Schedule</ButtonMinor> */}
             <PostScheduler id="datetime-local" label="Schedule Post" type="datetime-local" sx={{backgroundColor:'white',width: 220,boxShadow:5,border:2,borderColor:'primary.dark'}} InputLabelProps={{shrink: true}} variant="filled" />
-            <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}}>Post</ButtonMain>
+            <ButtonMain onClick={() => postButtonHandler()} sx={{boxShadow:5,border:2,borderColor:'primary.dark'}}>Post</ButtonMain>
             <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Delete</ButtonMinor>
         </div>
 
