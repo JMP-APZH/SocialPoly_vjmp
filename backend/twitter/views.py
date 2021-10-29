@@ -41,7 +41,7 @@ class GetFollowers(APIView):
         try:
             api.verify_credentials()
             my_followers = api.get_followers()
-            print('in da getfollowers', my_followers)
+            print('in da getfollowers')
             return Response({'message': 'Success'})
         except:
             return Response({'message': 'Error during auth'})

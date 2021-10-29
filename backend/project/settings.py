@@ -46,7 +46,6 @@ INSTALLED_APPS = [
 
     # OWN
     'user',
-    'comment',
     'registration_profile',
     'twitter',
 
