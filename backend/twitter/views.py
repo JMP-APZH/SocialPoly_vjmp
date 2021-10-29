@@ -18,7 +18,7 @@ class CreateTweet(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(owner=self.request.user)
+        serializer.save(author=self.request.user)
 
         auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
         auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
