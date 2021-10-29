@@ -41,8 +41,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('backend/admin/', admin.site.urls),
-    path('users/', include('user.urls')),
-    path('twitter/', include('twitter.urls')),
+    path('backend/api/users/', include('user.urls')),
+    path('backend/api/twitter/', include('twitter.urls')),
     path('backend/api/registration/', CreateRegistrationView.as_view()),
     path('backend/api/registration/validate/', ValidateCreateRegistrationView.as_view()),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -50,7 +50,6 @@ urlpatterns = [
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     path('backend/api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('backend/api/auth/', include('registration_profile.urls')),
-    path('backend/api/social/comments/', include('comment.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
