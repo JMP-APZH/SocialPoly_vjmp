@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import * as global from '../../globalStyle'
 import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 
-const buttonWidth = '200px'
+const buttonWidth = '220px'
 const buttonHeight = '50px'
 
 export const ButtonMain = styled(Button)`
@@ -41,4 +42,13 @@ export const ButtonMinor = styled(ButtonMain)`
         background-color: ${(props) => props.backgroundColor ? props.backgroundColor : 'white'};
         filter: brightness(90%);
     }}
+`
+
+export const PostScheduler = styled(TextField)`
+    && {
+        border-radius: 4px;
+        .label {
+            color:red;
+        }
+    }
 `

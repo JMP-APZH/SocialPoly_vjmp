@@ -5,7 +5,7 @@ import {
   PostCreationWrapper,
   PostTextArea,
 } from "./PostCreationStyle";
-import { ButtonMain, ButtonMinor } from "../../Components/Button/ButtonStyle";
+import { ButtonMain, ButtonMinor, PostScheduler } from "../../Components/Button/ButtonStyle";
 import TwitterIcon from "../../assets/svgs/twitter-icon.svg";
 import FacebookIcon from "../../assets/svgs/facebook-icon.svg";
 import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
@@ -104,9 +104,10 @@ export default function PostCreation() {
         <div className="postControls">
           <span>Updates</span>
             <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Save Draft</ButtonMinor>
-          <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Schedule</ButtonMinor>
-          <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}}>Post</ButtonMain>
-          <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Delete</ButtonMinor>
+            {/* <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Schedule</ButtonMinor> */}
+            <PostScheduler id="datetime-local" label="Schedule Post" type="datetime-local" sx={{backgroundColor:'white',width: 220,boxShadow:5,border:2,borderColor:'primary.dark'}} InputLabelProps={{shrink: true}} variant="filled" />
+            <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}}>Post</ButtonMain>
+            <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Delete</ButtonMinor>
         </div>
 
 

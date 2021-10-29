@@ -22,6 +22,8 @@ export const colorOther2 = '#0208b2'
 export const colorOther3 = '#5402b2'
 export const colorOther4 = '#b20260'
 
+export const test = 'border: crimson 2px solid;'
+
 
 
 export const GlobalStyle = createGlobalStyle`
