@@ -18,7 +18,7 @@ class CreateTweet(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(owner=self.request.user)
+        serializer.save(author=self.request.user)
 
         auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
         auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
@@ -41,7 +41,18 @@ class GetFollowers(APIView):
         try:
             api.verify_credentials()
             my_followers = api.get_followers()
-            print(my_followers)
+            print('in da getfollowers', my_followers)
             return Response({'message': 'Success'})
         except:
             return Response({'message': 'Error during auth'})
+
+
+class GetAllTweets(APIView):
+    serializer_class = TwitterSerializer
+    queryset = Tweet.objects.all()
+    permission_classes = []
+
+    def get_queryset(self):
+        scheduled_tweets = Tweet.objects.values_list('send_time', flat=True)
+        print(scheduled_tweets[3])
+        return scheduled_tweets

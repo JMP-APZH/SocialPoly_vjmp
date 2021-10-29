@@ -7,5 +7,5 @@ class TwitterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ['id', 'title', 'content', 'created', 'updated', 'author', 'send_time']
+        fields = ['id', 'title', 'content', 'created', 'updated', 'author']
         read_only_fields = ['author']
