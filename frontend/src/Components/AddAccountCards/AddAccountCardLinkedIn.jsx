@@ -8,6 +8,7 @@ import {
   Avatar,
   IconButton,
   Typography,
+  Button,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
@@ -21,9 +22,14 @@ import {
 
 export default function AddAccountCardLinkedIn() {
   const [expanded, setExpanded] = React.useState(false);
+  const [regExpanded, setRegExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleRegExpandClick = () => {
+    setRegExpanded(!regExpanded);
   };
 
   return (
@@ -56,8 +62,13 @@ export default function AddAccountCardLinkedIn() {
         >
           <LinkedIn />
         </IconButton>
-        <IconButton aria-label="register">
-          {expanded ? <HowToReg /> : <PersonAdd />}
+        <IconButton
+          expand={regExpanded}
+          onClick={handleRegExpandClick}
+          aria-expanded={regExpanded}
+          aria-label="register"
+        >
+          {regExpanded ? <HowToReg /> : <PersonAdd />}
         </IconButton>
         <IconButton
           expand={expanded}
@@ -79,6 +90,18 @@ export default function AddAccountCardLinkedIn() {
           <Typography paragraph>
             Change the Newspaper in the cage, so he don't get bored.
           </Typography>
+        </CardContent>
+      </Collapse>
+      <Collapse in={regExpanded} timeout="auto" unmountOnExit>
+        <CardContent
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography paragraph>LinkedIn API Connection</Typography>
+          <Button variant="contained">Connect to LinkedIn</Button>
         </CardContent>
       </Collapse>
     </Card>
