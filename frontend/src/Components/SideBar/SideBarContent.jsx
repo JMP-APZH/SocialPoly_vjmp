@@ -20,27 +20,27 @@ export default function SideBarContent() {
   const history = useHistory();
   const DashboardHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/dashboard/");
   };
   const AccountsHandler = (e) => {
     e.preventDefault();
-    history.push("/accounts");
+    history.push("/accounts/");
   };
   const PostsHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/posts/");
   };
   const CalendarHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/calendar/");
   };
   const ReportsHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/reports/");
   };
   const MessagesHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/messages/");
   };
 
   return (
