@@ -38,6 +38,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('backend/admin/', admin.site.urls),
     path('users/', include('user.urls')),
+    path('backend/api/linkedin/', include('linkedin.urls')),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('backend/api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
