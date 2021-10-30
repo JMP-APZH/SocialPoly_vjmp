@@ -1,13 +1,13 @@
 import React from "react";
 import { HeaderMain } from "./HeaderStyle";
 import logoHead from "../../assets/images/ParrotHead.png";
-import { AppBar, Badge, IconButton } from "@mui/material";
+import { AppBar, /* Badge, */ IconButton } from "@mui/material";
 import {
   Menu,
-  Settings,
+  /* Settings,
   Notifications,
   Person,
-  Groups,
+  Groups, */
   BrightnessHigh,
   Brightness4,
 } from "@mui/icons-material";
@@ -45,7 +45,7 @@ export default function Header({ toggleDrawer, toggleDarkMode, darkMode }) {
               <Brightness4 className="Icon" />
             )}
           </IconButton>
-          <IconButton color="inherit">
+          {/*           <IconButton color="inherit">
             <Settings />
           </IconButton>
           <IconButton color="inherit">
@@ -58,7 +58,7 @@ export default function Header({ toggleDrawer, toggleDarkMode, darkMode }) {
           </IconButton>
           <IconButton color="inherit">
             <Groups />
-          </IconButton>
+          </IconButton> */}
         </div>
       </HeaderMain>
     </AppBar>

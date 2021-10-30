@@ -4,14 +4,15 @@ import "./AppStyle";
 import { AppMain } from "./AppStyle";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TestPage from "./Pages/TestPage/TestPage";
+import Calendar from "./Pages/Calendar/Calendar";
 import Accounts from "./Pages/Accounts/Accounts";
 import GridDND from "./Components/GridDND/GridDND";
 import Header from "./Components/Header/Header";
 import SideBar from "./Components/SideBar/SideBar";
 import { Box, CssBaseline } from "@mui/material";
 import { setToLS, getFromLS } from "./utils/storage";
-import {GlobalStyle} from './globalStyle'
-import Auth from './Pages/Auth/Auth';
+import { GlobalStyle } from "./globalStyle";
+import Auth from "./Pages/Auth/Auth";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -58,9 +59,13 @@ function App() {
           <SideBar drawerWidth={drawerWidth} />
           <Box style={{ marginLeft: drawerWidth + 20 }}>
             <Route path="/" component={TestPage} exact />
-            <Route path='/auth' component={Auth} exact />
+            <Route path="/auth" component={Auth} exact />
             <Route path="/dashboard" component={GridDND} exact />
             <Route path="/accounts" component={Accounts} exact />
+            <Route path="/posts" component={TestPage} exact />
+            <Route path="/calendar" component={Calendar} exact />
+            <Route path="/reports" component={GridDND} exact />
+            <Route path="/messages" component={GridDND} exact />
           </Box>
         </AppMain>
       </Router>
