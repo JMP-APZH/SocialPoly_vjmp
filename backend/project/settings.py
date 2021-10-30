@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'user',
     'comment',
     'registration_profile',
-    'linkedin',
 
     # 3RD PARTY
     'rest_framework',

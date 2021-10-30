@@ -15,11 +15,14 @@ export const colorMainL = '#3f9fe7'
 export const colorComp = '#b25402'
 export const colorCompL = '#f07710'
 export const borderColor = '#c7c7c7'
+// export const borderColor = (props) => {console.log('theme',props)}
 
 export const colorOther1 = '#02b2ac'
 export const colorOther2 = '#0208b2'
 export const colorOther3 = '#5402b2'
 export const colorOther4 = '#b20260'
+
+export const test = 'border: crimson 2px solid;'
 
 
 
@@ -30,7 +33,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
     }
     body {
-        width: 100vw;
+        /* width: 100vw; */
         height: 100vh;
         margin: 0;
         padding: 0;
