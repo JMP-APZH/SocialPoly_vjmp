@@ -1652,7 +1652,7 @@
   dependencies:
     "@babel/runtime" "^7.15.4"
 
-"@mui/lab@>=5.0.0-alpha":
+"@mui/lab@^5.0.0-alpha.53", "@mui/lab@>=5.0.0-alpha":
   "integrity" "sha512-fUyGCuxj8Wdwvyc9v0X3YTNshItFWp6DtuCPjhPy6yhKjUAa0u0XKI4FcM5z/wPWUR56nJceNz9WwNZ72vkwWw=="
   "resolved" "https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.53.tgz"
   "version" "5.0.0-alpha.53"
