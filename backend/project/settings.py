@@ -46,9 +46,9 @@ INSTALLED_APPS = [
 
     # OWN
     'user',
-    'comment',
-    'linkedin',
     'registration_profile',
+    'twitter',
+    'linkedin',
 
     # 3RD PARTY
     'rest_framework',
