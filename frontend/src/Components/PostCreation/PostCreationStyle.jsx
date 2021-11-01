@@ -97,10 +97,50 @@ export const PostCreationWrapper = styled.div`
   }
 
   .previewWrapper {
-    margin: 30px 0;
-    border: ${global.colorMain} solid 5px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px ${global.colorMainD};
+      margin: 30px 0;
+      width: 100%;
+      padding: 10px;
+      box-sizing: content-box;
+      border: ${global.colorMain} solid 2px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px ${global.colorMainD};
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+  .previewTitle {
+  }
+  .previewDisplay {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      box-sizing: content-box;
+      
+      &>button {
+          width: 5%;
+          box-sizing: border-box;
+          cursor: pointer;
+          padding: 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3F9FE730' : '#0260b230')};
+          
+          &:hover{
+              background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3f9ee760' : '#0260b260')};
+          }
+          &:disabled {
+              cursor: not-allowed;
+          }
+      }
+      .forwardArrowButton {
+          margin-left: 5px;
+      }
+      .backArrowButton {
+          margin-right: 5px;
+      }
   }
   margin-bottom: 200px;
 `;
@@ -109,8 +149,7 @@ export const FileDrop = styled.div`
 display: flex;
 height: 80px;
 width: 400px;
-border: ${global.borderColor} 3px
-${(props) => (props.dragover ? "dashed" : "solid")};
+border: ${global.borderColor} 3px ${(props) => (props.dragover ? "dashed" : "solid")};
 border-radius: 8px;
 flex-grow: 1;
 
