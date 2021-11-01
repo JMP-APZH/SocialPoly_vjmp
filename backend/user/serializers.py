@@ -19,3 +19,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Custom data you want to include
         data.update({'user': UserSerializer(self.user, many=False).data})
         return data
+
+"""
+class LinkedInTokenRefreshSerializer(LinkedInTokenRefreshSerializer):
+    def validate(self, attrs):
+        # The default result (access/refresh tokens)
+        data = super(CustomTokenObtainPairSerializer, self).validate(attrs)
+        # Custom data you want to include
+        data.update({'user': UserSerializer(self.user, many=False).data})
+        return data
+
+"""

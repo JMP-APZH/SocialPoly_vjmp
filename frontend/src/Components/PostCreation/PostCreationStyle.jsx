@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import * as global from "../../indexStyle";
+import * as global from "../../globalStyle";
 import { TextField } from "@mui/material";
+import UploadIcon from "../../assets/svgs/upload-icon.svg";
 
 export const PostTextArea = styled(TextField)`
   && {
@@ -8,9 +9,8 @@ export const PostTextArea = styled(TextField)`
     outline: none;
     resize: none;
     width: 80%;
-    box-shadow: 0px 0px 10px ${global.borderColor};
-    ${(props) =>
-      props.fontSize ? "font-size: " + props.fontSize : global.fontM};
+    ${(props) => props.fontSize ? "font-size: " + props.fontSize : global.fontM};
+    /* box-shadow: 0px 0px 10px ${global.borderColor}; */
     font-family: ${(props) =>
       props.fontFamily ? props.fontFamily : global.openSans};
   }
@@ -21,19 +21,36 @@ export const PostCreationWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  margin: auto;
+  overflow: wrap;
 
-  border: ${global.borderColor} 2px solid;
+  border: ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']} 2px solid;
   padding: 30px;
   border-radius: 6px;
-  box-shadow: 0px 0px 10px ${global.borderColor};
-  width: 60%;
+  box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']};
+  max-width: 60%;
+  min-width: 600px;
   display: flex;
-  overflow: auto;
+
 
   .postWrapper {
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-gap: 20px;
+    overflow: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .fileDropWrapper {
     display: flex;
-    overflow: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    max-height: 200px;
   }
 
   .postContent {
@@ -41,12 +58,11 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
-    margin: 15px;
+    height: 100%;
+
 
     textarea {
-      ${(props) => (props.remainingText < 0 ? "color: red" : "color: black")}
-      color: inherit;
+        ${(props) => (props.remainingText < 0 ? "color: red" : "color: inherit")};
     }
     span {
       margin-top: 10px;
@@ -64,10 +80,16 @@ export const PostCreationWrapper = styled.div`
   .platformButtons {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    height: 100%;
+
+    button {
+        border: solid 1px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.grey['700'] : props.theme.palette.grey['300']};
+        box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.grey['700'] : props.theme.palette.grey['300']};
+    }
   }
 
   .postControls {
-    margin: 0 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -75,6 +97,7 @@ export const PostCreationWrapper = styled.div`
   }
 
   .previewWrapper {
+    margin: 30px 0;
     border: ${global.colorMain} solid 5px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px ${global.colorMainD};
@@ -82,14 +105,14 @@ export const PostCreationWrapper = styled.div`
   margin-bottom: 200px;
 `;
 
-export const FileDropWrapper = styled.div`
-  display: flex;
-  height: 80px;
-  width: 400px;
-  /* background-color: ${(props) => (props.dragover ? "blue" : "coral")}; */
-  border: ${global.borderColor} 3px
-    ${(props) => (props.dragover ? "dashed" : "solid")};
-  border-radius: 8px;
+export const FileDrop = styled.div`
+display: flex;
+height: 80px;
+width: 400px;
+border: ${global.borderColor} 3px
+${(props) => (props.dragover ? "dashed" : "solid")};
+border-radius: 8px;
+flex-grow: 1;
 
   div {
     display: ${(props) => (props.dragover ? "none" : "flex")};
@@ -109,6 +132,11 @@ export const FileDropWrapper = styled.div`
     height: 100%;
     width: 100%;
     display: ${(props) => (props.dragover ? "flex" : "none")};
+    background-image: url(${UploadIcon});
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+    background-position: center;
+
   }
 `;
 
@@ -121,8 +149,6 @@ export const PlatformButton = styled.button`
   margin: 10px;
   height: 40px;
   width: 40px;
-  border: solid 1px ${global.borderColor};
-  box-shadow: 0px 0px 10px ${global.borderColor};
   cursor: pointer;
   ${(props) =>
     props.active

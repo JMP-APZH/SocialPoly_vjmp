@@ -43,6 +43,7 @@ urlpatterns = [
     path('backend/admin/', admin.site.urls),
     path('backend/api/users/', include('user.urls')),
     path('backend/api/twitter/', include('twitter.urls')),
+    path('backend/api/linkedin/', include('linkedin.urls')),
     path('backend/api/registration/', CreateRegistrationView.as_view()),
     path('backend/api/registration/validate/', ValidateCreateRegistrationView.as_view()),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

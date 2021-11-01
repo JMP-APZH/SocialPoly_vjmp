@@ -1,10 +1,10 @@
 from django.urls import path
 
-from user.views import ListAllUsersView, RetrieveUpdateProfileView, SpecificUserView
+from user.views import ListAllUsersView, SpecificUserView, RetrieveUpdateProfileView
 
 urlpatterns = [
-    path('users/list/', ListAllUsersView.as_view()),
-    path('users/me/', RetrieveUpdateProfileView.as_view()),
-    path('users/?search=<str:search_string>/', ListAllUsersView.as_view()),
-    path('users/<int:user_id>/', SpecificUserView.as_view())
+    path('list/', ListAllUsersView.as_view()),
+    path('me/', RetrieveUpdateProfileView.as_view()),
+    path('?search=<str:search_string>/', ListAllUsersView.as_view()),
+    path('<int:user_id>/', SpecificUserView.as_view())
 ]
