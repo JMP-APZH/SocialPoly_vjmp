@@ -1,10 +1,10 @@
+import os
 from rest_framework.generics import ListAPIView, GenericAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
 from user.serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework.response import Response
-
+from linkedin.linkedinauth_clean import *
 
 class ListAllUsersView(ListAPIView):
     """
@@ -52,10 +52,37 @@ class RetrieveUpdateProfileView(GenericAPIView):
         serializer.save(user_id=user, **serializer.validated_data)
         return Response(serializer.validated_data)
 
-
 class CustomTokenObtainPairView(TokenObtainPairView):
     # Replace the serializer with your custom
     serializer_class = CustomTokenObtainPairSerializer
+
+class UpdateUserLinkedinView(GenericAPIView):
+    """
+    patch:
+    Update user linkedin parameters
+    """
+    serializer_class = UserSerializer
+
+
+    def patch(self, request, *args, **kwargs):
+
+        user = User.objects.get(id=request.user.id)
+
+        if(request.data['linked_in_auth_code']):
+            try:
+                client_id = os.environ.get('LINKEDIN_CLIENT_ID')
+                client_secret = os.environ.get('LINKEDIN_CLIENT_SECRET')
+                redirect_uri = os.environ.get('LINKEDIN_REDIRECT_URI')
+                access_token_url = os.environ.get('LINKEDIN_ACCESS_TOKEN_URL')
+                linkedin_token = refresh_token(request.data['linked_in_auth_code'], client_id, client_secret, redirect_uri, access_token_url)
+                serializer = UserSerializer(user, data=request.data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save(user_id=user, linked_in_access_token=linkedin_token, **serializer.validated_data)
+                return Response(serializer.validated_data)
+            except Exception as e:
+                print(e)
+                return Response({"error":"something went wrong"})
+
 
 """
 class RetrieveUpdateDeleteUserView(RetrieveUpdateDestroyAPIView):
@@ -64,3 +91,5 @@ class RetrieveUpdateDeleteUserView(RetrieveUpdateDestroyAPIView):
 
     permission_classes = [IsAuthenticated]
 """
+
+
