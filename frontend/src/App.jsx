@@ -12,6 +12,7 @@ import { Box, CssBaseline } from "@mui/material";
 import { setToLS, getFromLS } from "./utils/storage";
 import { GlobalStyle } from "./globalStyle";
 import Auth from "./Pages/Auth/Auth";
+import Posts from './Pages/Posts/Posts'
 
 function App() {
   const UserSystemTheme = window.matchMedia(
@@ -69,7 +70,7 @@ function App() {
             <Route path="/auth" component={Auth} exact />
             <Route path="/dashboard" component={GridDND} exact />
             <Route path="/accounts" component={Accounts} exact />
-            <Route path="/posts" component={TestPage} exact />
+            <Route path="/posts" component={Posts} exact />
             <Route path="/calendar" component={Calendar} exact />
             <Route path="/reports" component={GridDND} exact />
             <Route path="/messages" component={GridDND} exact />

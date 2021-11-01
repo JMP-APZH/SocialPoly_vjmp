@@ -108,6 +108,20 @@ export default function Auth() {
                     </div>
                 </form>
             )}
+        else if (pageState === 'forgot') { return (
+                <form className='register3Wrapper' onSubmit={(e) => submitRegister3(e)}>
+                    <div className='titleWrapper'>
+                        <h4>Register</h4>
+                    </div>
+                    <div className='inputWrapper2'>
+                        <span>Please enter your E-mail, and we will send you a recovery code!</span>
+                        <TextField required id="outlined-required" label="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <div className='buttonWrapper'>
+                        <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}} onClick={(e) => submitRegister3(e)}>send email</ButtonMain>
+                    </div>
+                </form>
+            )}
         else { return (
                 <form className='loginWrapper' onSubmit={submitLogin}>
                     <div className='titleWrapper'>
