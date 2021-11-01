@@ -2,13 +2,16 @@ import styled from "styled-components";
 import * as global from "../../globalStyle";
 
 export const TwitterPreviewWrapper = styled.div`
+  width: calc(90% - 10px);
+  max-width: 450px;
+
   .twitterPostWrapper {
     background-color: white;
     display: flex;
     flex-direction: column;
     padding: 0 16px;
     box-sizing: border-box;
-    width: 600px;
+    /* width: 100%; */
     border: #eff3f4 1px solid;
     color: #000000;
 

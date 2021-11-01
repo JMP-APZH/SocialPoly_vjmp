@@ -13,7 +13,7 @@ export default function TestPage() {
 
             <Searchbar w='400px' h='40px' />
             <br />
-            <PostCreation />
+            <h2>Post creation moved to "/posts"</h2>
         </div>
     )
 }

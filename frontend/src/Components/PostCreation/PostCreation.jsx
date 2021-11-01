@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FileDrop,
   PlatformButton,
@@ -15,10 +15,11 @@ import FacebookIcon from "../../assets/svgs/facebook-icon.svg";
 import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
 import LinkedIn from "../../assets/svgs/linkedin-icon.svg";
 import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
-import TwitterPreview from "../Previews/TwitterPreview";
 import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
-import axios from 'axios'
+import axios from "axios";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
+import DisplayPreview from '../Previews/DisplayPreview';
 
 export default function PostCreation() {
   const theme = useTheme();
@@ -27,8 +28,16 @@ export default function PostCreation() {
   const [statusInstagram, setStatusInstagram] = useState(false);
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
+  const [previews, setPreviews] = useState([])
   const [dragOver, setDragOver] = useState(false);
-
+  
+  const [file, setFile] = useState(null);
+  const [filePreview, setFilePreview] = useState("");
+  const [fileName, setFileName] = useState("Upload Media");
+  const [postText, setPostText] = useState("");
+  const [draftTitle, setDraftTitle] = useState("");
+  const [schedualPost, setSchedualPost] = useState(false);
+  const [schedualTime, setSchedualTime] = useState("");
   const { getRootProps, getInputProps } = useDropzone({
     accept:
       "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm",
@@ -44,25 +53,34 @@ export default function PostCreation() {
     },
   });
 
-  const [file, setFile] = useState(null);
-  const [filePreview, setFilePreview] = useState("");
-  const [fileName, setFileName] = useState("Upload Media");
-  const [postText, setPostText] = useState("");
+  useEffect(() => {
+      const previewsArray = []
+      statusTwitter && previewsArray.push('Twitter')
+      statusFacebook && previewsArray.push('Facebook')
+      statusInstagram && previewsArray.push('Instagram')
+      statusLinkedIn && previewsArray.push('Linked In')
+      statusTiktok && previewsArray.push('Tik Tok')
+      setPreviews(previewsArray)
+  }, [statusTwitter, statusFacebook, statusInstagram, statusLinkedIn, statusTiktok])
 
-  const postTextHandler = (e) => {
-    setPostText(e.target.value);
+
+  const postTwitter = async () => {
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = { title: draftTitle, content: postText };
+    if (schedualPost && schedualTime) {
+      body.send_time = schedualTime;
+    }
+    const response = await axios.post(
+      `https://djpp.propulsion-learn.ch/backend/api/twitter/send/`,
+      body,
+      config
+    );
+    console.log(response);
   };
   const postButtonHandler = async () => {
-        const token = localStorage.getItem('token')
-        const config = {headers: {Authorization: `Bearer ${token}`}}
-        const response = await axios.post( `https://djpp.propulsion-learn.ch/backend/api/twitter/send/`, {
-            title: 'title',
-            content: postText,
-            send_time: "2021-10-29T15:47:53.074Z",
-            },
-            config)
-        console.log(response)
-  }
+    await postTwitter();
+  };
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
@@ -74,6 +92,12 @@ export default function PostCreation() {
               active={statusTwitter}
             >
               <img src={TwitterIcon} alt="" />
+            </PlatformButton>
+            <PlatformButton
+              onClick={() => setStatusLinkedIn(!statusLinkedIn)}
+              active={statusLinkedIn}
+            >
+              <img src={LinkedIn} alt="" />
             </PlatformButton>
             <PlatformButton
               disabled
@@ -91,13 +115,6 @@ export default function PostCreation() {
             </PlatformButton>
             <PlatformButton
               disabled
-              onClick={() => setStatusLinkedIn(!statusLinkedIn)}
-              active={statusLinkedIn}
-            >
-              <img src={LinkedIn} alt="" />
-            </PlatformButton>
-            <PlatformButton
-              disabled
               onClick={() => setStatusTiktok(!statusTiktok)}
               active={statusTiktok}
             >
@@ -111,7 +128,7 @@ export default function PostCreation() {
             label="Create new Post"
             name="textContent"
             value={postText}
-            onChange={postTextHandler}
+            onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
           <span>{280 - postText.length} characters left</span>
@@ -119,11 +136,61 @@ export default function PostCreation() {
 
         <div className="postControls">
           <span>Updates</span>
-            <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Save Draft</ButtonMinor>
-            {/* <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Schedule</ButtonMinor> */}
-            <PostScheduler id="datetime-local" label="Schedule Post" type="datetime-local" sx={{backgroundColor:'white',width: 220,boxShadow:5,border:2,borderColor:'primary.dark'}} InputLabelProps={{shrink: true}} variant="filled" />
-            <ButtonMain onClick={() => postButtonHandler()} sx={{boxShadow:5,border:2,borderColor:'primary.dark'}}>Post</ButtonMain>
-            <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Delete</ButtonMinor>
+          <TextField
+            id="outlined-basic"
+            label="Draft Title"
+            variant="outlined"
+            value={draftTitle}
+            onChange={(e) => setDraftTitle(e.target.value)}
+            sx={{
+              width: 220,
+              boxShadow: 5,
+              border: 2,
+              borderColor: "primary.dark",
+              borderRadius: "4px",
+            }}
+          />
+          <ButtonMinor
+            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
+          >
+            Save Draft
+          </ButtonMinor>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={schedualPost}
+                onChange={() => setSchedualPost(!schedualPost)}
+                name="schedual"
+              />
+            }
+            label="Schedule Post"
+          />
+          <PostScheduler
+            value={schedualTime}
+            onChange={(e) => setSchedualTime(e.target.value)}
+            id="datetime-local"
+            label="Schedule Post"
+            type="datetime-local"
+            sx={{
+              width: 220,
+              boxShadow: 5,
+              border: 2,
+              borderColor: "primary.dark",
+            }}
+            InputLabelProps={{ shrink: true }}
+            variant="filled"
+          />
+          <ButtonMain
+            onClick={() => postButtonHandler()}
+            sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
+          >
+            Post
+          </ButtonMain>
+          <ButtonMinor
+            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
+          >
+            Delete
+          </ButtonMinor>
         </div>
 
         <div className="fileDropWrapper">
@@ -148,9 +215,10 @@ export default function PostCreation() {
         </div>
       </div>
 
-      <div className="previewWrapper">
-        <TwitterPreview image={filePreview} textContent={postText} />
-      </div>
+    { previews.length >= 1 &&
+      // a key value is only needed here to force a re-render when the props change
+      <DisplayPreview key={previews.length} image={filePreview} textContent={postText} previews={previews} />
+    }
     </PostCreationWrapper>
   );
 }
