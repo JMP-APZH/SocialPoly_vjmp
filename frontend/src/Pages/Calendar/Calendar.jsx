@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { RESOURCES, EVENTS } from "./Data";
 import { PersonRounded } from "@mui/icons-material";
+/* import { de } from "date-fns/locale"; */
 
 function Calendar() {
   return (
@@ -10,6 +11,7 @@ function Calendar() {
       <Scheduler
         events={EVENTS}
         resources={RESOURCES}
+        /* locale={de} */
         resourceFields={{
           idField: "admin_id",
           textField: "title",
