@@ -5,7 +5,11 @@ import {
   PostCreationWrapper,
   PostTextArea,
 } from "./PostCreationStyle";
-import { ButtonMain, ButtonMinor, PostScheduler } from "../../Components/Button/ButtonStyle";
+import {
+  ButtonMain,
+  ButtonMinor,
+  PostScheduler,
+} from "../../Components/Button/ButtonStyle";
 import TwitterIcon from "../../assets/svgs/twitter-icon.svg";
 import FacebookIcon from "../../assets/svgs/facebook-icon.svg";
 import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
@@ -17,7 +21,7 @@ import { useTheme } from "@mui/material/styles";
 import axios from 'axios'
 
 export default function PostCreation() {
-  const theme = useTheme()
+  const theme = useTheme();
   const [statusTwitter, setStatusTwitter] = useState(false);
   const [statusFacebook, setStatusFacebook] = useState(false);
   const [statusInstagram, setStatusInstagram] = useState(false);
@@ -61,11 +65,11 @@ export default function PostCreation() {
   }
 
   return (
-    <PostCreationWrapper remainingText={280 - postText.length} theme={theme} >
+    <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
       <div className="postWrapper">
         <div className="postContent">
           <div className="platformButtons">
-            <PlatformButton 
+            <PlatformButton
               onClick={() => setStatusTwitter(!statusTwitter)}
               active={statusTwitter}
             >
@@ -101,7 +105,8 @@ export default function PostCreation() {
             </PlatformButton>
           </div>
 
-          <PostTextArea sx={{boxShadow:5,borderColor:'primary.dark'}}
+          <PostTextArea
+            sx={{ boxShadow: 5, borderColor: "primary.dark" }}
             multiline
             label="Create new Post"
             name="textContent"
@@ -110,7 +115,6 @@ export default function PostCreation() {
             rows={10}
           ></PostTextArea>
           <span>{280 - postText.length} characters left</span>
-
         </div>
 
         <div className="postControls">
@@ -122,28 +126,26 @@ export default function PostCreation() {
             <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}}>Delete</ButtonMinor>
         </div>
 
-
-        <div className='fileDropWrapper'>
-            <FileDrop className="test" dragover={dragOver}>
+        <div className="fileDropWrapper">
+          <FileDrop className="test" dragover={dragOver}>
             <div
-                className="fileDrop"
-                {...getRootProps()}
-                onDragEnter={() => setDragOver(true)}
+              className="fileDrop"
+              {...getRootProps()}
+              onDragEnter={() => setDragOver(true)}
             >
-                <input {...getInputProps()} />
-                <p>{fileName}</p>
+              <input {...getInputProps()} />
+              <p>{fileName}</p>
             </div>
 
             <div
-                className="dragOverlay"
-                {...getRootProps()}
-                onDragLeave={() => setDragOver(false)}
+              className="dragOverlay"
+              {...getRootProps()}
+              onDragLeave={() => setDragOver(false)}
             >
-                <input {...getInputProps()} />
+              <input {...getInputProps()} />
             </div>
-            </FileDrop>
+          </FileDrop>
         </div>
-
       </div>
 
       <div className="previewWrapper">

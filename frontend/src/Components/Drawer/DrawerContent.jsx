@@ -16,36 +16,36 @@ import {
 } from "@mui/icons-material";
 import { useHistory } from "react-router";
 
-export default function SideBarContent() {
+export default function DrawerContent() {
   const history = useHistory();
   const DashboardHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/dashboard/");
   };
   const AccountsHandler = (e) => {
     e.preventDefault();
-    history.push("/accounts");
+    history.push("/accounts/");
   };
   const PostsHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/posts/");
   };
   const CalendarHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/calendar/");
   };
   const ReportsHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/reports/");
   };
   const MessagesHandler = (e) => {
     e.preventDefault();
-    history.push("/dashboard");
+    history.push("/messages/");
   };
 
   return (
     <Toolbar style={{ padding: 0 }}>
-      <List>
+      <List style={{ width: "100%" }}>
         <ListItem button key="Dashboard" onClick={DashboardHandler}>
           <ListItemIcon>
             <Dashboard />
