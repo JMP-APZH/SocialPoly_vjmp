@@ -57,9 +57,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     # Replace the serializer with your custom
     serializer_class = CustomTokenObtainPairSerializer
 
-
+"""
 class RetrieveUpdateDeleteUserView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     permission_classes = [IsAuthenticated]
+"""
