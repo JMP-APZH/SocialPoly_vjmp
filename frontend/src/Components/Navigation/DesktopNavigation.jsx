@@ -6,8 +6,8 @@ import { AppBar, IconButton, Drawer, Toolbar } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import HeaderContent from "../Header/HeaderContent";
 import { useHistory } from "react-router";
-import SideBarContent from "../SideBar/SideBarContent";
-import { StyledBox } from "../SideBar/SideBarStyle";
+import DrawerContent from "../Drawer/DrawerContent";
+import { StyledBox } from "../Drawer/DrawerStyle";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -66,7 +66,7 @@ export default function DesktopNavigation({
           }}
         >
           <Toolbar />
-          <SideBarContent />
+          <DrawerContent />
         </Drawer>
       </StyledBox>
     </div>

@@ -4,12 +4,12 @@ import { MobileHeaderMain } from "../Header/HeaderStyle";
 import logoHead from "../../assets/images/ParrotHead.png";
 import { AppBar, IconButton } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import SideBarContent from "../SideBar/SideBarContent";
+import DrawerContent from "../Drawer/DrawerContent";
 import { Drawer, Toolbar } from "@mui/material";
-import { StyledBox } from "../SideBar/SideBarStyle";
+import { StyledBox } from "../Drawer/DrawerStyle";
 import { useHistory } from "react-router";
 
-export default function SideBar({ toggleDarkMode, darkMode }) {
+export default function MobileNavigation({ toggleDarkMode, darkMode }) {
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const ToggleMobileMenu = () => {
@@ -70,7 +70,7 @@ export default function SideBar({ toggleDarkMode, darkMode }) {
           }}
         >
           <Toolbar />
-          <SideBarContent />
+          <DrawerContent />
         </Drawer>
       </StyledBox>
     </div>

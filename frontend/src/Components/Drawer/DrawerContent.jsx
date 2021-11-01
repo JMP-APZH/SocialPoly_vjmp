@@ -16,7 +16,7 @@ import {
 } from "@mui/icons-material";
 import { useHistory } from "react-router";
 
-export default function SideBarContent() {
+export default function DrawerContent() {
   const history = useHistory();
   const DashboardHandler = (e) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ export default function SideBarContent() {
 
   return (
     <Toolbar style={{ padding: 0 }}>
-      <List>
+      <List style={{ width: "100%" }}>
         <ListItem button key="Dashboard" onClick={DashboardHandler}>
           <ListItemIcon>
             <Dashboard />
