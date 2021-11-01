@@ -19,6 +19,7 @@ class User(AbstractUser):
     location = models.CharField(max_length=50, blank=True, null=True)
     twitter_access_token = models.CharField(max_length=255, blank=True, null=True)
     twitter_access_token_secret = models.CharField(max_length=255, blank=True, null=True)
+    linked_in_auth_code = models.CharField(max_length=255, blank=True, null=True)
     linked_in_access_token = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
