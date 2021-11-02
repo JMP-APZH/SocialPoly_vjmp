@@ -1,5 +1,6 @@
 import tweepy
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,7 +31,24 @@ class CreateTweetOnTime(GenericAPIView):
         api = tweepy.API(auth)
         api.verify_credentials()
         tweet = request.data['content']
-        if request.data['send_time'] != "":
+        if request.data['send_time'] != "" and 'images' in request.data.keys():
+            def publish_tweet(text, image):
+                api.update_status(text, media_ids=[image.media_id])
+
+            trigger = request.data['send_time']
+
+            file = request.FILES['images']
+            fs = FileSystemStorage()
+            filename = fs.save(file.name, file)
+            uploaded_file_path = fs.path(filename)
+
+            media = api.media_upload(uploaded_file_path)
+
+            scheduler = BackgroundScheduler()
+            scheduler.add_job(publish_tweet, 'date', run_date=trigger, id="tweet", args=[tweet, media],
+                              replace_existing=True)
+            scheduler.start()
+        elif request.data['send_time'] != "" and 'images' not in request.data.keys():
             def publish_tweet(text):
                 api.update_status(text)
 
@@ -39,6 +57,14 @@ class CreateTweetOnTime(GenericAPIView):
             scheduler.add_job(publish_tweet, 'date', run_date=trigger, id="tweet", args=[tweet],
                               replace_existing=True)
             scheduler.start()
+        elif request.data['send_time'] == "" and 'images' in request.data.keys():
+            file = request.FILES['images']
+            fs = FileSystemStorage()
+            filename = fs.save(file.name, file)
+            uploaded_file_path = fs.path(filename)
+
+            media = api.media_upload(uploaded_file_path)
+            api.update_status(tweet, media_ids=[media.media_id])
         else:
             api.update_status(tweet)
         return Response(serializer.data)
@@ -102,33 +128,4 @@ class GetAllTweets(ListAPIView):
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-
-class CreateTweetWithImage(GenericAPIView):
-    serializer_class = TwitterSerializer
-    queryset = Tweet.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(author=self.request.user)
-
-        auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
-        auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
-        api = tweepy.API(auth)
-
-        try:
-            api.verify_credentials()
-            file_creds = []
-            print('get name', request.data)
-            for file, filename in request.FILES.items():
-                file_creds.append(filename)
-                file_creds.append(file)
-            print('Filename', file_creds[0])
-            media = api.media_upload(filename='../media-files/Screenshot_Twitter.png')
-            print('Image uploaded')
-            api.update_status(status=request.data['content'], media_ids=[media.media_id])
-        except:
-            return Response({'message': 'Error while posting tweet.'})
         return Response(serializer.data)
