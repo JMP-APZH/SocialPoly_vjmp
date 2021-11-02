@@ -60,3 +60,12 @@ def refresh_token(auth_code, client_id, client_secret, redirect_uri,access_token
     access_token = response['access_token']
     print(access_token)
     return access_token
+
+
+def user_info(headers,linkedin_me_url):
+    '''
+    Get user information from Linkedin
+    '''
+    response = requests.get(linkedin_me_url, headers=headers)
+    user_info = response.json()
+    return user_info

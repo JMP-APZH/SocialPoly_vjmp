@@ -1,10 +1,10 @@
-import os
+import os, requests
 from rest_framework.generics import ListAPIView, GenericAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
 from user.serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework.response import Response
-from linkedin.linkedinauth_clean import *
+from linkedin.linkedin_helpers import headers, user_info, authorize, refresh_token
 
 class ListAllUsersView(ListAPIView):
     """
@@ -56,12 +56,16 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     # Replace the serializer with your custom
     serializer_class = CustomTokenObtainPairSerializer
 
-class UpdateUserLinkedinView(GenericAPIView):
+
+class RetrieveUpdateUserLinkedinView(GenericAPIView):
     """
     patch:
     Update user linkedin parameters
+    get:
+    Get user Linkedin information
     """
     serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 
     def patch(self, request, *args, **kwargs):
@@ -84,12 +88,27 @@ class UpdateUserLinkedinView(GenericAPIView):
                 return Response({"error":"something went wrong"})
 
 
-"""
-class RetrieveUpdateDeleteUserView(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    def get(self, request, *args, **kwargs):
 
-    permission_classes = [IsAuthenticated]
-"""
+        user = User.objects.get(id=request.user.id)
 
+        try:
+            access_token = user.linked_in_access_token
+            linkedin_me_url = os.environ.get('LINKEDIN_ME_URL')
+            linkedin_headers = headers(access_token)  # Make the headers to attach to the API call.
+            linkedin_user_info = user_info(linkedin_headers,linkedin_me_url)  # Get user info
+            print(linkedin_user_info)
+            avatar_object_url =  "https://api.linkedin.com/v2/me?projection=(id,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" + access_token
+            avatar_response = requests.get(avatar_object_url)
+            avatar_url = avatar_response.json()['profilePicture']['displayImage~']['elements'][0]['identifiers'][0]['identifier']
+            response = {
+                "id": linkedin_user_info['id'],
+                "first_name": linkedin_user_info['firstName']['localized']['en_US'],
+                "last_name": linkedin_user_info['lastName']['localized']['en_US'],
+                "avatar_url": avatar_url
+            }
 
+            return Response({"results": response})
+        except Exception as e:
+            print(e)
+            return Response({"error": "something went wrong"})
