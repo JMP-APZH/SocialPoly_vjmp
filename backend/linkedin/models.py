@@ -9,6 +9,6 @@ class LinkedInPost(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='linkedin_posts')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    post_date_time = models.DateTimeField(blank=True, null=True)
+    post_date_time = models.CharField(max_length=255, blank=True, null=True)
 
 

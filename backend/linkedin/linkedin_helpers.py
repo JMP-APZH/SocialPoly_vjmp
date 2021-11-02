@@ -40,3 +40,32 @@ def create_CSRF_token():
     letters = string.ascii_lowercase
     token = ''.join(random.choice(letters) for i in range(20))
     return token
+
+
+def refresh_token(auth_code, client_id, client_secret, redirect_uri,access_token_url):
+    '''
+    Exchange a Refresh Token for a New Access Token.
+    '''
+
+    data = {
+        'grant_type': 'authorization_code',
+        'code': auth_code,
+        'redirect_uri': redirect_uri,
+        'client_id': client_id,
+        'client_secret': client_secret
+    }
+
+    response = requests.post(access_token_url, data=data, timeout=30)
+    response = response.json()
+    access_token = response['access_token']
+    print(access_token)
+    return access_token
+
+
+def user_info(headers,linkedin_me_url):
+    '''
+    Get user information from Linkedin
+    '''
+    response = requests.get(linkedin_me_url, headers=headers)
+    user_info = response.json()
+    return user_info

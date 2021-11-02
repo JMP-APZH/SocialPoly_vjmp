@@ -4,26 +4,46 @@ LinkedInuserAuth ==> ok
 
 
 step 2
-Paste the code from the redirect url
+catch the authorization verifier code from the callback url ==> being done on the FrontEnd
 
 step 3
-get the access token
+get the access token stored in the user DB ==> ok
 """
+import os
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .linkedinauth_clean import *
+from .linkedin_helpers import *
 
 
 class LinkedinAuth(APIView):
 
     def post(self, request):
-        client_id = "775sxoz9x8xng1"
-        client_secret = "xrcoFu0nElRY58uQ"
-        api_url = 'https://www.linkedin.com/oauth/v2'
-        redirect_uri = "https://djpp.propulsion-learn.ch/accounts/linkedin/connect/"
+
+        client_id = os.environ.get('LINKEDIN_CLIENT_ID')
+        api_url = os.environ.get('LINKEDIN_API_URL')
+        redirect_uri = os.environ.get('LINKEDIN_REDIRECT_URI')
 
         try:
             response = authorize(api_url, client_id, redirect_uri)
             return Response({"url": response})
-        except:
-            return Response({"message":"shitcode overload. Program is shutting down."})
+        except Exception as e:
+            print(e)
+            return Response({"error":str(e)})
+
+"""
+class LinkedinPost(APIView):
+
+    def post(self, request):
+
+        client_id = os.environ.get('LINKEDIN_CLIENT_ID')
+        api_url = os.environ.get('LINKEDIN_API_URL')
+        redirect_uri = os.environ.get('LINKEDIN_REDIRECT_URI')
+
+        try:
+            response = authorize(api_url, client_id, redirect_uri)
+            return Response({"url": response})
+        except Exception as e:
+            print(e)
+            return Response({"error":str(e)})
+"""
