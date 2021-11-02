@@ -30,3 +30,20 @@ class LinkedinAuth(APIView):
         except Exception as e:
             print(e)
             return Response({"error":str(e)})
+
+"""
+class LinkedinPost(APIView):
+
+    def post(self, request):
+
+        client_id = os.environ.get('LINKEDIN_CLIENT_ID')
+        api_url = os.environ.get('LINKEDIN_API_URL')
+        redirect_uri = os.environ.get('LINKEDIN_REDIRECT_URI')
+
+        try:
+            response = authorize(api_url, client_id, redirect_uri)
+            return Response({"url": response})
+        except Exception as e:
+            print(e)
+            return Response({"error":str(e)})
+"""
