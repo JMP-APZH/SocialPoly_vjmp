@@ -94,6 +94,10 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    span {
+        margin-bottom: 10px;
+    }
   }
 
   .previewWrapper {
@@ -108,8 +112,10 @@ export const PostCreationWrapper = styled.div`
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      background-color: ${(props) => props.theme.palette.mode === 'dark' ? 'transparent' : global.colorMainL + '40'};
   }
   .previewTitle {
+      font-size: ${global.fontXL};
   }
   .previewDisplay {
       width: 100%;
@@ -117,6 +123,7 @@ export const PostCreationWrapper = styled.div`
       flex-direction: row;
       justify-content: space-between;
       box-sizing: content-box;
+
       
       &>button {
           width: 5%;
@@ -127,14 +134,16 @@ export const PostCreationWrapper = styled.div`
           justify-content: center;
           align-items: center;
           background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3F9FE730' : '#0260b230')};
+          z-index: 5;
           
           &:hover{
               background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3f9ee760' : '#0260b260')};
           }
-          &:disabled {
-              cursor: not-allowed;
+          :disabled {
+              visibility: hidden;
+              /* filter: saturate(10%); */
           }
-      }
+        }
       .forwardArrowButton {
           margin-left: 5px;
       }
@@ -200,6 +209,7 @@ export const PlatformButton = styled.button`
   }
   &:disabled {
     cursor: not-allowed;
+    filter: invert(30%);
   }
 
   img {
@@ -208,3 +218,44 @@ export const PlatformButton = styled.button`
     width: 70%;
   }
 `;
+
+export const PostErrorWrapper = styled.div`
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 9000;
+    .popUpWrapper {
+        margin: auto;
+        background-color: white;
+        padding: 30px;
+        border: ${global.colorMain} 2px solid;
+        box-shadow: 0px 0px 10px ${global.colorMain};
+        border-radius: 6px;
+    }
+    
+    .messageWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h3 {
+            color: #e03a3a;
+        }
+        h2 {
+            color: #32bd32;
+        }
+
+    }
+
+    .popUpBackground {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #00000030;
+        width: 100%;
+        height: 100%;
+    }
+`

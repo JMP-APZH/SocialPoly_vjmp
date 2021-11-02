@@ -1,6 +1,5 @@
 import React from 'react'
 import { ButtonMain, ButtonMinor } from '../../Components/Button/ButtonStyle'
-import PostCreation from '../../Components/PostCreation/PostCreation'
 import Searchbar from '../../Components/Searchbar/Searchbar'
 
 export default function TestPage() {
