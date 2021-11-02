@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import axios from "axios";
 import {
   Card,
   CardHeader,
@@ -8,7 +9,8 @@ import {
   Avatar,
   IconButton,
   Typography,
-  Button,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
@@ -19,6 +21,7 @@ import {
   HowToReg,
   LinkedIn,
 } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function AddAccountCardLinkedIn() {
   const [expanded, setExpanded] = React.useState(false);
@@ -31,6 +34,29 @@ export default function AddAccountCardLinkedIn() {
   const handleRegExpandClick = () => {
     setRegExpanded(!regExpanded);
   };
+
+  const ConnectToLinkedin = async () => {
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = {};
+    const response = await axios.post(
+      "https://djpp.propulsion-learn.ch/backend/api/linkedin/auth/",
+      body,
+      config
+    );
+    console.log(response.data.url);
+    window.location.assign(response.data.url);
+  };
+
+  const handleConnect = async () => {
+    await ConnectToLinkedin();
+  };
+
+  let LinkedInConnectReturnURL = window.location.href;
+  const LinkedInConnectToken = LinkedInConnectReturnURL.substring(
+    LinkedInConnectReturnURL.lastIndexOf("?") + 6,
+    LinkedInConnectReturnURL.lastIndexOf("&")
+  );
 
   return (
     <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
@@ -101,9 +127,31 @@ export default function AddAccountCardLinkedIn() {
           }}
         >
           <Typography paragraph>LinkedIn API Connection</Typography>
-          <Button variant="contained">Connect to LinkedIn</Button>
+          <LoadingButton
+            variant="contained"
+            loading={false}
+            onClick={handleConnect}
+          >
+            Connect to LinkedIn
+          </LoadingButton>
         </CardContent>
       </Collapse>
+      {/* Alert when the connection with LinkedIn went wrong */}
+      {window.location.href.includes("/accounts/linkedin/connect/?error") ? (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Something went wrong! Please try again.
+        </Alert>
+      ) : null}
+      {/* Alert when the connection with LinkedIn was successfully */}
+      {window.location.href.includes("/accounts/linkedin/connect/?code") ? (
+        <Alert severity="success">
+          <AlertTitle>Success</AlertTitle>
+          You connected successfully your LinkedIn Account!
+          <br />
+          <strong>{LinkedInConnectToken}</strong>
+        </Alert>
+      ) : null}
     </Card>
   );
 }

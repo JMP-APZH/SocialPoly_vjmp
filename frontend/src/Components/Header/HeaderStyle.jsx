@@ -7,6 +7,7 @@ export const HeaderMain = styled.div`
   width: 100vw;
   max-width: 100vw;
   height: 60px;
+  padding: 5px;
   .TopLeft {
     display: flex;
   }
@@ -28,6 +29,7 @@ export const MobileHeaderMain = styled.div`
   width: 100vw;
   max-width: 100vw;
   height: 60px;
+  padding: 5px;
   .TopLeft {
     display: flex;
   }
