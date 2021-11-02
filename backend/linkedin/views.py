@@ -13,7 +13,7 @@ import os
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .linkedinauth_clean import *
+from .linkedin_helpers import *
 
 
 class LinkedinAuth(APIView):
@@ -27,5 +27,6 @@ class LinkedinAuth(APIView):
         try:
             response = authorize(api_url, client_id, redirect_uri)
             return Response({"url": response})
-        except:
-            return Response({"message":"shitcode overload. Program is shutting down."})
+        except Exception as e:
+            print(e)
+            return Response({"error":str(e)})
