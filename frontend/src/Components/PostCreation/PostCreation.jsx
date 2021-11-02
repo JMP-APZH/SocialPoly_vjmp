@@ -20,17 +20,25 @@ import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { FormControlLabel, Switch, TextField } from "@mui/material";
 import DisplayPreview from '../Previews/DisplayPreview';
+import PostError from './PostError';
 
 export default function PostCreation() {
+
   const theme = useTheme();
   const [statusTwitter, setStatusTwitter] = useState(false);
   const [statusFacebook, setStatusFacebook] = useState(false);
   const [statusInstagram, setStatusInstagram] = useState(false);
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
+
+  const [timeError, setTimeError] = useState(false)
+  const [platformError, setPlatformError] = useState(false)
+  const [successAlert, setSuccessAlert] = useState(false)
+  const [errorAlert, setErrorAlert] = useState(false)
+  const [errorSize, setErrorSize] = useState(false)
+  
   const [previews, setPreviews] = useState([])
   const [dragOver, setDragOver] = useState(false);
-  
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState("");
   const [fileName, setFileName] = useState("Upload Media");
@@ -38,18 +46,20 @@ export default function PostCreation() {
   const [draftTitle, setDraftTitle] = useState("");
   const [schedualPost, setSchedualPost] = useState(false);
   const [schedualTime, setSchedualTime] = useState("");
+
   const { getRootProps, getInputProps } = useDropzone({
     accept:
       "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm",
     onDrop: (acceptedFiles) => {
-      setDragOver(false);
-      setFileName(acceptedFiles[0].name);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFilePreview(reader.result);
-      };
-      reader.readAsDataURL(acceptedFiles[0]);
-      setFile(acceptedFiles);
+        setDragOver(false);
+        setFileName(acceptedFiles[0].name);
+        setFile(acceptedFiles[0]);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFilePreview(reader.result);
+        };
+        reader.readAsDataURL(acceptedFiles[0]);
+
     },
   });
 
@@ -67,23 +77,65 @@ export default function PostCreation() {
   const postTwitter = async () => {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const body = { title: draftTitle, content: postText };
-    if (schedualPost && schedualTime) {
-      body.send_time = schedualTime;
-    }
+    // const body = { title: draftTitle, content: postText };
+    const body = new FormData()
+    body.append('title', draftTitle)
+    body.append('content', postText)
+    if (schedualPost) {
+      if (schedualTime) {
+      let timeString = schedualTime
+      timeString = timeString.replace('T', ' ')
+      timeString += ':00'
+      body.append('send_time', timeString);
+      } else {setTimeError(true); return null}
+    } else {body.append('send_time', '')}
+    if (file) {body.append('images', file)}
+
     const response = await axios.post(
       `https://djpp.propulsion-learn.ch/backend/api/twitter/send/`,
       body,
-      config
-    );
-    console.log(response);
+      config,
+      {validateStatus: (status) => {
+        return status < 500; // Resolve only if the status code is less than 500
+      }}
+    //   validateStatus: true,
+    ).catch(function (error) {
+        // console.log(error.toJSON())
+          return {status: 413}
+        });
+    // console.log('response here', response)
+    if (response.status >= 200 && response.status < 300) {
+        setSuccessAlert(true)
+    } else if (response.status === 413) {
+        setErrorSize(true)
+    }else {
+        setErrorAlert(true)
+    }
   };
+
   const postButtonHandler = async () => {
-    await postTwitter();
+    if (!statusTwitter && !statusFacebook && !statusInstagram && !statusLinkedIn && !statusTiktok) {setPlatformError(true)}
+    else {
+        statusTwitter && await postTwitter();
+        statusLinkedIn && console.log('linked in selected, add function here')
+    }
   };
+
+  const closeErrors = () => {
+    setTimeError(false)
+    setPlatformError(false)
+    setSuccessAlert(false)
+    setErrorAlert(false)
+    setErrorSize(false)
+  }
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
+        {errorSize && <PostError closeErrors={closeErrors} type='size' />}
+        {successAlert && <PostError closeErrors={closeErrors} type='success' />}
+        {timeError && <PostError closeErrors={closeErrors} type='time' />}
+        {platformError && <PostError closeErrors={closeErrors} type='platform' />}
+        {errorAlert && <PostError closeErrors={closeErrors} type='error' />}
       <div className="postWrapper">
         <div className="postContent">
           <div className="platformButtons">
@@ -145,8 +197,8 @@ export default function PostCreation() {
             sx={{
               width: 220,
               boxShadow: 5,
-              border: 2,
-              borderColor: "primary.dark",
+            //   border: 2,
+              outlineColor: "primary.dark",
               borderRadius: "4px",
             }}
           />
@@ -166,6 +218,7 @@ export default function PostCreation() {
             label="Schedule Post"
           />
           <PostScheduler
+            disabled={!schedualPost}
             value={schedualTime}
             onChange={(e) => setSchedualTime(e.target.value)}
             id="datetime-local"
