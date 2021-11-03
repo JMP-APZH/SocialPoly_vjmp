@@ -19,11 +19,10 @@ import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { FormControlLabel, Switch, TextField } from "@mui/material";
-import DisplayPreview from '../Previews/DisplayPreview';
-import PostError from './PostError';
+import DisplayPreview from "../Previews/DisplayPreview";
+import PostError from "./PostError";
 
 export default function PostCreation() {
-
   const theme = useTheme();
   const [statusTwitter, setStatusTwitter] = useState(false);
   const [statusFacebook, setStatusFacebook] = useState(false);
@@ -31,14 +30,14 @@ export default function PostCreation() {
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
 
-  const [errorTime, setErrorTime] = useState(false)
-  const [errorPlatform, setErrorPlatform] = useState(false)
-  const [successAlert, setSuccessAlert] = useState(false)
-  const [errorAlert, setErrorAlert] = useState(false)
-  const [errorSize, setErrorSize] = useState(false)
-  const [errorContent, setErrorContent] = useState(false)
-  
-  const [previews, setPreviews] = useState([])
+  const [errorTime, setErrorTime] = useState(false);
+  const [errorPlatform, setErrorPlatform] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorSize, setErrorSize] = useState(false);
+  const [errorContent, setErrorContent] = useState(false);
+
+  const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState("");
@@ -52,91 +51,109 @@ export default function PostCreation() {
     accept:
       "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm",
     onDrop: (acceptedFiles) => {
-        setDragOver(false);
-        setFileName(acceptedFiles[0].name);
-        setFile(acceptedFiles[0]);
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setFilePreview(reader.result);
-        };
-        reader.readAsDataURL(acceptedFiles[0]);
-
+      setDragOver(false);
+      setFileName(acceptedFiles[0].name);
+      setFile(acceptedFiles[0]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFilePreview(reader.result);
+      };
+      reader.readAsDataURL(acceptedFiles[0]);
     },
   });
 
   useEffect(() => {
-      const previewsArray = []
-      statusTwitter && previewsArray.push('Twitter')
-      statusFacebook && previewsArray.push('Facebook')
-      statusInstagram && previewsArray.push('Instagram')
-      statusLinkedIn && previewsArray.push('Linked In')
-      statusTiktok && previewsArray.push('Tik Tok')
-      setPreviews(previewsArray)
-  }, [statusTwitter, statusFacebook, statusInstagram, statusLinkedIn, statusTiktok])
-
+    const previewsArray = [];
+    statusTwitter && previewsArray.push("Twitter");
+    statusFacebook && previewsArray.push("Facebook");
+    statusInstagram && previewsArray.push("Instagram");
+    statusLinkedIn && previewsArray.push("Linked In");
+    statusTiktok && previewsArray.push("Tik Tok");
+    setPreviews(previewsArray);
+  }, [
+    statusTwitter,
+    statusFacebook,
+    statusInstagram,
+    statusLinkedIn,
+    statusTiktok,
+  ]);
 
   const postTwitter = async () => {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     // const body = { title: draftTitle, content: postText };
-    const body = new FormData()
-    body.append('title', draftTitle)
-    body.append('content', postText)
+    const body = new FormData();
+    body.append("title", draftTitle);
+    body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
-      let timeString = schedualTime
-      timeString = timeString.replace('T', ' ')
-      timeString += ':00'
-      body.append('send_time', timeString);
-      } else {setErrorTime(true); return null}
-    } else {body.append('send_time', '')}
-    if (file) {body.append('images', file)}
+        let timeString = schedualTime;
+        timeString = timeString.replace("T", " ");
+        timeString += ":00";
+        body.append("send_time", timeString);
+      } else {
+        setErrorTime(true);
+        return null;
+      }
+    } else {
+      body.append("send_time", "");
+    }
+    if (file) {
+      body.append("images", file);
+    }
 
-    const response = await axios.post(
-      `https://djpp.propulsion-learn.ch/backend/api/twitter/send/`,
-      body,
-      config,
-      {validateStatus: (status) => {
-        return status < 500; // Resolve only if the status code is less than 500
-      }}
-    ).catch(function (error) {
-          return {status: 413}
-        });
+    const response = await axios
+      .post(`https://socialpoly.ch/backend/api/twitter/send/`, body, config, {
+        validateStatus: (status) => {
+          return status < 500; // Resolve only if the status code is less than 500
+        },
+      })
+      .catch(function (error) {
+        return { status: 413 };
+      });
     if (response.status >= 200 && response.status < 300) {
-        setSuccessAlert(true)
+      setSuccessAlert(true);
     } else if (response.status === 413) {
-        setErrorSize(true)
-    }else {
-        setErrorAlert(true)
+      setErrorSize(true);
+    } else {
+      setErrorAlert(true);
     }
   };
 
   const postButtonHandler = async () => {
-    if (!statusTwitter && !statusFacebook && !statusInstagram && !statusLinkedIn && !statusTiktok) {setErrorPlatform(true)}
-    else if (!postText.replace(/\s/g, '')) {setErrorContent(true)}
-    else {
-        statusTwitter && await postTwitter();
-        statusLinkedIn && console.log('linked in selected, add function here')
+    if (
+      !statusTwitter &&
+      !statusFacebook &&
+      !statusInstagram &&
+      !statusLinkedIn &&
+      !statusTiktok
+    ) {
+      setErrorPlatform(true);
+    } else if (!postText.replace(/\s/g, "")) {
+      setErrorContent(true);
+    } else {
+      statusTwitter && (await postTwitter());
+      statusLinkedIn && console.log("linked in selected, add function here");
     }
   };
 
   const closeErrors = () => {
-    setErrorTime(false)
-    setErrorPlatform(false)
-    setSuccessAlert(false)
-    setErrorAlert(false)
-    setErrorSize(false)
-    setErrorContent(false)
-  }
+    setErrorTime(false);
+    setErrorPlatform(false);
+    setSuccessAlert(false);
+    setErrorAlert(false);
+    setErrorSize(false);
+    setErrorContent(false);
+  };
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
-        {errorSize && <PostError closeErrors={closeErrors} type='size' />}
-        {successAlert && <PostError closeErrors={closeErrors} type='success' />}
-        {errorTime && <PostError closeErrors={closeErrors} type='time' />}
-        {errorPlatform && <PostError closeErrors={closeErrors} type='platform' />}
-        {errorContent && <PostError closeErrors={closeErrors} type='content' />}
-        {errorAlert && <PostError closeErrors={closeErrors} type='error' />}
+      {errorSize && <PostError closeErrors={closeErrors} type="size" />}
+      {successAlert && <PostError closeErrors={closeErrors} type="success" />}
+      {errorTime && <PostError closeErrors={closeErrors} type="time" />}
+      {errorPlatform && <PostError closeErrors={closeErrors} type="platform" />}
+      {errorContent && <PostError closeErrors={closeErrors} type="content" />}
+      {errorAlert && <PostError closeErrors={closeErrors} type="error" />}
       <div className="postWrapper">
         <div className="postContent">
           <div className="platformButtons">
@@ -268,10 +285,15 @@ export default function PostCreation() {
         </div>
       </div>
 
-    { previews.length >= 1 &&
-      // a key value is only needed here to force a re-render when the props change
-      <DisplayPreview key={previews.length} image={filePreview} textContent={postText} previews={previews} />
-    }
+      {previews.length >= 1 && (
+        // a key value is only needed here to force a re-render when the props change
+        <DisplayPreview
+          key={previews.length}
+          image={filePreview}
+          textContent={postText}
+          previews={previews}
+        />
+      )}
     </PostCreationWrapper>
   );
 }
