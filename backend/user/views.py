@@ -85,7 +85,7 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
                 return Response(serializer.validated_data)
             except Exception as e:
                 print(e)
-                return Response({"error":"something went wrong"})
+                return Response({"error":str(e)})
 
 
     def get(self, request, *args, **kwargs):
@@ -111,4 +111,4 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
             return Response({"results": response})
         except Exception as e:
             print(e)
-            return Response({"error": "something went wrong"})
+            return Response({"error":str(e)})

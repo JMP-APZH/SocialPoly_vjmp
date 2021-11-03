@@ -11,6 +11,7 @@ import {
   Typography,
   Alert,
   AlertTitle,
+  Button,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
@@ -24,6 +25,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function AddAccountCardLinkedIn() {
+  const [loading, setLoading] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [regExpanded, setRegExpanded] = React.useState(false);
 
@@ -40,7 +42,7 @@ export default function AddAccountCardLinkedIn() {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = {};
     const response = await axios.post(
-      "https://djpp.propulsion-learn.ch/backend/api/linkedin/auth/",
+      "/backend/api/linkedin/auth/",
       body,
       config
     );
@@ -48,15 +50,25 @@ export default function AddAccountCardLinkedIn() {
     window.location.assign(response.data.url);
   };
 
-  const handleConnect = async () => {
-    await ConnectToLinkedin();
-  };
-
   let LinkedInConnectReturnURL = window.location.href;
-  const LinkedInConnectToken = LinkedInConnectReturnURL.substring(
+  const LinkedInConnectCode = LinkedInConnectReturnURL.substring(
     LinkedInConnectReturnURL.lastIndexOf("?") + 6,
     LinkedInConnectReturnURL.lastIndexOf("&")
   );
+
+  const GetLinkedInToken = async () => {
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = { linked_in_auth_code: LinkedInConnectCode };
+    await axios
+      .patch("/backend/api/users/me/linkedin/", body, config)
+      .then(window.location.assign("/accounts/linkedin/success"));
+  };
+
+  const handleConnect = async () => {
+    setLoading(true);
+    await ConnectToLinkedin();
+  };
 
   return (
     <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
@@ -110,12 +122,17 @@ export default function AddAccountCardLinkedIn() {
         <CardContent>
           <Typography paragraph>How to connect</Typography>
           <Typography paragraph>
-            First of all, you must have a Parrot 🦜
+            1. Click on the Connect to LinkedIn Button
           </Typography>
-          <Typography paragraph>Please don't forget to feed him!</Typography>
           <Typography paragraph>
-            Change the Newspaper in the cage, so he don't get bored.
+            2. You will be redirected to LinkedIn
           </Typography>
+          <Typography paragraph>3. Grant Access to our App</Typography>
+          <Typography paragraph>
+            4. You will be redirected to Us again
+          </Typography>
+          <Typography paragraph>5. Click on Save LinkedIn Token</Typography>
+          <Typography paragraph>6. Your LinkedIn is now Connected</Typography>
         </CardContent>
       </Collapse>
       <Collapse in={regExpanded} timeout="auto" unmountOnExit>
@@ -129,7 +146,7 @@ export default function AddAccountCardLinkedIn() {
           <Typography paragraph>LinkedIn API Connection</Typography>
           <LoadingButton
             variant="contained"
-            loading={false}
+            loading={loading}
             onClick={handleConnect}
           >
             Connect to LinkedIn
@@ -145,11 +162,18 @@ export default function AddAccountCardLinkedIn() {
       ) : null}
       {/* Alert when the connection with LinkedIn was successfully */}
       {window.location.href.includes("/accounts/linkedin/connect/?code") ? (
+        <Button
+          variant="contained"
+          onClick={GetLinkedInToken}
+          style={{ width: "100%" }}
+        >
+          Save LinkedIn Token
+        </Button>
+      ) : null}
+      {window.location.href.includes("/accounts/linkedin/success") ? (
         <Alert severity="success">
           <AlertTitle>Success</AlertTitle>
-          You connected successfully your LinkedIn Account!
-          <br />
-          <strong>{LinkedInConnectToken}</strong>
+          Your LinkedIn account was successfully connected.
         </Alert>
       ) : null}
     </Card>
