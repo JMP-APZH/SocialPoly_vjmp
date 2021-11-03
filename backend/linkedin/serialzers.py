@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import LinkedInPost
 
 
-class InSerializer(serializers.ModelSerializer):
+class LinkedInPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LinkedInPost
