@@ -62,7 +62,7 @@ function App() {
       }
     }
     !isLoggedIn && checkLogin();
-  }, []);
+  });
 
   return (
     <ThemeProvider theme={theme}>
