@@ -18,9 +18,8 @@ export default function Auth() {
     const [last, setLast] = useState('')
     const [pageState, setPageState] = useState('login')
 
-    // test email: ise96655@zwoho.com 67020
-
-    const submitLogin = async () => {
+    const submitLogin = async (e) => {
+        e.preventDefault()
         const { data } = await axios.post(
             `https://djpp.propulsion-learn.ch/backend/api/auth/token/`,
             {
@@ -29,6 +28,7 @@ export default function Auth() {
             })
         localStorage.setItem('token', data.access)
         history.push(`/`)
+        window.location.reload()
     }
     const submitRegister1 = async (e) => {
         e.preventDefault()
@@ -123,7 +123,7 @@ export default function Auth() {
                 </form>
             )}
         else { return (
-                <form className='loginWrapper' onSubmit={submitLogin}>
+                <form className='loginWrapper' onSubmit={(e) => submitLogin(e)}>
                     <div className='titleWrapper'>
                         <h4>Login</h4>
                     </div>
@@ -132,7 +132,7 @@ export default function Auth() {
                         <TextField required id="outlined-required" label="Password" type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className='buttonWrapper'>
-                        <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}} onClick={submitLogin} >login</ButtonMain>
+                        <ButtonMain sx={{boxShadow:5,border:2,borderColor:'primary.dark'}} onClick={(e) => submitLogin(e)} type='submit' >login</ButtonMain>
                         <ButtonMinor sx={{boxShadow:5,border:2,borderColor:'primary.main'}} onClick={() => setPageState('register1')}>sign up</ButtonMinor>
                     </div>
                 </form>

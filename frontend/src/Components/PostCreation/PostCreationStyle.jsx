@@ -29,28 +29,33 @@ export const PostCreationWrapper = styled.div`
   padding: 30px;
   border-radius: 6px;
   box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']};
-  max-width: 60%;
-  min-width: 600px;
+  width: 60%;
+  min-width: 400px;
   display: flex;
-
-
+  
+  
   .postWrapper {
     width: 100%;
+    min-width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     grid-gap: 20px;
     overflow: wrap;
     flex-wrap: wrap;
     align-items: center;
-  }
+}
 
-  .fileDropWrapper {
+.fileDropWrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
-    max-height: 200px;
+    max-height: 120px;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+
   }
 
   .postContent {
@@ -59,6 +64,8 @@ export const PostCreationWrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
+    width: 100%;
+    min-width: 300px;
 
 
     textarea {
@@ -124,6 +131,11 @@ export const PostCreationWrapper = styled.div`
       justify-content: space-between;
       box-sizing: content-box;
 
+      &>* {
+          ${global.test}
+      }
+      &>div {
+      }
       
       &>button {
           width: 5%;
@@ -151,13 +163,13 @@ export const PostCreationWrapper = styled.div`
           margin-right: 5px;
       }
   }
-  margin-bottom: 200px;
+  margin-bottom: 20px;
 `;
 
 export const FileDrop = styled.div`
 display: flex;
 height: 80px;
-width: 400px;
+width: 100%;
 border: ${global.borderColor} 3px ${(props) => (props.dragover ? "dashed" : "solid")};
 border-radius: 8px;
 flex-grow: 1;
@@ -221,8 +233,8 @@ export const PlatformButton = styled.button`
 
 export const PostErrorWrapper = styled.div`
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
     z-index: 9000;

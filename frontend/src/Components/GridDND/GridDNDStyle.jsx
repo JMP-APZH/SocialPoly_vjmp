@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as global from "../../globalStyle";
 
 export const GridLayout = styled.div`
   .react-resizable-handle {
@@ -28,6 +29,28 @@ export const GridDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
+  ${global.test}
+  
+  #postCreation {
+      overflow-x: hidden;
+      width: 100%;
+  }
+
+  .movingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/624/624831.png');
+      background-repeat: no-repeat;
+      background-size: 70px;
+      background-position: center;
+      background-color: ${global.colorMainD}30;
+      cursor: grab;
+  }
+
   .Large {
     height: 100%;
     img {
