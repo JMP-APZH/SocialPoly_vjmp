@@ -3,9 +3,10 @@ import * as global from "../../globalStyle";
 
 export const LinkedInPreviewWrapper = styled.div`
     width: calc(90% - 10px);
-    max-width: 550px;
-
+    overflow-x: auto;
+    
     .linkedInPostWrapper {
+        min-width: 450px;
         padding: 16px;
         display: flex;
         flex-direction: column;

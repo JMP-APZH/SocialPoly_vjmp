@@ -28,7 +28,6 @@ export default function TwitterPreview(props) {
 
                 <div className='postBody'>
                     {props.textContent ? <p className='postContent'>{props.textContent}</p> : <p className='postContent' style={{color: 'red'}}>Posts require text content!!!</p>}
-                    <p className='postContent'></p>
                     {image ? 
                     <div className='postImageWrapper'>
                         {image.substring(5, 10) === 'video' ? <video src={image} controls></video> : <img className='postImage' src={image} alt="" /> }
