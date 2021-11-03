@@ -31,11 +31,12 @@ export default function PostCreation() {
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
 
-  const [timeError, setTimeError] = useState(false)
-  const [platformError, setPlatformError] = useState(false)
+  const [errorTime, setErrorTime] = useState(false)
+  const [errorPlatform, setErrorPlatform] = useState(false)
   const [successAlert, setSuccessAlert] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
   const [errorSize, setErrorSize] = useState(false)
+  const [errorContent, setErrorContent] = useState(false)
   
   const [previews, setPreviews] = useState([])
   const [dragOver, setDragOver] = useState(false);
@@ -87,7 +88,7 @@ export default function PostCreation() {
       timeString = timeString.replace('T', ' ')
       timeString += ':00'
       body.append('send_time', timeString);
-      } else {setTimeError(true); return null}
+      } else {setErrorTime(true); return null}
     } else {body.append('send_time', '')}
     if (file) {body.append('images', file)}
 
@@ -98,12 +99,9 @@ export default function PostCreation() {
       {validateStatus: (status) => {
         return status < 500; // Resolve only if the status code is less than 500
       }}
-    //   validateStatus: true,
     ).catch(function (error) {
-        // console.log(error.toJSON())
           return {status: 413}
         });
-    // console.log('response here', response)
     if (response.status >= 200 && response.status < 300) {
         setSuccessAlert(true)
     } else if (response.status === 413) {
@@ -114,7 +112,8 @@ export default function PostCreation() {
   };
 
   const postButtonHandler = async () => {
-    if (!statusTwitter && !statusFacebook && !statusInstagram && !statusLinkedIn && !statusTiktok) {setPlatformError(true)}
+    if (!statusTwitter && !statusFacebook && !statusInstagram && !statusLinkedIn && !statusTiktok) {setErrorPlatform(true)}
+    else if (!postText.replace(/\s/g, '')) {setErrorContent(true)}
     else {
         statusTwitter && await postTwitter();
         statusLinkedIn && console.log('linked in selected, add function here')
@@ -122,19 +121,21 @@ export default function PostCreation() {
   };
 
   const closeErrors = () => {
-    setTimeError(false)
-    setPlatformError(false)
+    setErrorTime(false)
+    setErrorPlatform(false)
     setSuccessAlert(false)
     setErrorAlert(false)
     setErrorSize(false)
+    setErrorContent(false)
   }
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
         {errorSize && <PostError closeErrors={closeErrors} type='size' />}
         {successAlert && <PostError closeErrors={closeErrors} type='success' />}
-        {timeError && <PostError closeErrors={closeErrors} type='time' />}
-        {platformError && <PostError closeErrors={closeErrors} type='platform' />}
+        {errorTime && <PostError closeErrors={closeErrors} type='time' />}
+        {errorPlatform && <PostError closeErrors={closeErrors} type='platform' />}
+        {errorContent && <PostError closeErrors={closeErrors} type='content' />}
         {errorAlert && <PostError closeErrors={closeErrors} type='error' />}
       <div className="postWrapper">
         <div className="postContent">
@@ -197,7 +198,6 @@ export default function PostCreation() {
             sx={{
               width: 220,
               boxShadow: 5,
-            //   border: 2,
               outlineColor: "primary.dark",
               borderRadius: "4px",
             }}

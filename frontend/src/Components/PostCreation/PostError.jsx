@@ -22,6 +22,11 @@ const displayMessage = (type) => {
             <h3>Error</h3>
             <p>You must choose at least one platform to post on!</p>
         </div>
+    )} else if (type === 'content') {return (
+        <div className='messageWrapper'>
+            <h3>Error</h3>
+            <p>Your post must have text content!</p>
+        </div>
     )} else {return (
         <div className='messageWrapper'>
             <h3>Error</h3>
