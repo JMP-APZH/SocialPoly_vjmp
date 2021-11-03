@@ -20,6 +20,7 @@ class UserAdmin(UserAdmin):
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'avatar')}),
         ('LinkedIn', {'fields': ('linked_in_access_token',)}),
+        ('Twitter', {'fields': ('twitter_access_token', 'twitter_access_token_secret')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Groups', {'fields': ('groups',)}),
