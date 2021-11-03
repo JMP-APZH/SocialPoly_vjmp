@@ -31,24 +31,24 @@ export const GridDiv = styled.div`
   align-items: center;
   overflow: auto;
   ${global.test}
-  
+
   #postCreation {
-      overflow-x: hidden;
-      width: 100%;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   .movingOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://cdn-icons-png.flaticon.com/512/624/624831.png');
-      background-repeat: no-repeat;
-      background-size: 70px;
-      background-position: center;
-      background-color: ${global.colorMainD}30;
-      cursor: grab;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/624/624831.png");
+    background-repeat: no-repeat;
+    background-size: 70px;
+    background-position: center;
+    background-color: ${global.colorMainD}30;
+    cursor: grab;
   }
 
   .Large {

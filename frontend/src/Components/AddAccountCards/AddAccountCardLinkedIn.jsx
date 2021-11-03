@@ -58,7 +58,7 @@ export default function AddAccountCardLinkedIn() {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = {};
     const response = await axios.post(
-      "/backend/api/linkedin/auth/",
+      "https://socialpoly.ch/backend/api/linkedin/auth/",
       body,
       config
     );
@@ -75,9 +75,12 @@ export default function AddAccountCardLinkedIn() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = { linked_in_auth_code: LinkedInConnectCode };
-    await axios
-      .patch("/backend/api/users/me/linkedin/", body, config)
-      .then(window.location.assign("/accounts/linkedin/success"));
+    await axios.patch(
+      "https://socialpoly.ch/backend/api/users/me/linkedin/",
+      body,
+      config
+    );
+    await window.location.assign("/accounts/linkedin/success");
   };
 
   const handleConnect = async () => {

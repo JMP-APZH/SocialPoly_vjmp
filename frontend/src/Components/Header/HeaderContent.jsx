@@ -36,6 +36,10 @@ export default function HeaderContent(props) {
     getUserData();
   });
 
+  const UserLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
   // Account Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -96,7 +100,7 @@ export default function HeaderContent(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem onClick={UserLogout}>
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
