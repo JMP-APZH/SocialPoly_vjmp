@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'registration_profile',
     'twitter',
     'linkedin',
+    'draft',
 
     # 3RD PARTY
     'rest_framework',
