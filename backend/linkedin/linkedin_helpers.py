@@ -1,3 +1,4 @@
+import os
 import random
 import requests
 import string
@@ -69,3 +70,42 @@ def user_info(headers,linkedin_me_url):
     response = requests.get(linkedin_me_url, headers=headers)
     user_info = response.json()
     return user_info
+
+
+def register_image_and_return_asset(linkedin_image_registration_url,author,image,headers):
+
+    def get_url_and_asset():
+        request_json = {
+            "registerUploadRequest": {
+                "recipes": [
+                    "urn:li:digitalmediaRecipe:feedshare-image"
+                ],
+                "owner": author,
+                "serviceRelationships": [
+                    {
+                        "relationshipType": "OWNER",
+                        "identifier": "urn:li:userGeneratedContent"
+                    }
+                ]
+            }
+        }
+        try:
+            response = requests.post(linkedin_image_registration_url, headers=headers, json=request_json)
+            return {"url": response.json()['value']['uploadMechanism'][
+                'com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'],
+                    "asset": response.json()['value']['asset']
+                    }
+        except Exception as e:
+            return {"error": str(e)}
+
+    try:
+        upload_url_and_asset = get_url_and_asset()
+        upload_url = upload_url_and_asset['url']
+        asset = upload_url_and_asset['asset']
+        #print("upload url: ",upload_url,"\nasset: ",asset)
+        response = requests.post(upload_url, data=image, headers=headers)
+        print("Status code after uploading image: ",response.status_code)
+        return asset
+    except Exception as e:
+        return {"error": str(e)}
+
