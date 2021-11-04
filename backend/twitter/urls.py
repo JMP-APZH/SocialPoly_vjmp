@@ -8,7 +8,7 @@ urlpatterns = [
     path('mytweets/', GetMyTweets.as_view()),
     path('tweets/', GetAllTweets.as_view()),
     path('send/', CreateTweetOnTime.as_view()),
-    path('?search/<str:search_string>/', SearchTweetView.as_view()),
+    path('search/', SearchTweetView.as_view()),
     path('auth/', GetToken.as_view()),
     path('verify/', VerifyToken.as_view())
 ]
