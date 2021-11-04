@@ -40,7 +40,7 @@ urlpatterns = [
     path('backend/api/users/', include('user.urls')),
     path('backend/api/twitter/', include('twitter.urls')),
     path('backend/api/linkedin/', include('linkedin.urls')),
-    path('backend/api/users/twitter/me/', ShowMe.as_view()),
+    path('backend/api/users/me/twitter/', ShowMe.as_view()),
     path('backend/api/draft/', include('draft.urls')),
     path('backend/api/registration/', include('registration_profile.urls')),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
