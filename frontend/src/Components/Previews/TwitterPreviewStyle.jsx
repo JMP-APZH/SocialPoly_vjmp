@@ -3,15 +3,19 @@ import * as global from "../../globalStyle";
 
 export const TwitterPreviewWrapper = styled.div`
   width: calc(90% - 10px);
-  max-width: 450px;
-
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  
   .twitterPostWrapper {
+    min-width: 450px;
+    max-width: 600px;
+    width: 100%;
     background-color: white;
     display: flex;
     flex-direction: column;
     padding: 0 16px;
     box-sizing: border-box;
-    /* width: 100%; */
     border: #eff3f4 1px solid;
     color: #000000;
 
@@ -62,10 +66,11 @@ export const TwitterPreviewWrapper = styled.div`
       overflow-wrap: anywhere;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-start ;
 
       p {
         margin: 0;
+        display: block;
       }
       .postImageWrapper {
         width: 100%;

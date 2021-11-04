@@ -1,15 +1,15 @@
+import os
 import tweepy
-from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from twitter.serializers import TwitterSerializer
+from user.serializers import UserSerializer
 from twitter.models import Tweet
 from django.contrib.auth import get_user_model
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
-
 
 User = get_user_model()
 
@@ -22,21 +22,19 @@ class CreateTweetOnTime(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user)
-        # access_token = self.request.user.twitter_access_token
-        # access_token_secret = self.request.user.twitter_access_token_secret
-
-        auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
-        auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
-        # auth.set_access_token(access_token, access_token_secret)
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
         api.verify_credentials()
         tweet = request.data['content']
+
         if request.data['send_time'] != "" and 'images' in request.data.keys():
             def publish_tweet(text, image):
                 api.update_status(text, media_ids=[image.media_id])
 
             trigger = request.data['send_time']
-
             file = request.FILES['images']
             fs = FileSystemStorage()
             filename = fs.save(file.name, file)
@@ -48,6 +46,7 @@ class CreateTweetOnTime(GenericAPIView):
             scheduler.add_job(publish_tweet, 'date', run_date=trigger, id="tweet", args=[tweet, media],
                               replace_existing=True)
             scheduler.start()
+
         elif request.data['send_time'] != "" and 'images' not in request.data.keys():
             def publish_tweet(text):
                 api.update_status(text)
@@ -57,14 +56,15 @@ class CreateTweetOnTime(GenericAPIView):
             scheduler.add_job(publish_tweet, 'date', run_date=trigger, id="tweet", args=[tweet],
                               replace_existing=True)
             scheduler.start()
+
         elif request.data['send_time'] == "" and 'images' in request.data.keys():
             file = request.FILES['images']
             fs = FileSystemStorage()
             filename = fs.save(file.name, file)
             uploaded_file_path = fs.path(filename)
-
             media = api.media_upload(uploaded_file_path)
             api.update_status(tweet, media_ids=[media.media_id])
+
         else:
             api.update_status(tweet)
         return Response(serializer.data)
@@ -83,13 +83,14 @@ class SearchTweetView(ListCreateAPIView):
 
 class GetFollowers(APIView):
     def get(self, request):
-        auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
-        auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
+        api.verify_credentials()
 
         try:
-
-            api.verify_credentials()
             my_followers = api.get_followers()
             parsed_followers = []
             for follower in my_followers:
@@ -103,13 +104,14 @@ class GetFollowers(APIView):
 
 class GetMyTweets(APIView):
     def get(self, request):
-        auth = tweepy.OAuthHandler(settings.API_KEY, settings.API_KEY_SECRET)
-        auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
+        api.verify_credentials()
 
         try:
-
-            api.verify_credentials()
             cursor = tweepy.Cursor(api.user_timeline, tweet_mode="extended").items()
             tweets = []
             for tweet in cursor:
@@ -129,3 +131,40 @@ class GetAllTweets(ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class GetToken(APIView):
+
+    def get(self, request):
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'),
+                                   os.environ.get('TWITTER_AUTH_CALLBACK_URL'))
+        try:
+            redirect_url = auth.get_authorization_url()
+            return Response({'url': redirect_url})
+        except tweepy.TweepyException:
+            return Response({'message': 'Error! Failed to get request token.'})
+
+
+class VerifyToken(APIView):
+
+    def post(self, request):
+
+        user = User.objects.get(id=request.user.id)
+        verifier = request.data['oauth_verifier']
+        token = request.data['oauth_token']
+
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'),
+                                   os.environ.get('TWITTER_AUTH_CALLBACK_URL'))
+
+        auth.request_token = {'oauth_token': token,
+                              'oauth_token_secret': verifier}
+        try:
+            auth.get_access_token(verifier)
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(twitter_access_token=auth.access_token,
+                            twitter_access_token_secret=auth.access_token_secret,
+                            **serializer.validated_data)
+            return Response(serializer.validated_data)
+        except tweepy.TweepyException:
+            return Response({'message': 'Error! Failed to get request token.'})

@@ -6,7 +6,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Button } from '@mui/material';
 
 export default function DisplayPreview(props) {
-    const [previews, setPreviews] = useState(props.previews)
+    const [previews, ] = useState(props.previews)
     const [activePreview, setActivePreview] = useState(0)
 
     const previewToDisplay = () => {

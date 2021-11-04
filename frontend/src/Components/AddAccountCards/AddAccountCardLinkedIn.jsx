@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import {
   Card,
@@ -28,6 +28,22 @@ export default function AddAccountCardLinkedIn() {
   const [loading, setLoading] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [regExpanded, setRegExpanded] = React.useState(false);
+  const [UserData, setUserData] = React.useState(false);
+
+  useEffect(() => {
+    async function getUserData() {
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(
+        `https://socialpoly.ch/backend/api/users/me/`,
+        config
+      );
+      if (response.data) {
+        setUserData(response.data);
+      }
+    }
+    getUserData();
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -42,11 +58,10 @@ export default function AddAccountCardLinkedIn() {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = {};
     const response = await axios.post(
-      "/backend/api/linkedin/auth/",
+      "https://socialpoly.ch/backend/api/linkedin/auth/",
       body,
       config
     );
-    console.log(response.data.url);
     window.location.assign(response.data.url);
   };
 
@@ -60,9 +75,12 @@ export default function AddAccountCardLinkedIn() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = { linked_in_auth_code: LinkedInConnectCode };
-    await axios
-      .patch("/backend/api/users/me/linkedin/", body, config)
-      .then(window.location.assign("/accounts/linkedin/success"));
+    await axios.patch(
+      "https://socialpoly.ch/backend/api/users/me/linkedin/",
+      body,
+      config
+    );
+    await window.location.assign("/accounts/linkedin/success");
   };
 
   const handleConnect = async () => {
@@ -74,7 +92,7 @@ export default function AddAccountCardLinkedIn() {
     <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500] }} alt="Avatar" src={UserData.avatar}>
             N/A
           </Avatar>
         }
@@ -89,6 +107,7 @@ export default function AddAccountCardLinkedIn() {
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           You must connect your LinkedIn Account before you can use it.
+          <strong>TEST {UserData.first_name}</strong>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -154,14 +173,14 @@ export default function AddAccountCardLinkedIn() {
         </CardContent>
       </Collapse>
       {/* Alert when the connection with LinkedIn went wrong */}
-      {window.location.href.includes("/accounts/linkedin/connect/?error") ? (
+      {window.location.href.includes("/accounts/linkedin/?error") ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           Something went wrong! Please try again.
         </Alert>
       ) : null}
       {/* Alert when the connection with LinkedIn was successfully */}
-      {window.location.href.includes("/accounts/linkedin/connect/?code") ? (
+      {window.location.href.includes("/accounts/linkedin/?code") ? (
         <Button
           variant="contained"
           onClick={GetLinkedInToken}
