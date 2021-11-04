@@ -12,7 +12,7 @@ get the access token stored in the user DB ==> ok
 import os
 
 from django.contrib.auth import get_user_model
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .linkedin_helpers import *
@@ -55,6 +55,10 @@ class LinkedinPost(GenericAPIView):
     def post(self, request, *args, **kwargs):
 
         user = User.objects.get(id=request.user.id)
+
+        serializer = LinkedInPostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=self.request.user)
     
         try:
             linkedin_access_token = user.linked_in_access_token
@@ -67,9 +71,9 @@ class LinkedinPost(GenericAPIView):
             linkedin_post_message = request.data['content']  # comes from the FrontEnd
             linkedin_post_link = request.data['link'] if 'link' in request.data.keys() else ""
             linkedin_post_image = request.data['image'] if 'image' in request.data.keys() else ""
-            image = request.FILES["image"]
+            image = request.FILES["image"] if 'image' in request.data.keys() else ""
             has_media = linkedin_post_link != "" or linkedin_post_image != ""
-
+            #print("this is the value of has_media: ",has_media)
 
             linkedin_image_registration_url = os.environ.get('LINKEDIN_IMAGE_REGISTRATION_URL')
             image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers)
@@ -120,16 +124,20 @@ class LinkedinPost(GenericAPIView):
 
             post_data_for_request = post_data_with_image if has_media else post_data
 
-            ##### PUT ME BACK!!!!!!!!!!!!!##########
             requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
-
-            # SAVING POST TO THE DATABASE
-            serializer = LinkedInPostSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(author=request.user, **serializer.validated_data)
 
             return Response({"message": "post successful."})
 
         except Exception as e:
             print(e)
             return Response({"error": str(e)})
+
+
+class ListLinkedinPosts(ListAPIView):
+    serializer_class = LinkedInPostSerializer
+    queryset = LinkedInPost.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
