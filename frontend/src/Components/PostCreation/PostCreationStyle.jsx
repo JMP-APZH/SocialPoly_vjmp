@@ -25,11 +25,7 @@ export const PostCreationWrapper = styled.div`
   margin: auto;
   overflow: wrap;
 
-  border: ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']} 2px solid;
-  padding: 30px;
-  border-radius: 6px;
-  box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']};
-  width: 60%;
+  width: 100%;
   min-width: 400px;
   display: flex;
   
@@ -109,7 +105,7 @@ export const PostCreationWrapper = styled.div`
 
   .previewWrapper {
       margin: 30px 0;
-      width: 100%;
+      width: 95%;
       padding: 10px;
       box-sizing: content-box;
       border: ${global.colorMain} solid 2px;
@@ -131,11 +127,6 @@ export const PostCreationWrapper = styled.div`
       justify-content: space-between;
       box-sizing: content-box;
 
-      &>* {
-          ${global.test}
-      }
-      &>div {
-      }
       
       &>button {
           width: 5%;

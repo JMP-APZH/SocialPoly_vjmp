@@ -4,9 +4,13 @@ import * as global from "../../globalStyle";
 export const LinkedInPreviewWrapper = styled.div`
     width: calc(90% - 10px);
     overflow-x: auto;
+    display: flex;
+    justify-content: center;
     
     .linkedInPostWrapper {
         min-width: 450px;
+        max-width: 600px;
+        width: 100%;
         padding: 16px;
         display: flex;
         flex-direction: column;
@@ -72,6 +76,12 @@ export const LinkedInPreviewWrapper = styled.div`
         align-items: flex-start;
         color: #191919;
         overflow-wrap: anywhere;
+
+        p {
+        margin: 0;
+        display: block;
+        }
+
         
         .postImageWrapper {
             margin: 7px 0;

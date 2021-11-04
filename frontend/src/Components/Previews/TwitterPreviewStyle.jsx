@@ -4,15 +4,18 @@ import * as global from "../../globalStyle";
 export const TwitterPreviewWrapper = styled.div`
   width: calc(90% - 10px);
   overflow-x: auto;
+  display: flex;
+  justify-content: center;
   
   .twitterPostWrapper {
-      min-width: 450px;
+    min-width: 450px;
+    max-width: 600px;
+    width: 100%;
     background-color: white;
     display: flex;
     flex-direction: column;
     padding: 0 16px;
     box-sizing: border-box;
-    /* width: 100%; */
     border: #eff3f4 1px solid;
     color: #000000;
 
