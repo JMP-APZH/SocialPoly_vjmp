@@ -50,6 +50,7 @@ cleanup:
   script:
     - docker rmi -f "$CI_PIPELINE_ID":"$CI_COMMIT_REF_NAME"
     - docker-compose -p "$CI_PIPELINE_ID" -f docker-compose.lint.yml down --remove-orphans
+    - docker system prune -f
 
 deploy:
   stage: deploy
