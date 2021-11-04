@@ -12,12 +12,13 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
 
 export default class GridDND extends React.PureComponent {
+    
   constructor(props) {
     super(props);
 
     this.state = {
       layouts: JSON.parse(JSON.stringify(originalLayouts)),
-      editGrid: false,
+      editGrid: false
     };
   }
 

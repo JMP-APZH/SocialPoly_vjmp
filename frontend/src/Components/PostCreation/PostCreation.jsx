@@ -105,11 +105,12 @@ export default function PostCreation() {
     const response = await axios
       .post(`https://socialpoly.ch/backend/api/twitter/send/`, body, config, {
         validateStatus: (status) => {
-          return status < 500; // Resolve only if the status code is less than 500
+          return true; // Always give return status
         },
       })
       .catch(function (error) {
-        return { status: 413 };
+        //   console.log(error.response)
+        if (error.response) {return error.response} else {return {status: 413}}
       });
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
