@@ -34,7 +34,7 @@ export default function HeaderContent(props) {
       }
     }
     getUserData();
-  });
+  }, []);
 
   const UserLogout = () => {
     localStorage.removeItem("token");
