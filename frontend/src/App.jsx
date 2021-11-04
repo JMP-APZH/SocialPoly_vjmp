@@ -14,6 +14,7 @@ import { GlobalStyle } from "./globalStyle";
 import Auth from "./Pages/Auth/Auth";
 import Posts from "./Pages/Posts/Posts";
 import LandingPage from "./Pages/LandingPage/LandingPage";
+import NotFound404 from "./Pages/NotFound404/NotFound404";
 import axios from "axios";
 
 function App() {
@@ -88,14 +89,17 @@ function App() {
                 mr: 1,
               }}
             >
-              <Route path="/" component={TestPage} exact />
-              <Route path="/auth" component={Auth} exact />
-              <Route path="/dashboard" component={GridDND} exact />
-              <Route path="/accounts" component={Accounts} />
-              <Route path="/posts" component={Posts} exact />
-              <Route path="/calendar" component={Calendar} exact />
-              <Route path="/reports" component={GridDND} exact />
-              <Route path="/messages" component={GridDND} exact />
+              <Switch>
+                <Route path="/" component={TestPage} exact />
+                <Route path="/auth" component={Auth} exact />
+                <Route path="/dashboard" component={GridDND} exact />
+                <Route path="/accounts" component={Accounts} />
+                <Route path="/posts" component={Posts} exact />
+                <Route path="/calendar" component={Calendar} exact />
+                <Route path="/reports" component={GridDND} exact />
+                <Route path="/messages" component={GridDND} exact />
+                <Route component={NotFound404} />
+              </Switch>
             </Box>
           </AppMain>
         ) : (
