@@ -110,7 +110,6 @@ export default function PostCreation() {
         },
       })
       .catch(function (error) {
-        //   console.log(error.response)
         if (error.response) {return error.response} else {return {status: 413}}
       });
     if (response.status >= 200 && response.status < 300) {
