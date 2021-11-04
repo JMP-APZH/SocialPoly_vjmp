@@ -19,8 +19,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework_simplejwt import views as jwt_views
-from registration_profile.views import CreateRegistrationView, ValidateCreateRegistrationView
+from twitter.views import ShowMe
 from user.views import CustomTokenObtainPairView
+
 
 
 schema_view = get_schema_view(
@@ -39,8 +40,8 @@ urlpatterns = [
     path('backend/api/users/', include('user.urls')),
     path('backend/api/twitter/', include('twitter.urls')),
     path('backend/api/linkedin/', include('linkedin.urls')),
-    path('backend/api/registration/', CreateRegistrationView.as_view()),
-    path('backend/api/registration/validate/', ValidateCreateRegistrationView.as_view()),
+    path('backend/api/users/twitter/me/', ShowMe.as_view()),
+    path('backend/api/registration/', include('registration_profile.urls')),
     path('backend/api/auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('backend/api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),

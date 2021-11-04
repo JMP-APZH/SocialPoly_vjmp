@@ -22,7 +22,7 @@ class CreateRegistrationView(GenericAPIView):
         instance = serializer.save()
         send_mail(
             'Thank you for registering!',
-            'Thank you for registering for Motion\n'
+            'Thank you for registering for Social POLY\n'
             f'Here is your code for registration:\n{instance.code}',
             'djppfinal@gmail.com',
             [request.data['email']],

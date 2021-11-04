@@ -70,6 +70,42 @@ class CreateTweetOnTime(GenericAPIView):
         return Response(serializer.data)
 
 
+class ShowMe(APIView):
+
+    def get(self, request):
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
+        api = tweepy.API(auth)
+        api.verify_credentials()
+        cursor = tweepy.Cursor(api.user_timeline, tweet_mode="extended").items()
+        tweets = []
+        for tweet in cursor:
+            json_str = json.dumps(tweet._json)
+            parsed = json.loads(json_str)
+            tweets.append(parsed)
+
+        user = tweets[0]['user']
+        user_infos = {
+            "id": user['id'],
+            "member_since": user['created_at'],
+            "name": user['name'],
+            "screen_name": user['screen_name'],
+            "location": user['location'],
+            "description": user['description'],
+            "followers_count": user['followers_count'],
+            "friends_count": user['friends_count'],
+            "statuses_count": user['statuses_count'],
+            "profile_image_url_https": user['profile_image_url_https'],
+            "profile_background_image_url_https": user['profile_background_image_url_https']
+        }
+        try:
+            return Response(user_infos)
+        except:
+            return Response({'message': 'Error during auth'})
+
+
 class SearchTweetView(ListCreateAPIView):
     serializer_class = TwitterSerializer
     queryset = Tweet.objects.all()

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from twitter.views import GetFollowers, GetAllTweets, GetMyTweets, CreateTweetOnTime, SearchTweetView, GetToken, VerifyToken
+from twitter.views import GetFollowers, GetAllTweets, GetMyTweets, CreateTweetOnTime,\
+    SearchTweetView, GetToken, VerifyToken
 
 urlpatterns = [
     path('followers/', GetFollowers.as_view()),
