@@ -23,6 +23,10 @@ from .serialzers import LinkedInPostSerializer
 User = get_user_model()
 
 class LinkedinAuth(APIView):
+    """
+    post:
+    LinkedIn Authentication: get login URL
+    """
 
     def post(self, request):
 
@@ -39,6 +43,10 @@ class LinkedinAuth(APIView):
 
 
 class LinkedinPost(GenericAPIView):
+    """
+    post:
+    Make a post
+    """
 
     queryset = LinkedInPost.objects.all()
     serializer_class = LinkedInPostSerializer
@@ -59,7 +67,12 @@ class LinkedinPost(GenericAPIView):
             linkedin_post_message = request.data['content']  # comes from the FrontEnd
             linkedin_post_link = request.data['link'] if 'link' in request.data.keys() else ""
             linkedin_post_image = request.data['image'] if 'image' in request.data.keys() else ""
+            image = request.FILES["image"]
             has_media = linkedin_post_link != "" or linkedin_post_image != ""
+
+
+            linkedin_image_registration_url = os.environ.get('LINKEDIN_IMAGE_REGISTRATION_URL')
+            image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers)
 
             post_data = {
                 "author": linkedin_author,
@@ -77,7 +90,7 @@ class LinkedinPost(GenericAPIView):
                 }
             }
 
-            post_data_with_media = {
+            post_data_with_image = {
                 "author": linkedin_author,
                 "lifecycleState": "PUBLISHED",
                 "specificContent": {
@@ -85,15 +98,19 @@ class LinkedinPost(GenericAPIView):
                         "shareCommentary": {
                             "text": linkedin_post_message
                         },
-                        "shareMediaCategory": "ARTICLE",
-                            "media": [
-                                {
-                                    "status": "READY",
-
-                                    "originalUrl": linkedin_post_link,
-
+                        "shareMediaCategory": "IMAGE",
+                        "media": [
+                            {
+                                "status": "READY",
+                                "description": {
+                                    "text": "Center stage!"
+                                },
+                                "media": image_upload_asset,
+                                "title": {
+                                    "text": "testing image upload!"
                                 }
-                            ]
+                            }
+                        ]
                     }
                 },
                 "visibility": {
@@ -101,13 +118,12 @@ class LinkedinPost(GenericAPIView):
                 }
             }
 
-            post_data_for_request = post_data_with_media if has_media else post_data
+            post_data_for_request = post_data_with_image if has_media else post_data
 
-            response = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
-            print(response.json())
+            ##### PUT ME BACK!!!!!!!!!!!!!##########
+            requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
 
             # SAVING POST TO THE DATABASE
-
             serializer = LinkedInPostSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save(author=request.user, **serializer.validated_data)
