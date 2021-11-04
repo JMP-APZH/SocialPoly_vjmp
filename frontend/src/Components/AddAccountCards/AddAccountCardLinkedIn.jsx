@@ -43,7 +43,7 @@ export default function AddAccountCardLinkedIn() {
       }
     }
     getUserData();
-  });
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);

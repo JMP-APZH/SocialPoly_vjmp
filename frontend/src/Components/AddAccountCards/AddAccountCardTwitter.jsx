@@ -42,7 +42,7 @@ export default function AddAccountCardTwitter() {
       }
     }
     getUserData();
-  });
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -59,17 +59,17 @@ export default function AddAccountCardTwitter() {
       "https://socialpoly.ch/backend/api/twitter/auth/",
       config
     );
-    window.location.assign(response.data.message);
+    window.location.assign(response.data.url);
   };
 
   let TwitterConnectReturnURL = window.location.href;
 
-  const TwitterAccessToken = TwitterConnectReturnURL.substring(
+  const OauthToken = TwitterConnectReturnURL.substring(
     TwitterConnectReturnURL.lastIndexOf("?") + 13,
     TwitterConnectReturnURL.lastIndexOf("&")
   );
 
-  const TwitterAccessTokenSecret = TwitterConnectReturnURL.substring(
+  const OauthVerifier = TwitterConnectReturnURL.substring(
     TwitterConnectReturnURL.lastIndexOf("=") + 1
   );
   const GetTwitterToken = async () => {
@@ -77,11 +77,11 @@ export default function AddAccountCardTwitter() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = {
-      twitter_access_token: TwitterAccessToken,
-      twitter_access_token_secret: TwitterAccessTokenSecret,
+      oauth_token: OauthToken,
+      oauth_verifier: OauthVerifier,
     };
-    await axios.patch(
-      "https://socialpoly.ch/backend/api/users/me/",
+    await axios.post(
+      "https://socialpoly.ch/backend/api/twitter/verify/",
       body,
       config
     );
@@ -97,7 +97,11 @@ export default function AddAccountCardTwitter() {
     <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} alt="Avatar" src={UserData.avatar}>
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            alt="Avatar"
+            src="https://pbs.twimg.com/profile_images/1452915676717387778/WJRZ65t4_normal.jpg"
+          >
             N/A
           </Avatar>
         }
@@ -177,6 +181,13 @@ export default function AddAccountCardTwitter() {
           </LoadingButton>
         </CardContent>
       </Collapse>
+      {/* Alert when the connection with LinkedIn went wrong */}
+      {window.location.href.includes("/accounts/twitter/?denied") ? (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Something went wrong! Please try again.
+        </Alert>
+      ) : null}
       {/* Alert when the connection with Twitter was successfully */}
       {window.location.href.includes("/accounts/twitter/?oauth_token") ? (
         <LoadingButton
