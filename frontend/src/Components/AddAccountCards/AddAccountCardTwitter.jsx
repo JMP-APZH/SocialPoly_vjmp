@@ -42,7 +42,7 @@ export default function AddAccountCardTwitter() {
       }
     }
     getUserData();
-  });
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
