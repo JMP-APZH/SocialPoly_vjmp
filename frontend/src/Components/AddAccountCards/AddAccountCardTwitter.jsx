@@ -34,7 +34,7 @@ export default function AddAccountCardTwitter() {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const response = await axios.get(
-        `https://socialpoly.ch/backend/api/users/me/`,
+        `https://socialpoly.ch/backend/api/users/twitter/me/`,
         config
       );
       if (response.data) {
@@ -93,6 +93,27 @@ export default function AddAccountCardTwitter() {
     await ConnectToTwitter();
   };
 
+  const DisconnectFromTwitter = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = {
+      twitter_access_token: null,
+      twitter_access_token_secret: null,
+    };
+    await axios.patch(
+      "https://socialpoly.ch/backend/api/users/me/",
+      body,
+      config
+    );
+    await window.location.assign("/accounts/twitter/disconnectsuccess");
+  };
+
+  const handleDisconnect = async () => {
+    setLoading(true);
+    await DisconnectFromTwitter();
+  };
+
   return (
     <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
       <CardHeader
@@ -100,7 +121,7 @@ export default function AddAccountCardTwitter() {
           <Avatar
             sx={{ bgcolor: red[500] }}
             alt="Avatar"
-            src="https://pbs.twimg.com/profile_images/1452915676717387778/WJRZ65t4_normal.jpg"
+            src={UserData.profile_image_url_https}
           >
             N/A
           </Avatar>
@@ -111,13 +132,41 @@ export default function AddAccountCardTwitter() {
           </IconButton>
         }
         title="Twitter"
-        subheader="No Account Connected"
+        subheader={
+          UserData.screen_name ? UserData.screen_name : "No Account Connected"
+        }
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          You must connect your Twitter Account before you can use it.
-          <strong>TEST {UserData.first_name}</strong>
-        </Typography>
+        {UserData.screen_name ? (
+          <span>
+            <Typography sx={{ color: "primary.main" }}>
+              <strong>Information about your connected Account:</strong>
+            </Typography>
+
+            <Typography>
+              <strong>Username:</strong> {UserData.screen_name}
+            </Typography>
+            <Typography>
+              <strong>Name:</strong> {UserData.name}
+            </Typography>
+            <Typography>
+              <strong>Bio:</strong> {UserData.description}
+            </Typography>
+            <Typography>
+              <strong>Followers:</strong> {UserData.followers_count}
+            </Typography>
+            <Typography>
+              <strong>Following:</strong> {UserData.friends_count}
+            </Typography>
+            <Typography>
+              <strong>Tweets:</strong> {UserData.statuses_count}
+            </Typography>
+          </span>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            You must connect your Twitter Account before you can use it.
+          </Typography>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
@@ -134,7 +183,11 @@ export default function AddAccountCardTwitter() {
           aria-expanded={regExpanded}
           aria-label="register"
         >
-          {regExpanded ? <HowToReg /> : <PersonAdd />}
+          {UserData.screen_name ? (
+            <HowToReg sx={{ color: "primary.main" }} />
+          ) : (
+            <PersonAdd />
+          )}
         </IconButton>
         <IconButton
           expand={expanded}
@@ -172,13 +225,34 @@ export default function AddAccountCardTwitter() {
           }}
         >
           <Typography paragraph>Twitter API Connection</Typography>
-          <LoadingButton
-            variant="contained"
-            loading={loading}
-            onClick={handleConnect}
-          >
-            Connect to Twitter
-          </LoadingButton>
+          {UserData.screen_name ? (
+            <span style={{ display: "flex", flexDirection: "column" }}>
+              <LoadingButton
+                variant="contained"
+                loading={loading}
+                onClick={handleConnect}
+              >
+                Change Connected Twitter Account
+              </LoadingButton>
+              <divider />
+              <LoadingButton
+                variant="contained"
+                loading={loading}
+                onClick={handleDisconnect}
+                sx={{ bgcolor: red[500], mt: 1 }}
+              >
+                Remove Connected Twitter Account
+              </LoadingButton>
+            </span>
+          ) : (
+            <LoadingButton
+              variant="contained"
+              loading={loading}
+              onClick={handleConnect}
+            >
+              Connect to Twitter
+            </LoadingButton>
+          )}
         </CardContent>
       </Collapse>
       {/* Alert when the connection with LinkedIn went wrong */}
@@ -188,7 +262,6 @@ export default function AddAccountCardTwitter() {
           Something went wrong! Please try again.
         </Alert>
       ) : null}
-      {/* Alert when the connection with Twitter was successfully */}
       {window.location.href.includes("/accounts/twitter/?oauth_token") ? (
         <LoadingButton
           variant="contained"
@@ -199,10 +272,18 @@ export default function AddAccountCardTwitter() {
           Save Twitter Token
         </LoadingButton>
       ) : null}
+      {/* Alert when the connection with Twitter was successfully */}
       {window.location.href.includes("/accounts/twitter/success") ? (
         <Alert severity="success">
           <AlertTitle>Success</AlertTitle>
           Your Twitter account was successfully connected.
+        </Alert>
+      ) : null}
+      {/* Alert when the disconnection with Twitter was successfully */}
+      {window.location.href.includes("/accounts/twitter/disconnectsuccess") ? (
+        <Alert severity="success">
+          <AlertTitle>Success</AlertTitle>
+          Your Twitter account was successfully disconnected.
         </Alert>
       ) : null}
     </Card>
