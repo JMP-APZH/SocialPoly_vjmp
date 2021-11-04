@@ -204,3 +204,36 @@ class VerifyToken(APIView):
             return Response(serializer.validated_data)
         except tweepy.TweepyException:
             return Response({'message': 'Error! Failed to get request token.'})
+
+
+class ShowTweetDetails(APIView):
+    def get(self, request):
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
+        api = tweepy.API(auth)
+        api.verify_credentials()
+        try:
+            cursor = tweepy.Cursor(api.user_timeline, tweet_mode="extended").items()
+
+            tweets = []
+            for tweet in cursor:
+                json_str = json.dumps(tweet._json)
+                parsed = json.loads(json_str)
+                tweets.append(parsed)
+
+            reduced_tweets = []
+            for elem in tweets:
+                extract = {
+                    'content': elem['full_text'],
+                    'created_at': elem['created_at'],
+                    'tweet_id': elem['id'],
+                    'length': elem['display_text_range'][1],
+                    'retweet_count': elem['retweet_count'],
+                    'likes': elem['favorite_count']
+                }
+                reduced_tweets.append(extract)
+            return Response(reduced_tweets)
+        except:
+            return Response({'message': 'Error during auth'})
