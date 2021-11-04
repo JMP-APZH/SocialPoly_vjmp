@@ -147,7 +147,7 @@ class GetToken(APIView):
 
 class VerifyToken(APIView):
 
-    def patch(self, request):
+    def post(self, request):
 
         user = User.objects.get(id=request.user.id)
         verifier = request.data['oauth_verifier']
