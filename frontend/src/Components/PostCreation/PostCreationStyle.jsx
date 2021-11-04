@@ -231,7 +231,7 @@ export const PostErrorWrapper = styled.div`
     z-index: 9000;
     .popUpWrapper {
         margin: auto;
-        background-color: white;
+        background-color: ${(props) => props.theme.palette.mode === 'dark' ? '#313131' : 'white'};
         padding: 30px;
         border: ${global.colorMain} 2px solid;
         box-shadow: 0px 0px 10px ${global.colorMain};

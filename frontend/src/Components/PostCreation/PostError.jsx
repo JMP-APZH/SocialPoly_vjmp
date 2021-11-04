@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material/styles'
 import React from 'react'
 import { PostErrorWrapper } from './PostCreationStyle'
 
@@ -11,6 +12,11 @@ const displayMessage = (type) => {
         <div className='messageWrapper'>
             <h2>Success!</h2>
             <p>Your post has been scheduled!</p>
+        </div>
+    )} else if (type === 'title') {return (
+        <div className='messageWrapper'>
+            <h3>Error!</h3>
+            <p>You need to add a draft title!</p>
         </div>
     )} else if (type === 'time') {return (
         <div className='messageWrapper'>
@@ -36,8 +42,9 @@ const displayMessage = (type) => {
 }
 
 export default function PostError(props) {
+    const theme = useTheme()
     return (
-        <PostErrorWrapper >
+        <PostErrorWrapper theme={theme} >
             <div className='popUpBackground' onClick={() => props.closeErrors()}>
                 <div className='popUpWrapper'>
                     {displayMessage(props.type)}

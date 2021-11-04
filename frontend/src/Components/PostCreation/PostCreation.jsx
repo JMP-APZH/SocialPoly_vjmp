@@ -36,6 +36,7 @@ export default function PostCreation() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
+  const [errorTitle, setErrorTitle] = useState(false)
 
   const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
@@ -46,6 +47,7 @@ export default function PostCreation() {
   const [draftTitle, setDraftTitle] = useState("");
   const [schedualPost, setSchedualPost] = useState(false);
   const [schedualTime, setSchedualTime] = useState("");
+  const [link, setLink] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
     accept:
@@ -81,7 +83,6 @@ export default function PostCreation() {
   const postTwitter = async () => {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    // const body = { title: draftTitle, content: postText };
     const body = new FormData();
     body.append("title", draftTitle);
     body.append("content", postText);
@@ -109,9 +110,52 @@ export default function PostCreation() {
         },
       })
       .catch(function (error) {
-        //   console.log(error.response)
         if (error.response) {return error.response} else {return {status: 413}}
       });
+    if (response.status >= 200 && response.status < 300) {
+      setSuccessAlert(true);
+    } else if (response.status === 413) {
+      setErrorSize(true);
+    } else {
+      setErrorAlert(true);
+    }
+  };
+
+  const postLinkedIn = async () => {
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = new FormData();
+    // body.append("title", draftTitle);
+    body.append("content", postText);
+    body.append('link', link)
+    if (schedualPost) {
+      if (schedualTime) {
+        let timeString = schedualTime;
+        timeString = timeString.replace("T", " ");
+        timeString += ":00";
+        body.append("post_date_time", timeString);
+      } else {
+        setErrorTime(true);
+        return null;
+      }
+    } else {
+      body.append("post_date_time", "");
+    } 
+    if (file) {
+      body.append("image", file);
+    }
+
+    const response = await axios
+      .post(`https://socialpoly.ch/backend/api/linkedin/posts/`, body, config, {
+        validateStatus: (status) => {
+          return true; // Always give return status
+        },
+      })
+      .catch(function (error) {
+          console.log(error.response)
+        if (error.response) {return error.response} else {return {status: 413}}
+      });
+    console.log(response)
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
     } else if (response.status === 413) {
@@ -132,9 +176,11 @@ export default function PostCreation() {
       setErrorPlatform(true);
     } else if (!postText.replace(/\s/g, "")) {
       setErrorContent(true);
+    } else if (!draftTitle.replace(/\s/g, "")) {
+      setErrorTitle(true);
     } else {
       statusTwitter && (await postTwitter());
-      statusLinkedIn && console.log("linked in selected, add function here");
+      statusLinkedIn && (await postLinkedIn());
     }
   };
 
@@ -145,10 +191,12 @@ export default function PostCreation() {
     setErrorAlert(false);
     setErrorSize(false);
     setErrorContent(false);
+    setErrorTitle(false)
   };
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
+      {errorTitle && <PostError closeErrors={closeErrors} type='title' /> }
       {errorSize && <PostError closeErrors={closeErrors} type="size" />}
       {successAlert && <PostError closeErrors={closeErrors} type="success" />}
       {errorTime && <PostError closeErrors={closeErrors} type="time" />}
@@ -202,6 +250,7 @@ export default function PostCreation() {
             onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
+          {statusLinkedIn && <TextField id="outlined-basic" label="Link" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
           <span>{280 - postText.length} characters left</span>
         </div>
 

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import * as global from "../../globalStyle";
 
 export const LinkedInPreviewWrapper = styled.div`
     width: calc(90% - 10px);
