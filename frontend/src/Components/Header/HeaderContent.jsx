@@ -49,6 +49,10 @@ export default function HeaderContent(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const UserAvatar = UserData.avatar.replace(
+    "http://backend:8000",
+    "https://socialpoly.ch"
+  );
   return (
     <div>
       <IconButton color="inherit" onClick={props.toggleDarkMode}>
@@ -58,12 +62,9 @@ export default function HeaderContent(props) {
           <Brightness4 className="Icon" />
         )}
       </IconButton>
-      {/* <IconButton>
-        <Avatar alt={UserData.first_name} src={UserData.avatar} />
-      </IconButton> */}
       <Tooltip title="Account settings">
         <IconButton onClick={handleClick}>
-          <Avatar src={UserData.avatar}></Avatar>
+          <Avatar src={UserAvatar}></Avatar>
         </IconButton>
       </Tooltip>
       <Menu
