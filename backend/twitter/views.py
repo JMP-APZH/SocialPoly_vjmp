@@ -140,14 +140,14 @@ class GetToken(APIView):
                                    os.environ.get('TWITTER_AUTH_CALLBACK_URL'))
         try:
             redirect_url = auth.get_authorization_url()
-            return Response({'message': redirect_url})
+            return Response({'url': redirect_url})
         except tweepy.TweepyException:
             return Response({'message': 'Error! Failed to get request token.'})
 
 
 class VerifyToken(APIView):
 
-    def get(self, request):
+    def patch(self, request):
 
         user = User.objects.get(id=request.user.id)
         verifier = request.data['oauth_verifier']
