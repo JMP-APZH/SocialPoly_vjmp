@@ -6,6 +6,7 @@ from user.models import User
 #     name = model.verbose_name_plural.replace(' ', '_')
 #     return f'{name}/images/{filename}'
 
+
 class Tweet(models.Model):
     title = models.CharField(max_length=255, blank=True)
     content = models.TextField()
@@ -14,6 +15,13 @@ class Tweet(models.Model):
     updated = models.DateTimeField(auto_now=True)
     send_time = models.CharField(max_length=250, blank=True)
     images = models.ImageField(blank=True)
+
+    class Meta:
+        verbose_name_plural = "Tweets"
+
+    def __str__(self):
+        return f'Id {self.id} -- ' \
+               f'{self.title}'
 
 
 class Image(models.Model):
