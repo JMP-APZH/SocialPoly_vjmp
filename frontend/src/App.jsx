@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AppMain } from "./AppStyle";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import TestPage from "./Pages/TestPage/TestPage";
 import Calendar from "./Pages/Calendar/Calendar";
 import Accounts from "./Pages/Accounts/Accounts";
 import GridDND from "./Components/GridDND/GridDND";
@@ -14,11 +13,13 @@ import { GlobalStyle } from "./globalStyle";
 import Auth from "./Pages/Auth/Auth";
 import Posts from "./Pages/Posts/Posts";
 import LandingPage from "./Pages/LandingPage/LandingPage";
+import Settings from "./Pages/Settings/Settings";
 import NotFound404 from "./Pages/NotFound404/NotFound404";
 import axios from "axios";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [UserData, setUserData] = useState(false);
 
   const UserSystemTheme = window.matchMedia(
     "(prefers-color-scheme: dark)"
@@ -59,6 +60,7 @@ function App() {
       );
       // console.log(response)
       if (response.status === 200) {
+        setUserData(response.data);
         setIsLoggedIn(true);
       }
     }
@@ -90,7 +92,7 @@ function App() {
               }}
             >
               <Switch>
-                <Route path="/" component={TestPage} exact />
+                <Route path="/" component={GridDND} exact />
                 <Route path="/auth" component={Auth} exact />
                 <Route path="/dashboard" component={GridDND} exact />
                 <Route path="/accounts" component={Accounts} />
@@ -98,6 +100,13 @@ function App() {
                 <Route path="/calendar" component={Calendar} exact />
                 <Route path="/reports" component={GridDND} exact />
                 <Route path="/messages" component={GridDND} exact />
+                <Route
+                  path="/settings"
+                  render={(props) => (
+                    <Settings {...props} UserData={UserData} />
+                  )}
+                  exact
+                />
                 <Route component={NotFound404} />
               </Switch>
             </Box>
