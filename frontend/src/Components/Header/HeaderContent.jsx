@@ -30,13 +30,15 @@ export default function HeaderContent(props) {
         config
       );
       if (response.data) {
+          console.log(response.data)
         setUserData(response.data);
+        if (response.data.avatar) {
         setUserAvatar(
           response.data.avatar.replace(
             "http://backend:8000",
             "https://socialpoly.ch"
           )
-        );
+        )};
       }
     }
     getUserData();

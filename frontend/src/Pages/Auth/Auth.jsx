@@ -41,7 +41,7 @@ export default function Auth() {
   const submitRegister3 = async (e) => {
     e.preventDefault();
     await axios.post(
-      `https://socialpoly.ch/backend/api/registration/validate/`,
+      `https://socialpoly.ch/backend/api/registration/validation/`,
       {
         email,
         code,
