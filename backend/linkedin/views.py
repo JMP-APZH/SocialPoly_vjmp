@@ -124,26 +124,31 @@ class LinkedinPost(GenericAPIView):
         }
 
         scheduler = BackgroundScheduler()
-        scheduler.start()
+
         if 'post_date_time' in request.data.keys() and has_media:
-            trigger = request.data['post_date_time']
-            job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_with_image)
-            scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, replace_existing=True)
-        elif 'post_date_time' in request.data.keys() and not has_media:
-            trigger = request.data['post_date_time']
+            def job(request_url, request_headers, request_json):
+                print("inside job")
+                requests.post(request_url, headers=request_headers, json=request_json)
 
-            def job(func, head, jason):
-                requests.post(func, headers=head, json=jason)
-
-            job(linkedin_post_url, linkedin_headers, post_data)
-            print('created')
-            scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, args=[linkedin_post_url, linkedin_headers, post_data],
+            trigger = request.data['post_date_time']
+            scheduler = BackgroundScheduler()
+            scheduler.add_job(job, 'date', run_date=trigger, id="tweet",
+                              args=[linkedin_post_url, linkedin_headers, post_data_with_image],
                               replace_existing=True)
-            scheduler.print_jobs()
+            scheduler.start()
+        elif 'post_date_time' in request.data.keys() and not has_media:
+            def job(request_url,request_headers,request_json):
+                print("inside job")
+                requests.post(request_url, headers=request_headers, json=request_json)
+
+            trigger = request.data['post_date_time']
+            scheduler = BackgroundScheduler()
+            scheduler.add_job(job, 'date', run_date=trigger, id="tweet", args=[linkedin_post_url,linkedin_headers,post_data],
+                              replace_existing=True)
+            scheduler.start()
         else:
             post_data_for_request = post_data_with_image if has_media else post_data
             requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
-
         return Response({"message": "post successful."})
 
         # except Exception as e:
