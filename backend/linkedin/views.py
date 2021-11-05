@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 from .linkedin_helpers import *
 from .models import LinkedInPost
 from .serialzers import LinkedInPostSerializer
+# from apscheduler.schedulers.background import BackgroundScheduler
 
 
 User = get_user_model()
@@ -122,8 +123,21 @@ class LinkedinPost(GenericAPIView):
                 }
             }
 
+            # scheduler = BackgroundScheduler()
+            # content = request.data['content']
+            #
+            # if 'post_date_time' in request.data.keys() and has_media:
+            #     trigger = request.data['post_date_time']
+            #     job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_with_image)
+            #     scheduler.add_job(job, 'date', run_date=trigger, id=content, replace_existing=True)
+            #     scheduler.start()
+            # elif 'post_date_time' in request.data.keys() and not has_media:
+            #     trigger = request.data['post_date_time']
+            #     job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data)
+            #     scheduler.add_job(job, 'date', run_date=trigger, id=content, replace_existing=True)
+            #     scheduler.start()
+            # else:
             post_data_for_request = post_data_with_image if has_media else post_data
-
             requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
 
             return Response({"message": "post successful."})
