@@ -77,7 +77,7 @@ class LinkedinPost(GenericAPIView):
         #print("this is the value of has_media: ",has_media)
 
         linkedin_image_registration_url = os.environ.get('LINKEDIN_IMAGE_REGISTRATION_URL')
-        image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers)
+        image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers) if has_media else ""
 
         post_data = {
             "author": linkedin_author,
@@ -124,33 +124,32 @@ class LinkedinPost(GenericAPIView):
         }
 
         scheduler = BackgroundScheduler()
-
+        scheduler.start()
         if 'post_date_time' in request.data.keys() and has_media:
             trigger = request.data['post_date_time']
             job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_with_image)
             scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, replace_existing=True)
-            scheduler.start()
         elif 'post_date_time' in request.data.keys() and not has_media:
             trigger = request.data['post_date_time']
 
             def job(func, head, jason):
                 requests.post(func, headers=head, json=jason)
 
+            job(linkedin_post_url, linkedin_headers, post_data)
             print('created')
-
             scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, args=[linkedin_post_url, linkedin_headers, post_data],
                               replace_existing=True)
-            scheduler.start()
             scheduler.print_jobs()
         else:
             post_data_for_request = post_data_with_image if has_media else post_data
             requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
 
-        # return Response({"message": "post successful."})
+        return Response({"message": "post successful."})
 
         # except Exception as e:
         #     print(e)
         #     return Response({"error": str(e)})
+
 
 
 class ListLinkedinPosts(ListAPIView):

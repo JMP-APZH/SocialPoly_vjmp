@@ -26,6 +26,7 @@ class CreateDraft(GenericAPIView):
         return Response(serializer.data)
 
 
+
 class SearchTweetView(ListCreateAPIView):
     serializer_class = DraftSerializer
     queryset = Draft.objects.all()
