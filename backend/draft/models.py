@@ -9,7 +9,7 @@ class Draft(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True)
-    date_time = models.CharField(max_length=255, blank=True, null=True)
+    send_time = models.CharField(max_length=255, blank=True, null=True)
     is_twitter = models.BooleanField(null=True)
     is_linkedin = models.BooleanField(null=True)
     is_facebook = models.BooleanField(null=True)
