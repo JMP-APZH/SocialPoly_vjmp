@@ -226,24 +226,14 @@ export default function AddAccountCardTwitter() {
         >
           <Typography paragraph>Twitter API Connection</Typography>
           {UserData.screen_name ? (
-            <span style={{ display: "flex", flexDirection: "column" }}>
-              <LoadingButton
-                variant="contained"
-                loading={loading}
-                onClick={handleConnect}
-              >
-                Change Connected Twitter Account
-              </LoadingButton>
-              <divider />
-              <LoadingButton
-                variant="contained"
-                loading={loading}
-                onClick={handleDisconnect}
-                sx={{ bgcolor: red[500], mt: 1 }}
-              >
-                Remove Connected Twitter Account
-              </LoadingButton>
-            </span>
+            <LoadingButton
+              variant="contained"
+              loading={loading}
+              onClick={handleDisconnect}
+              sx={{ bgcolor: red[500], mt: 1 }}
+            >
+              Remove Connected Twitter Account
+            </LoadingButton>
           ) : (
             <LoadingButton
               variant="contained"
