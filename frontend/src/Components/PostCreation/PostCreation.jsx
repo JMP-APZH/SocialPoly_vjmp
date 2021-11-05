@@ -148,7 +148,7 @@ export default function PostCreation() {
     const response = await axios
       .post(`https://socialpoly.ch/backend/api/linkedin/posts/`, body, config, {
         validateStatus: (status) => {
-          return true; // Always give return status
+          return true; // Always give return status 
         },
       })
       .catch(function (error) {
