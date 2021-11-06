@@ -99,7 +99,8 @@ class ShowMe(APIView):
             "friends_count": user['friends_count'],
             "statuses_count": user['statuses_count'],
             "profile_image_url_https": user['profile_image_url_https'],
-            "profile_background_image_url_https": user['profile_background_image_url_https']
+            "profile_background_image_url_https": user['profile_background_image_url_https'],
+            # "profile_banner_url": user['profile_banner_url']
         }
         try:
             return Response(user_infos)
@@ -120,11 +121,15 @@ class SearchTweetView(ListCreateAPIView):
 
 class GetScheduledTweets(ListAPIView):
     serializer_class = TwitterSerializer
-    queryset = Tweet.objects.all()
+    queryset = Tweet.objects.all().filter(send_time__contains=" ")
 
-    def get_queryset(self):
-        scheduled_tweets = Tweet.objects.filter('send_time')
-        return scheduled_tweets
+    def get(self, request, *args, **kwargs):
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GetFollowers(APIView):
