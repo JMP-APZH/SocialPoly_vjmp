@@ -8,12 +8,22 @@ import { Grid } from "@mui/material";
 
 export default function Accounts() {
   return (
-    <Grid container direction="row" justifyContent="space-around">
-      <AddAccountCardTwitter />
-      <AddAccountCardFacebook />
-      <AddAccountCardInstagram />
-      <AddAccountCardLinkedIn />
-      <AddAccountCardTikTok />
+    <Grid container direction="row" justifyContent="center">
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+        <AddAccountCardTwitter />
+      </Grid>
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+        <AddAccountCardLinkedIn />
+      </Grid>
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+        <AddAccountCardFacebook />
+      </Grid>
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+        <AddAccountCardInstagram />
+      </Grid>
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+        <AddAccountCardTikTok />
+      </Grid>
     </Grid>
   );
 }

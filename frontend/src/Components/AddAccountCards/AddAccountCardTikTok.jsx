@@ -27,7 +27,16 @@ export default function AddAccountCardTikTok() {
   };
 
   return (
-    <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
+    <Card
+      sx={{
+        margin: "5%",
+        height: "90%",
+        boxShadow: "-1px -2px 6px 0px",
+        "&:hover": {
+          boxShadow: "0px 0px 20px 0px",
+        },
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -43,7 +52,7 @@ export default function AddAccountCardTikTok() {
         subheader="No Account Connected"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2">
           You must connect your TikTok Account before you can use it.
         </Typography>
       </CardContent>

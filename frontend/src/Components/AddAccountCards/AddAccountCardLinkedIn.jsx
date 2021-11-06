@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import {
+  Button,
   Card,
   CardHeader,
   CardContent,
@@ -11,7 +12,12 @@ import {
   Typography,
   Alert,
   AlertTitle,
-  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
@@ -24,10 +30,13 @@ import {
 } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function AddAccountCardLinkedIn() {
   const [loading, setLoading] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [regExpanded, setRegExpanded] = React.useState(false);
   const [UserData, setUserData] = React.useState(false);
 
   useEffect(() => {
@@ -35,11 +44,11 @@ export default function AddAccountCardLinkedIn() {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const response = await axios.get(
-        `https://socialpoly.ch/backend/api/users/me/`,
+        `https://socialpoly.ch/backend/api/users/me/linkedin/`,
         config
       );
       if (response.data) {
-        setUserData(response.data);
+        setUserData(response.data.results);
       }
     }
     getUserData();
@@ -47,10 +56,6 @@ export default function AddAccountCardLinkedIn() {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-  };
-
-  const handleRegExpandClick = () => {
-    setRegExpanded(!regExpanded);
   };
 
   const ConnectToLinkedin = async () => {
@@ -88,13 +93,51 @@ export default function AddAccountCardLinkedIn() {
     await ConnectToLinkedin();
   };
 
+  const DisconnectFromLinkedIn = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = {
+      linked_in_auth_code: null,
+      linked_in_access_token: null,
+    };
+    await axios.patch(
+      "https://socialpoly.ch/backend/api/users/me/",
+      body,
+      config
+    );
+    await window.location.assign("/accounts/linkedin/disconnectsuccess");
+  };
+
+  const handleDisconnect = async () => {
+    setLoading(true);
+    await DisconnectFromLinkedIn();
+  };
+
+  const handleCloseDialog = () => {
+    window.location.assign("/accounts/linkedin/?error");
+  };
+
   return (
-    <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
+    <Card
+      sx={{
+        margin: "5%",
+        height: "90%",
+        boxShadow: "-1px -2px 6px 0px",
+        "&:hover": {
+          boxShadow: "0px 0px 20px 0px",
+        },
+      }}
+    >
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} alt="Avatar" src={UserData.avatar}>
-            N/A
-          </Avatar>
+          UserData ? (
+            <Avatar sx={{ bgcolor: "#0866C2" }} alt="Avatar"></Avatar>
+          ) : (
+            <Avatar sx={{ bgcolor: red[500] }} alt="Avatar">
+              N/A
+            </Avatar>
+          )
         }
         action={
           <IconButton aria-label="settings">
@@ -102,13 +145,33 @@ export default function AddAccountCardLinkedIn() {
           </IconButton>
         }
         title="LinkedIn"
-        subheader="No Account Connected"
+        subheader={
+          UserData
+            ? UserData.first_name + " " + UserData.last_name
+            : "No Account Connected"
+        }
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          You must connect your LinkedIn Account before you can use it.
-          <strong>TEST {UserData.first_name}</strong>
-        </Typography>
+      <CardContent
+        sx={{ display: "flex", justifyContent: "center", textAlign: "center" }}
+      >
+        {UserData ? (
+          <span>
+            <Typography sx={{ color: "primary.main" }}>
+              <strong>Information about your connected Account:</strong>
+            </Typography>
+
+            <Typography>
+              <strong>Firstname:</strong> {UserData.first_name}
+            </Typography>
+            <Typography>
+              <strong>Lastname:</strong> {UserData.last_name}
+            </Typography>
+          </span>
+        ) : (
+          <Typography variant="body2">
+            You must connect your LinkedIn Account before you can use it.
+          </Typography>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
@@ -119,13 +182,12 @@ export default function AddAccountCardLinkedIn() {
         >
           <LinkedIn />
         </IconButton>
-        <IconButton
-          expand={regExpanded}
-          onClick={handleRegExpandClick}
-          aria-expanded={regExpanded}
-          aria-label="register"
-        >
-          {regExpanded ? <HowToReg /> : <PersonAdd />}
+        <IconButton aria-label="register">
+          {UserData ? (
+            <HowToReg sx={{ color: "primary.main" }} />
+          ) : (
+            <PersonAdd />
+          )}
         </IconButton>
         <IconButton
           expand={expanded}
@@ -138,8 +200,17 @@ export default function AddAccountCardLinkedIn() {
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>How to connect</Typography>
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <Typography paragraph sx={{ color: "primary.main" }}>
+            <strong>How to connect</strong>
+          </Typography>
           <Typography paragraph>
             1. Click on the Connect to LinkedIn Button
           </Typography>
@@ -154,24 +225,35 @@ export default function AddAccountCardLinkedIn() {
           <Typography paragraph>6. Your LinkedIn is now Connected</Typography>
         </CardContent>
       </Collapse>
-      <Collapse in={regExpanded} timeout="auto" unmountOnExit>
-        <CardContent
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography paragraph>LinkedIn API Connection</Typography>
+      <CardActions
+        sx={{ p: 0 }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography paragraph>LinkedIn API Connection</Typography>
+        {UserData ? (
+          <LoadingButton
+            variant="contained"
+            loading={loading}
+            onClick={handleDisconnect}
+            sx={{ bgcolor: red[500], mb: 1 }}
+          >
+            Remove Connected LinkedIn Account
+          </LoadingButton>
+        ) : (
           <LoadingButton
             variant="contained"
             loading={loading}
             onClick={handleConnect}
+            sx={{ mb: 1 }}
           >
             Connect to LinkedIn
           </LoadingButton>
-        </CardContent>
-      </Collapse>
+        )}
+      </CardActions>
       {/* Alert when the connection with LinkedIn went wrong */}
       {window.location.href.includes("/accounts/linkedin/?error") ? (
         <Alert severity="error">
@@ -181,18 +263,37 @@ export default function AddAccountCardLinkedIn() {
       ) : null}
       {/* Alert when the connection with LinkedIn was successfully */}
       {window.location.href.includes("/accounts/linkedin/?code") ? (
-        <Button
-          variant="contained"
-          onClick={GetLinkedInToken}
-          style={{ width: "100%" }}
+        <Dialog
+          open="true"
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseDialog}
         >
-          Save LinkedIn Token
-        </Button>
+          <DialogTitle>
+            {"Do you want to Connect your LinkedIn Account?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Note: You can always remove your Credentials or Change to another
+              Account.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Disagree</Button>
+            <Button onClick={GetLinkedInToken}>Connect LinkedIn</Button>
+          </DialogActions>
+        </Dialog>
       ) : null}
       {window.location.href.includes("/accounts/linkedin/success") ? (
         <Alert severity="success">
           <AlertTitle>Success</AlertTitle>
           Your LinkedIn account was successfully connected.
+        </Alert>
+      ) : null}
+      {window.location.href.includes("/accounts/linkedin/disconnectsuccess") ? (
+        <Alert severity="success">
+          <AlertTitle>Success</AlertTitle>
+          Your LinkedIn account was successfully disconnected.
         </Alert>
       ) : null}
     </Card>
