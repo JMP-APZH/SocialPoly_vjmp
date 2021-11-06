@@ -162,3 +162,16 @@ class ListLinkedinPosts(ListAPIView):
             queryset = self.get_queryset().filter(author=request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class GetScheduledPosts(ListAPIView):
+    serializer_class = LinkedInPostSerializer
+    queryset = LinkedInPost.objects.all().filter(post_date_time__contains=" ")
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

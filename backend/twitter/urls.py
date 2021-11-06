@@ -1,7 +1,7 @@
 from django.urls import path
 
 from twitter.views import GetFollowers, GetAllTweets, GetMyTweets, CreateTweetOnTime,\
-    SearchTweetView, GetToken, VerifyToken, ShowTweetDetails
+    SearchTweetView, GetToken, VerifyToken, ShowTweetDetails, GetScheduledTweets, ShowMe
 
 urlpatterns = [
     path('followers/', GetFollowers.as_view()),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('search/', SearchTweetView.as_view()),
     path('auth/', GetToken.as_view()),
     path('verify/', VerifyToken.as_view()),
-    path('analitycs/', ShowTweetDetails.as_view())
+    path('analitycs/', ShowTweetDetails.as_view()),
+    path('scheduled/', GetScheduledTweets.as_view())
 ]
