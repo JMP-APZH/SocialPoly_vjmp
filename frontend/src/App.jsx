@@ -20,6 +20,7 @@ import axios from "axios";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [UserData, setUserData] = useState(false);
+  const [UserAvatar, setUserAvatar] = useState(false);
 
   const UserSystemTheme = window.matchMedia(
     "(prefers-color-scheme: dark)"
@@ -63,6 +64,14 @@ function App() {
         setUserData(response.data);
         setIsLoggedIn(true);
       }
+      if (response.data.avatar) {
+        setUserAvatar(
+          response.data.avatar.replace(
+            "http://backend:8000",
+            "https://socialpoly.ch"
+          )
+        );
+      }
     }
     !isLoggedIn && checkLogin();
   }, [isLoggedIn]);
@@ -103,7 +112,11 @@ function App() {
                 <Route
                   path="/settings"
                   render={(props) => (
-                    <Settings {...props} UserData={UserData} />
+                    <Settings
+                      {...props}
+                      UserData={UserData}
+                      UserAvatar={UserAvatar}
+                    />
                   )}
                   exact
                 />
