@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import {
+  Button,
   Card,
   CardHeader,
   CardContent,
@@ -11,6 +12,12 @@ import {
   Typography,
   Alert,
   AlertTitle,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
@@ -23,10 +30,13 @@ import {
 } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function AddAccountCardTwitter() {
   const [loading, setLoading] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [regExpanded, setRegExpanded] = React.useState(false);
   const [UserData, setUserData] = React.useState(false);
 
   useEffect(() => {
@@ -46,10 +56,6 @@ export default function AddAccountCardTwitter() {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-  };
-
-  const handleRegExpandClick = () => {
-    setRegExpanded(!regExpanded);
   };
 
   const ConnectToTwitter = async () => {
@@ -114,8 +120,21 @@ export default function AddAccountCardTwitter() {
     await DisconnectFromTwitter();
   };
 
+  const handleCloseDialog = () => {
+    window.location.assign("/accounts/twitter/?denied");
+  };
+
   return (
-    <Card sx={{ maxWidth: 400, maxHeight: 800, margin: "5px" }}>
+    <Card
+      sx={{
+        m: "5%",
+        height: "90%",
+        boxShadow: "-1px -2px 6px 0px",
+        "&:hover": {
+          boxShadow: "0px 0px 20px 0px",
+        },
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar
@@ -132,12 +151,12 @@ export default function AddAccountCardTwitter() {
           </IconButton>
         }
         title="Twitter"
-        subheader={
-          UserData.screen_name ? UserData.screen_name : "No Account Connected"
-        }
+        subheader={UserData ? UserData.screen_name : "No Account Connected"}
       />
-      <CardContent>
-        {UserData.screen_name ? (
+      <CardContent
+        sx={{ display: "flex", justifyContent: "center", textAlign: "center" }}
+      >
+        {UserData ? (
           <span>
             <Typography sx={{ color: "primary.main" }}>
               <strong>Information about your connected Account:</strong>
@@ -149,7 +168,7 @@ export default function AddAccountCardTwitter() {
             <Typography>
               <strong>Name:</strong> {UserData.name}
             </Typography>
-            <Typography>
+            {/* <Typography>
               <strong>Bio:</strong> {UserData.description}
             </Typography>
             <Typography>
@@ -160,10 +179,10 @@ export default function AddAccountCardTwitter() {
             </Typography>
             <Typography>
               <strong>Tweets:</strong> {UserData.statuses_count}
-            </Typography>
+            </Typography> */}
           </span>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2">
             You must connect your Twitter Account before you can use it.
           </Typography>
         )}
@@ -177,13 +196,8 @@ export default function AddAccountCardTwitter() {
         >
           <Twitter />
         </IconButton>
-        <IconButton
-          expand={regExpanded}
-          onClick={handleRegExpandClick}
-          aria-expanded={regExpanded}
-          aria-label="register"
-        >
-          {UserData.screen_name ? (
+        <IconButton aria-label="register">
+          {UserData ? (
             <HowToReg sx={{ color: "primary.main" }} />
           ) : (
             <PersonAdd />
@@ -200,8 +214,17 @@ export default function AddAccountCardTwitter() {
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>How to connect</Typography>
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <Typography paragraph sx={{ color: "primary.main" }}>
+            <strong>How to connect</strong>
+          </Typography>
           <Typography paragraph>
             1. Click on the Connect to Twitter Button
           </Typography>
@@ -216,35 +239,35 @@ export default function AddAccountCardTwitter() {
           <Typography paragraph>6. Your Twitter is now Connected</Typography>
         </CardContent>
       </Collapse>
-      <Collapse in={regExpanded} timeout="auto" unmountOnExit>
-        <CardContent
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography paragraph>Twitter API Connection</Typography>
-          {UserData.screen_name ? (
-            <LoadingButton
-              variant="contained"
-              loading={loading}
-              onClick={handleDisconnect}
-              sx={{ bgcolor: red[500], mt: 1 }}
-            >
-              Remove Connected Twitter Account
-            </LoadingButton>
-          ) : (
-            <LoadingButton
-              variant="contained"
-              loading={loading}
-              onClick={handleConnect}
-            >
-              Connect to Twitter
-            </LoadingButton>
-          )}
-        </CardContent>
-      </Collapse>
+      <CardActions
+        sx={{ p: 0 }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography paragraph>Twitter API Connection</Typography>
+        {UserData ? (
+          <LoadingButton
+            variant="contained"
+            loading={loading}
+            onClick={handleDisconnect}
+            sx={{ bgcolor: red[500], mb: 1 }}
+          >
+            Remove Connected Twitter Account
+          </LoadingButton>
+        ) : (
+          <LoadingButton
+            variant="contained"
+            loading={loading}
+            onClick={handleConnect}
+            sx={{ mb: 1 }}
+          >
+            Connect to Twitter
+          </LoadingButton>
+        )}
+      </CardActions>
       {/* Alert when the connection with LinkedIn went wrong */}
       {window.location.href.includes("/accounts/twitter/?denied") ? (
         <Alert severity="error">
@@ -253,14 +276,26 @@ export default function AddAccountCardTwitter() {
         </Alert>
       ) : null}
       {window.location.href.includes("/accounts/twitter/?oauth_token") ? (
-        <LoadingButton
-          variant="contained"
-          loading={loading}
-          onClick={GetTwitterToken}
-          style={{ width: "100%" }}
+        <Dialog
+          open="true"
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseDialog}
         >
-          Save Twitter Token
-        </LoadingButton>
+          <DialogTitle>
+            {"Do you want to Connect your Twitter Account?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Note: You can always remove your Credentials or Change to another
+              Account.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Disagree</Button>
+            <Button onClick={GetTwitterToken}>Connect Twitter</Button>
+          </DialogActions>
+        </Dialog>
       ) : null}
       {/* Alert when the connection with Twitter was successfully */}
       {window.location.href.includes("/accounts/twitter/success") ? (
