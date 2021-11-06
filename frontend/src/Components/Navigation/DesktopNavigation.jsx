@@ -8,6 +8,7 @@ import HeaderContent from "../Header/HeaderContent";
 import { useHistory } from "react-router";
 import DrawerContent from "../Drawer/DrawerContent";
 import { StyledBox } from "../Drawer/DrawerStyle";
+import ParrotFeather from "../../assets/images/ParrotFeather.jpg";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -52,7 +53,12 @@ export default function DesktopNavigation({
         </HeaderMain>
       </AppBar>
       <Offset />
-      <StyledBox sx={{ overflow: "auto", display: { xs: "none", sm: "flex" } }}>
+      <StyledBox
+        sx={{
+          overflow: "auto",
+          display: { xs: "none", sm: "flex" },
+        }}
+      >
         <Drawer
           variant="permanent"
           sx={{
@@ -62,6 +68,14 @@ export default function DesktopNavigation({
               width: drawerWidth,
               boxSizing: "border-box",
               overflow: "hidden",
+              backgroundImage: "url(" + ParrotFeather + ")",
+              backgroundSize: "cover",
+              boxShadow: "inset 0 0 0 1000px rgba(0,0,0,.5)",
+              border: "none",
+              color: "white",
+            },
+            [`& .Icon`]: {
+              color: "white",
             },
           }}
         >

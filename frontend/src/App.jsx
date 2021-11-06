@@ -28,7 +28,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(
     getFromLS("DarkMode") !== null ? getFromLS("DarkMode") : UserSystemTheme
   );
-  const [drawerWidth, setDrawerWidth] = useState(180);
+  const [drawerWidth, setDrawerWidth] = useState(220);
 
   const theme = createTheme({
     palette: {
@@ -42,10 +42,10 @@ function App() {
   };
 
   const toggleDrawer = () => {
-    if (drawerWidth === 180) {
+    if (drawerWidth === 220) {
       setDrawerWidth(60);
     } else {
-      setDrawerWidth(180);
+      setDrawerWidth(220);
     }
   };
   const DrawerWidthMargin = (drawerWidth + 20) / 8;
