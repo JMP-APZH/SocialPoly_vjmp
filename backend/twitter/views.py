@@ -1,7 +1,7 @@
 import os
 import tweepy
 from django.core.files.storage import FileSystemStorage
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from twitter.serializers import TwitterSerializer
@@ -10,7 +10,6 @@ from twitter.models import Tweet
 from django.contrib.auth import get_user_model
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
-from rest_framework.permissions import IsAuthenticated
 
 
 User = get_user_model()
