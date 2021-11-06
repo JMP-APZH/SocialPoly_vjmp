@@ -12,13 +12,9 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Visibility, VisibilityOff, Save } from "@mui/icons-material";
 
-export default function Settings({ UserData }) {
+export default function Settings({ UserData, UserAvatar }) {
   const [ShowPassword, setShowPassword] = useState(false);
   const [Disabled, setDisabled] = useState(false);
-  const UserAvatar = UserData.avatar.replace(
-    "http://backend:8000",
-    "https://socialpoly.ch"
-  );
 
   const [dragOver, setDragOver] = useState(false);
   const [file, setFile] = useState(null);
