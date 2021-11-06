@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from twitter.models import Tweet, Image
+from twitter.models import Tweet  # , Image
 
 admin.site.register(Tweet)
-admin.site.register(Image)
+# admin.site.register(Image)
