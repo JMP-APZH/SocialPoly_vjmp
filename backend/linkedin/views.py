@@ -123,7 +123,6 @@ class LinkedinPost(GenericAPIView):
             }
         }
 
-        scheduler = BackgroundScheduler()
 
         if 'post_date_time' in request.data.keys() and has_media:
             def job(request_url, request_headers, request_json):
