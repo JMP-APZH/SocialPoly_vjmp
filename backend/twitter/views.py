@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 User = get_user_model()
 
 
@@ -117,6 +118,15 @@ class SearchTweetView(ListCreateAPIView):
         return Tweet.objects.all()
 
 
+class GetScheduledTweets(ListAPIView):
+    serializer_class = TwitterSerializer
+    queryset = Tweet.objects.all()
+
+    def get_queryset(self):
+        scheduled_tweets = Tweet.objects.filter('send_time')
+        return scheduled_tweets
+
+
 class GetFollowers(APIView):
     def get(self, request):
         access_token = self.request.user.twitter_access_token
@@ -164,7 +174,10 @@ class GetAllTweets(ListAPIView):
     queryset = Tweet.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
