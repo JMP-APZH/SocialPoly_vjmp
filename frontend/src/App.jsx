@@ -31,9 +31,45 @@ function App() {
   );
   const [drawerWidth, setDrawerWidth] = useState(220);
 
+  const HandleThemeChange = (CustomUserTheme) => {
+    setCustomUserTheme(CustomUserTheme);
+    setToLS("Theme", CustomUserTheme);
+  };
+
+  const [CustomUserTheme, setCustomUserTheme] = useState(
+    getFromLS("Theme") !== null
+      ? getFromLS("Theme")
+      : {
+          PrimaryLightColor: "#1A76D2",
+          SecondaryLightColor: "#f44336",
+          BackgroundLightColor: "#ffffff",
+          PrimaryDarkColor: "#90caf9",
+          SecondaryDarkColor: "#ce93d8",
+          BackgroundDarkColor: "#121212",
+        }
+  );
+
   const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
+      primary: {
+        main: darkMode
+          ? CustomUserTheme.PrimaryDarkColor
+          : CustomUserTheme.PrimaryLightColor,
+      },
+      secondary: {
+        main: darkMode
+          ? CustomUserTheme.SecondaryDarkColor
+          : CustomUserTheme.SecondaryLightColor,
+      },
+      background: {
+        paper: darkMode
+          ? CustomUserTheme.BackgroundDarkColor
+          : CustomUserTheme.BackgroundLightColor,
+        default: darkMode
+          ? CustomUserTheme.BackgroundDarkColor
+          : CustomUserTheme.BackgroundLightColor,
+      },
     },
   });
 
@@ -116,6 +152,10 @@ function App() {
                       {...props}
                       UserData={UserData}
                       UserAvatar={UserAvatar}
+                      CustomUserTheme={CustomUserTheme}
+                      SaveCustomUserTheme={(CustomUserTheme) =>
+                        HandleThemeChange(CustomUserTheme)
+                      }
                     />
                   )}
                   exact
