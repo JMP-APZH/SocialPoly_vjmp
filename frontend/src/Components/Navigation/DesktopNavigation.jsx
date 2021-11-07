@@ -3,11 +3,12 @@ import { styled } from "@mui/material/styles";
 import { HeaderMain } from "../Header/HeaderStyle";
 import logoHead from "../../assets/images/ParrotHead.png";
 import { AppBar, IconButton, Drawer, Toolbar } from "@mui/material";
-import { Menu } from "@mui/icons-material";
+import { Menu, MenuOpen } from "@mui/icons-material";
 import HeaderContent from "../Header/HeaderContent";
 import { useHistory } from "react-router";
 import DrawerContent from "../Drawer/DrawerContent";
 import { StyledBox } from "../Drawer/DrawerStyle";
+import ParrotFeather from "../../assets/images/ParrotFeather2.jpg";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -35,7 +36,7 @@ export default function DesktopNavigation({
         <HeaderMain>
           <div className="TopLeft">
             <IconButton color="inherit" onClick={toggleDrawer}>
-              <Menu />
+              {drawerWidth > 60 ? <MenuOpen /> : <Menu />}
             </IconButton>
             <img
               src={logoHead}
@@ -43,6 +44,7 @@ export default function DesktopNavigation({
               alt="Logo"
               onClick={HomeHandler}
             />
+            <h1 onClick={HomeHandler}>Poly</h1>
           </div>
           <HeaderContent
             className="TopRight"
@@ -52,7 +54,12 @@ export default function DesktopNavigation({
         </HeaderMain>
       </AppBar>
       <Offset />
-      <StyledBox sx={{ overflow: "auto", display: { xs: "none", sm: "flex" } }}>
+      <StyledBox
+        sx={{
+          overflow: "auto",
+          display: { xs: "none", sm: "flex" },
+        }}
+      >
         <Drawer
           variant="permanent"
           sx={{
@@ -62,6 +69,15 @@ export default function DesktopNavigation({
               width: drawerWidth,
               boxSizing: "border-box",
               overflow: "hidden",
+              backgroundImage: "url(" + ParrotFeather + ")",
+              backgroundPosition: "bottom",
+              backgroundSize: "cover",
+              boxShadow: "inset 0 0 0 1000px rgba(0,0,0,.75)",
+              border: "none",
+              color: "#ffffff",
+            },
+            [`& .Icon`]: {
+              color: "#ffffff",
             },
           }}
         >

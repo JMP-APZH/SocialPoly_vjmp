@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 User = get_user_model()
 
 
@@ -98,7 +99,8 @@ class ShowMe(APIView):
             "friends_count": user['friends_count'],
             "statuses_count": user['statuses_count'],
             "profile_image_url_https": user['profile_image_url_https'],
-            "profile_background_image_url_https": user['profile_background_image_url_https']
+            "profile_background_image_url_https": user['profile_background_image_url_https'],
+            # "profile_banner_url": user['profile_banner_url']
         }
         try:
             return Response(user_infos)
@@ -115,6 +117,19 @@ class SearchTweetView(ListCreateAPIView):
         if search:
             return Tweet.objects.filter(content__contains=search)
         return Tweet.objects.all()
+
+
+class GetScheduledTweets(ListAPIView):
+    serializer_class = TwitterSerializer
+    queryset = Tweet.objects.all().filter(send_time__contains=" ")
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GetFollowers(APIView):
@@ -164,7 +179,10 @@ class GetAllTweets(ListAPIView):
     queryset = Tweet.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -204,3 +222,36 @@ class VerifyToken(APIView):
             return Response(serializer.validated_data)
         except tweepy.TweepyException:
             return Response({'message': 'Error! Failed to get request token.'})
+
+
+class ShowTweetDetails(APIView):
+    def get(self, request):
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
+        api = tweepy.API(auth)
+        api.verify_credentials()
+        try:
+            cursor = tweepy.Cursor(api.user_timeline, tweet_mode="extended").items()
+
+            tweets = []
+            for tweet in cursor:
+                json_str = json.dumps(tweet._json)
+                parsed = json.loads(json_str)
+                tweets.append(parsed)
+
+            reduced_tweets = []
+            for elem in tweets:
+                extract = {
+                    'content': elem['full_text'],
+                    'created_at': elem['created_at'],
+                    'tweet_id': elem['id'],
+                    'length': elem['display_text_range'][1],
+                    'retweet_count': elem['retweet_count'],
+                    'likes': elem['favorite_count']
+                }
+                reduced_tweets.append(extract)
+            return Response(reduced_tweets)
+        except:
+            return Response({'message': 'Error during auth'})
