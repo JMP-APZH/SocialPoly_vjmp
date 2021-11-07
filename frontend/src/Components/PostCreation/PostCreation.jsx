@@ -12,8 +12,8 @@ import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
 import LinkedIn from "../../assets/svgs/linkedin-icon.svg";
 import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
 import { useDropzone } from "react-dropzone";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
+import { useTheme } from "@mui/material/styles";
 import { FormControlLabel, Switch, TextField, Button } from "@mui/material";
 import DisplayPreview from "../Previews/DisplayPreview";
 import PostError from "./PostError";
@@ -309,7 +309,7 @@ export default function PostCreation() {
               m: 1,
             }}
             InputLabelProps={{ shrink: true }}
-            variant="filled"
+            variant="outlined"
           />
           <Button
             variant="contained"

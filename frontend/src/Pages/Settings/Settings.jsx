@@ -1,38 +1,18 @@
 import React, { useState } from "react";
-import { SketchPicker } from "react-color";
 import { useDropzone } from "react-dropzone";
 import { SettingsMain, FormDiv, FileDrop } from "./SettingsStyle";
 import {
   TextField,
   FormControl,
-  FormLabel,
-  FormControlLabel,
   InputLabel,
   OutlinedInput,
   InputAdornment,
   IconButton,
-  ButtonGroup,
-  Button,
-  Card,
-  RadioGroup,
-  Radio,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Visibility,
-  VisibilityOff,
-  Save,
-  Edit,
-  FormatColorFill,
-} from "@mui/icons-material";
-/* import { setToLS, getFromLS } from "./utils/storage"; */
+import { Visibility, VisibilityOff, Save } from "@mui/icons-material";
 
-export default function Settings({
-  UserData,
-  UserAvatar,
-  CustomUserTheme,
-  SaveCustomUserTheme,
-}) {
+export default function Settings({ UserData, UserAvatar }) {
   const [ShowPassword, setShowPassword] = useState(false);
   const [Disabled, setDisabled] = useState(false);
 
@@ -40,48 +20,6 @@ export default function Settings({
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState("");
   const [fileName, setFileName] = useState(null);
-  const [RadioValue, setRadioValue] = React.useState("PrimaryLightColor");
-
-  const [PrimaryLightColor, setPrimaryLightColor] = useState(
-    CustomUserTheme.PrimaryLightColor
-  );
-  const [SecondaryLightColor, setSecondaryLightColor] = useState(
-    CustomUserTheme.SecondaryLightColor
-  );
-  const [BackgroundLightColor, setBackgroundLightColor] = useState(
-    CustomUserTheme.BackgroundLightColor
-  );
-  const [PrimaryDarkColor, setPrimaryDarkColor] = useState(
-    CustomUserTheme.PrimaryDarkColor
-  );
-  const [SecondaryDarkColor, setSecondaryDarkColor] = useState(
-    CustomUserTheme.SecondaryDarkColor
-  );
-  const [BackgroundDarkColor, setBackgroundDarkColor] = useState(
-    CustomUserTheme.BackgroundDarkColor
-  );
-
-  const CustomTheme = {
-    PrimaryLightColor: PrimaryLightColor,
-    SecondaryLightColor: SecondaryLightColor,
-    BackgroundLightColor: BackgroundLightColor,
-    PrimaryDarkColor: PrimaryDarkColor,
-    SecondaryDarkColor: SecondaryDarkColor,
-    BackgroundDarkColor: BackgroundDarkColor,
-  };
-
-  const PresetColors = [
-    { color: "#1976d2", title: "Primary Light default" },
-    { color: "#90caf9", title: "Primary Dark default" },
-    { color: "#f44336", title: "Secondary Light default" },
-    { color: "#ce93d8", title: "Secondary Dark default" },
-    { color: "#ffffff", title: "Background Light default" },
-    { color: "#121212", title: "Background Dark default" },
-    { color: "#f44336", title: "error" },
-    { color: "#ffa726", title: "warning" },
-    { color: "#29b6f6", title: "info" },
-    { color: "#66bb6a", title: "success" },
-  ];
 
   const { getRootProps, getInputProps } = useDropzone({
     accept:
@@ -98,28 +36,8 @@ export default function Settings({
     },
   });
 
-  const handlePLColorChange = (color) => {
-    setPrimaryLightColor(color.hex);
-  };
-  const handleSLColorChange = (color) => {
-    setSecondaryLightColor(color.hex);
-  };
-  const handleBLColorChange = (color) => {
-    setBackgroundLightColor(color.hex);
-  };
-  const handlePDColorChange = (color) => {
-    setPrimaryDarkColor(color.hex);
-  };
-  const handleSDColorChange = (color) => {
-    setSecondaryDarkColor(color.hex);
-  };
-  const handleBDColorChange = (color) => {
-    setBackgroundDarkColor(color.hex);
-  };
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-    return event.target.value;
+  const handleClickShowPassword = () => {
+    setShowPassword(!ShowPassword);
   };
 
   return (
@@ -190,21 +108,20 @@ export default function Settings({
             margin="dense"
             defaultValue={UserData.email}
           />
-          {/* <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
               type={ShowPassword ? "text" : "password"}
-              value={password}
-              onChange={handleChange('password')}
+              /* value={password} */
+              /* onChange={handleChange("password")} */
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
                     {ShowPassword ? <VisibilityOff /> : <Visibility />}
@@ -221,14 +138,13 @@ export default function Settings({
             <OutlinedInput
               id="outlined-adornment-password"
               type={ShowPassword ? "text" : "password"}
-              value={password}
-              onChange={handleChange('password')}
+              /* value={password} */
+              /* onChange={handleChange("password")} */
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
                     {ShowPassword ? <VisibilityOff /> : <Visibility />}
@@ -240,233 +156,14 @@ export default function Settings({
           </FormControl>
           <LoadingButton
             color="primary"
-            onClick={handleClick}
-        loading={loading}
+            /* onClick={handleClick}
+            loading={loading} */
             loadingPosition="start"
             startIcon={<Save />}
             variant="contained"
           >
             Save
-          </LoadingButton> */}
-          <span
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "10px",
-            }}
-          >
-            <h3>Customize the Theme Colors</h3>
-            <FormatColorFill />
-          </span>
-          <h4>Light Theme (most bright Background and bright colors)</h4>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              margin: "10px",
-            }}
-          >
-            <Card
-              sx={{
-                backgroundColor: BackgroundLightColor,
-                width: "100%",
-                boxShadow: "-1px -2px 6px 0px",
-                "&:hover": {
-                  boxShadow: "0px 0px 20px 0px",
-                },
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: PrimaryLightColor,
-                  width: "40%",
-                  m: "5%",
-                  color: "white",
-                }}
-              >
-                Primary Light
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: SecondaryLightColor,
-                  width: "40%",
-                  m: "5%",
-                  color: "white",
-                }}
-              >
-                Secondary Light
-              </Button>
-            </Card>
-          </div>
-          <h4>Dark Theme (most dark background and soft colors)</h4>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              margin: "10px",
-            }}
-          >
-            <Card
-              sx={{
-                backgroundColor: BackgroundDarkColor,
-                width: "100%",
-                boxShadow: "-1px -2px 6px 0px",
-                "&:hover": {
-                  boxShadow: "0px 0px 20px 0px",
-                },
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: PrimaryDarkColor,
-                  width: "40%",
-                  m: "5%",
-                  color: "black",
-                }}
-              >
-                Primary Dark
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: SecondaryDarkColor,
-                  width: "40%",
-                  m: "5%",
-                  color: "black",
-                }}
-              >
-                Secondary Dark
-              </Button>
-            </Card>
-          </div>
-          <span
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <FormControl component="fieldset">
-              <FormLabel
-                component="legend"
-                sx={{ textAlign: "center", color: "inherit" }}
-              >
-                Which Component would you like to change?
-              </FormLabel>
-              <RadioGroup
-                row
-                aria-label="Component"
-                name="row-radio-buttons-group"
-                value={RadioValue}
-                onChange={handleRadioChange}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <FormControlLabel
-                  value="PrimaryLightColor"
-                  control={<Radio />}
-                  label="Primary Light"
-                  sx={{ width: "30%" }}
-                />
-                <FormControlLabel
-                  value="SecondaryLightColor"
-                  control={<Radio />}
-                  label="Secondary Light"
-                  sx={{ width: "30%" }}
-                />
-                <FormControlLabel
-                  value="BackgroundLightColor"
-                  control={<Radio />}
-                  label="Background Light"
-                  sx={{ width: "30%" }}
-                />
-                <FormControlLabel
-                  value="PrimaryDarkColor"
-                  control={<Radio />}
-                  label="Primary Dark"
-                  sx={{ width: "30%" }}
-                />
-                <FormControlLabel
-                  value="SecondaryDarkColor"
-                  control={<Radio />}
-                  label="Secondary Dark"
-                  sx={{ width: "30%" }}
-                />
-                <FormControlLabel
-                  value="BackgroundDarkColor"
-                  control={<Radio />}
-                  label="Background Dark"
-                  sx={{ width: "30%" }}
-                />
-              </RadioGroup>
-            </FormControl>
-            {RadioValue === "PrimaryLightColor" ? (
-              <SketchPicker
-                color={PrimaryLightColor}
-                onChange={handlePLColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            {RadioValue === "SecondaryLightColor" ? (
-              <SketchPicker
-                color={SecondaryLightColor}
-                onChange={handleSLColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            {RadioValue === "BackgroundLightColor" ? (
-              <SketchPicker
-                color={BackgroundLightColor}
-                onChange={handleBLColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            {RadioValue === "PrimaryDarkColor" ? (
-              <SketchPicker
-                color={PrimaryDarkColor}
-                onChange={handlePDColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            {RadioValue === "SecondaryDarkColor" ? (
-              <SketchPicker
-                color={SecondaryDarkColor}
-                onChange={handleSDColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            {RadioValue === "BackgroundDarkColor" ? (
-              <SketchPicker
-                color={BackgroundDarkColor}
-                onChange={handleBDColorChange}
-                presetColors={PresetColors}
-                width="250px"
-              />
-            ) : null}
-            <Button
-              variant="contained"
-              onClick={() => SaveCustomUserTheme(CustomTheme)}
-            >
-              Save
-            </Button>
-          </span>
+          </LoadingButton>
         </FormDiv>
       </SettingsMain>
     </div>

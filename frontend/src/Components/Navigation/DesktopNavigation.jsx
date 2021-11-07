@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import { HeaderMain } from "../Header/HeaderStyle";
 import logoHead from "../../assets/images/ParrotHead.png";
-import { AppBar, IconButton, Drawer, Toolbar } from "@mui/material";
+import { AppBar, IconButton, Drawer, Toolbar, Tooltip } from "@mui/material";
 import { Menu, MenuOpen } from "@mui/icons-material";
 import HeaderContent from "../Header/HeaderContent";
 import { useHistory } from "react-router";
@@ -35,9 +35,19 @@ export default function DesktopNavigation({
       >
         <HeaderMain>
           <div className="TopLeft">
+            {/* <Tooltip title="Collapse Sidebar"> */}
             <IconButton color="inherit" onClick={toggleDrawer}>
-              {drawerWidth > 60 ? <MenuOpen /> : <Menu />}
+              {drawerWidth > 60 ? (
+                <Tooltip title="Collapse Sidebar">
+                  <MenuOpen />
+                </Tooltip>
+              ) : (
+                <Tooltip title="Expand Sidebar">
+                  <Menu />
+                </Tooltip>
+              )}
             </IconButton>
+            {/* </Tooltip> */}
             <img
               src={logoHead}
               className="Logo"
