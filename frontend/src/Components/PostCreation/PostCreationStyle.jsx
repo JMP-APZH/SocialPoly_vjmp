@@ -9,7 +9,8 @@ export const PostTextArea = styled(TextField)`
     outline: none;
     resize: none;
     width: 80%;
-    ${(props) => props.fontSize ? "font-size: " + props.fontSize : global.fontM};
+    ${(props) =>
+      props.fontSize ? "font-size: " + props.fontSize : global.fontM};
     /* box-shadow: 0px 0px 10px ${global.borderColor}; */
     font-family: ${(props) =>
       props.fontFamily ? props.fontFamily : global.openSans};
@@ -28,8 +29,7 @@ export const PostCreationWrapper = styled.div`
   width: 100%;
   min-width: 400px;
   display: flex;
-  
-  
+
   .postWrapper {
     width: 100%;
     min-width: 100%;
@@ -39,9 +39,9 @@ export const PostCreationWrapper = styled.div`
     overflow: wrap;
     flex-wrap: wrap;
     align-items: center;
-}
+  }
 
-.fileDropWrapper {
+  .fileDropWrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +51,6 @@ export const PostCreationWrapper = styled.div`
     width: 100%;
     max-width: 400px;
     margin: auto;
-
   }
 
   .postContent {
@@ -63,9 +62,8 @@ export const PostCreationWrapper = styled.div`
     width: 100%;
     min-width: 300px;
 
-
     textarea {
-        ${(props) => (props.remainingText < 0 ? "color: red" : "color: inherit")};
+      ${(props) => (props.remainingText < 0 ? "color: red" : "color: inherit")};
     }
     span {
       margin-top: 10px;
@@ -87,8 +85,16 @@ export const PostCreationWrapper = styled.div`
     height: 100%;
 
     button {
-        border: solid 1px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.grey['700'] : props.theme.palette.grey['300']};
-        box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.grey['700'] : props.theme.palette.grey['300']};
+      border: solid 1px
+        ${(props) =>
+          props.theme.palette.mode === "dark"
+            ? props.theme.palette.grey["700"]
+            : props.theme.palette.grey["300"]};
+      box-shadow: 0px 0px 10px
+        ${(props) =>
+          props.theme.palette.mode === "dark"
+            ? props.theme.palette.grey["700"]
+            : props.theme.palette.grey["300"]};
     }
   }
 
@@ -97,85 +103,84 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
     span {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
     }
   }
 
   .previewWrapper {
-      margin: 30px 0;
-      width: 95%;
-      padding: 10px;
-      box-sizing: content-box;
-      border: ${global.colorMain} solid 2px;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px ${global.colorMainD};
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: ${(props) => props.theme.palette.mode === 'dark' ? 'transparent' : global.colorMainL + '40'};
+    margin: 30px 0;
+    width: 95%;
+    padding: 10px;
+    box-sizing: content-box;
+    border: ${global.colorMain} solid 2px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px ${global.colorMainD};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: ${(props) =>
+      props.theme.palette.mode === "dark"
+        ? "transparent"
+        : global.colorMainL + "40"};
   }
   .previewTitle {
-      font-size: ${global.fontXL};
+    font-size: ${global.fontXL};
   }
   .previewDisplay {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      box-sizing: content-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: content-box;
 
-      
-      &>button {
-          width: 5%;
-          box-sizing: border-box;
-          cursor: pointer;
-          padding: 0 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3F9FE730' : '#0260b230')};
-          z-index: 5;
-          
-          &:hover{
-              background-color: ${(props) => (props.theme.palette.mode === 'dark' ? '#3f9ee760' : '#0260b260')};
-          }
-          :disabled {
-              visibility: hidden;
-              /* filter: saturate(10%); */
-          }
-        }
-      .forwardArrowButton {
-          margin-left: 5px;
+    & > button {
+      width: 5%;
+      box-sizing: border-box;
+      cursor: pointer;
+      padding: 0 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: ${(props) =>
+        props.theme.palette.mode === "dark" ? "#3F9FE730" : "#0260b230"};
+      z-index: 5;
+
+      &:hover {
+        background-color: ${(props) =>
+          props.theme.palette.mode === "dark" ? "#3f9ee760" : "#0260b260"};
       }
-      .backArrowButton {
-          margin-right: 5px;
+      :disabled {
+        visibility: hidden;
+        /* filter: saturate(10%); */
       }
+    }
+    .forwardArrowButton {
+      margin-left: 5px;
+    }
+    .backArrowButton {
+      margin-right: 5px;
+    }
   }
   margin-bottom: 20px;
 `;
 
 export const FileDrop = styled.div`
-display: flex;
-height: 80px;
-width: 100%;
-border: ${global.borderColor} 3px ${(props) => (props.dragover ? "dashed" : "solid")};
-border-radius: 8px;
-flex-grow: 1;
+  display: flex;
+  height: 80px;
+  width: 100%;
+  border: ${global.borderColor} 0px
+    ${(props) => (props.dragover ? "dashed" : "solid")};
+  flex-grow: 1;
 
   div {
     display: ${(props) => (props.dragover ? "none" : "flex")};
-    border-radius: 5px;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
     cursor: pointer;
-  }
-  .fileDrop {
-    background-color: ${global.colorMainL};
   }
   .dragOverlay {
     align-items: center;
@@ -187,7 +192,6 @@ flex-grow: 1;
     background-repeat: no-repeat;
     background-size: 40px 40px;
     background-position: center;
-
   }
 `;
 
@@ -223,42 +227,42 @@ export const PlatformButton = styled.button`
 `;
 
 export const PostErrorWrapper = styled.div`
-    position: fixed;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9000;
+  .popUpWrapper {
+    margin: auto;
+    background-color: ${(props) =>
+      props.theme.palette.mode === "dark" ? "#313131" : "white"};
+    padding: 30px;
+    border: ${global.colorMain} 2px solid;
+    box-shadow: 0px 0px 10px ${global.colorMain};
+    border-radius: 6px;
+  }
+
+  .messageWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h3 {
+      color: #e03a3a;
+    }
+    h2 {
+      color: #32bd32;
+    }
+  }
+
+  .popUpBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000030;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 9000;
-    .popUpWrapper {
-        margin: auto;
-        background-color: ${(props) => props.theme.palette.mode === 'dark' ? '#313131' : 'white'};
-        padding: 30px;
-        border: ${global.colorMain} 2px solid;
-        box-shadow: 0px 0px 10px ${global.colorMain};
-        border-radius: 6px;
-    }
-    
-    .messageWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        h3 {
-            color: #e03a3a;
-        }
-        h2 {
-            color: #32bd32;
-        }
-
-    }
-
-    .popUpBackground {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #00000030;
-        width: 100%;
-        height: 100%;
-    }
-`
+  }
+`;

@@ -5,11 +5,7 @@ import {
   PostCreationWrapper,
   PostTextArea,
 } from "./PostCreationStyle";
-import {
-  ButtonMain,
-  ButtonMinor,
-  PostScheduler,
-} from "../../Components/Button/ButtonStyle";
+import { PostScheduler } from "../../Components/Button/ButtonStyle";
 import TwitterIcon from "../../assets/svgs/twitter-icon.svg";
 import FacebookIcon from "../../assets/svgs/facebook-icon.svg";
 import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
@@ -18,7 +14,7 @@ import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
 import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
-import { FormControlLabel, Switch, TextField } from "@mui/material";
+import { FormControlLabel, Switch, TextField, Button } from "@mui/material";
 import DisplayPreview from "../Previews/DisplayPreview";
 import PostError from "./PostError";
 
@@ -36,7 +32,7 @@ export default function PostCreation() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
-  const [errorTitle, setErrorTitle] = useState(false)
+  const [errorTitle, setErrorTitle] = useState(false);
 
   const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
@@ -47,7 +43,7 @@ export default function PostCreation() {
   const [draftTitle, setDraftTitle] = useState("");
   const [schedualPost, setSchedualPost] = useState(false);
   const [schedualTime, setSchedualTime] = useState("");
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState("");
 
   const { getRootProps, getInputProps } = useDropzone({
     accept:
@@ -110,7 +106,11 @@ export default function PostCreation() {
         },
       })
       .catch(function (error) {
-        if (error.response) {return error.response} else {return {status: 413}}
+        if (error.response) {
+          return error.response;
+        } else {
+          return { status: 413 };
+        }
       });
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
@@ -127,7 +127,7 @@ export default function PostCreation() {
     const body = new FormData();
     // body.append("title", draftTitle);
     body.append("content", postText);
-    body.append('link', link)
+    body.append("link", link);
     if (schedualPost) {
       if (schedualTime) {
         let timeString = schedualTime;
@@ -140,7 +140,7 @@ export default function PostCreation() {
       }
     } else {
       body.append("post_date_time", "");
-    } 
+    }
     if (file) {
       body.append("image", file);
     }
@@ -148,14 +148,18 @@ export default function PostCreation() {
     const response = await axios
       .post(`https://socialpoly.ch/backend/api/linkedin/posts/`, body, config, {
         validateStatus: (status) => {
-          return true; // Always give return status 
+          return true; // Always give return status
         },
       })
       .catch(function (error) {
-          console.log(error.response)
-        if (error.response) {return error.response} else {return {status: 413}}
+        console.log(error.response);
+        if (error.response) {
+          return error.response;
+        } else {
+          return { status: 413 };
+        }
       });
-    console.log(response)
+    console.log(response);
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
     } else if (response.status === 413) {
@@ -191,12 +195,12 @@ export default function PostCreation() {
     setErrorAlert(false);
     setErrorSize(false);
     setErrorContent(false);
-    setErrorTitle(false)
+    setErrorTitle(false);
   };
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
-      {errorTitle && <PostError closeErrors={closeErrors} type='title' /> }
+      {errorTitle && <PostError closeErrors={closeErrors} type="title" />}
       {errorSize && <PostError closeErrors={closeErrors} type="size" />}
       {successAlert && <PostError closeErrors={closeErrors} type="success" />}
       {errorTime && <PostError closeErrors={closeErrors} type="time" />}
@@ -242,7 +246,6 @@ export default function PostCreation() {
           </div>
 
           <PostTextArea
-            sx={{ boxShadow: 5, borderColor: "primary.dark" }}
             multiline
             label="Create new Post"
             name="textContent"
@@ -250,7 +253,17 @@ export default function PostCreation() {
             onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
-          {statusLinkedIn && <TextField id="outlined-basic" label="Link" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
+          {statusLinkedIn && (
+            <TextField
+              id="outlined-basic"
+              label="Link"
+              placeholder="Linked in only"
+              variant="outlined"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              sx={{ margin: "10px", boxShadow: 5 }}
+            />
+          )}
           <span>{280 - postText.length} characters left</span>
         </div>
 
@@ -263,17 +276,17 @@ export default function PostCreation() {
             value={draftTitle}
             onChange={(e) => setDraftTitle(e.target.value)}
             sx={{
-              width: 220,
-              boxShadow: 5,
-              outlineColor: "primary.dark",
-              borderRadius: "4px",
+              m: 1,
+              width: "60%",
             }}
           />
-          <ButtonMinor
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ m: 1, width: "60%" }}
           >
             Save Draft
-          </ButtonMinor>
+          </Button>
           <FormControlLabel
             control={
               <Switch
@@ -292,28 +305,31 @@ export default function PostCreation() {
             label="Schedule Post"
             type="datetime-local"
             sx={{
-              width: 220,
-              boxShadow: 5,
-              border: 2,
-              borderColor: "primary.dark",
+              width: "60%",
+              m: 1,
             }}
             InputLabelProps={{ shrink: true }}
             variant="filled"
           />
-          <ButtonMain
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => postButtonHandler()}
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
+            sx={{ m: 1, width: "60%" }}
           >
             Post
-          </ButtonMain>
-          <ButtonMinor
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
-          >
+          </Button>
+          <Button variant="contained" color="error" sx={{ m: 1, width: "60%" }}>
             Delete
-          </ButtonMinor>
+          </Button>
         </div>
 
-        <div className="fileDropWrapper">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ m: 1 }}
+          className="fileDropWrapper"
+        >
           <FileDrop className="test" dragover={dragOver}>
             <div
               className="fileDrop"
@@ -332,7 +348,7 @@ export default function PostCreation() {
               <input {...getInputProps()} />
             </div>
           </FileDrop>
-        </div>
+        </Button>
       </div>
 
       {previews.length >= 1 && (
