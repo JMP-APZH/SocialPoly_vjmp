@@ -57,6 +57,7 @@ export const GridDiv = styled.div`
 
   .Large {
     height: 100%;
+    width: 100%;
     img {
       height: 100%;
     }

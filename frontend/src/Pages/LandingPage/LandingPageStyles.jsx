@@ -13,17 +13,17 @@ export const LandingPageWrapper = styled.div`
     
     .innerDiv {
         width: 40%;
-        height: 70%;
+        height: 80%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-direction: column;
         min-height: 350px;
         padding: 10px;
-        border: ${global.colorMain} 2px solid;
+        /* border: ${global.colorMain} 2px solid;
         box-shadow: ${global.borderColor} 0px 0px 10px;
         background-color: #8080801a;
-        border-radius: 10px;
+        border-radius: 10px; */
 
 
         h1 {
