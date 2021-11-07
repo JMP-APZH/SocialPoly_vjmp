@@ -44,7 +44,10 @@ export default function DrawerContent() {
   }; */
 
   return (
-    <Toolbar style={{ padding: 0 }} /* sx={{ color: "white" }} */>
+    <Toolbar
+      className="Toolbar"
+      style={{ padding: 0 }} /* sx={{ color: "white" }} */
+    >
       <List style={{ width: "100%" }}>
         <ListItem button key="Dashboard" onClick={DashboardHandler}>
           <ListItemIcon>
