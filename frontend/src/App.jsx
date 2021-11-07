@@ -14,6 +14,7 @@ import Auth from "./Pages/Auth/Auth";
 import Posts from "./Pages/Posts/Posts";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import Settings from "./Pages/Settings/Settings";
+import ThemeSettings from "./Pages/Settings/ThemeSettings";
 import NotFound404 from "./Pages/NotFound404/NotFound404";
 import axios from "axios";
 
@@ -152,6 +153,16 @@ function App() {
                       {...props}
                       UserData={UserData}
                       UserAvatar={UserAvatar}
+                    />
+                  )}
+                  exact
+                />
+                <Route
+                  path="/themesettings"
+                  render={(props) => (
+                    <ThemeSettings
+                      {...props}
+                      UserData={UserData}
                       CustomUserTheme={CustomUserTheme}
                       SaveCustomUserTheme={(CustomUserTheme) =>
                         HandleThemeChange(CustomUserTheme)
@@ -160,6 +171,7 @@ function App() {
                   )}
                   exact
                 />
+
                 <Route component={NotFound404} />
               </Switch>
             </Box>

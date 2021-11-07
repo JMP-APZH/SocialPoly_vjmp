@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import {
   Dashboard,
@@ -50,39 +51,51 @@ export default function DrawerContent() {
     >
       <List style={{ width: "100%" }}>
         <ListItem button key="Dashboard" onClick={DashboardHandler}>
-          <ListItemIcon>
-            <Dashboard className="Icon" />
-          </ListItemIcon>
+          <Tooltip title="Dashboard">
+            <ListItemIcon>
+              <Dashboard className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button key="Accounts" onClick={AccountsHandler}>
-          <ListItemIcon>
-            <AccountCircle className="Icon" />
-          </ListItemIcon>
+          <Tooltip title="Accounts">
+            <ListItemIcon>
+              <AccountCircle className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Accounts" />
         </ListItem>
         <ListItem button key="Posts" onClick={PostsHandler}>
-          <ListItemIcon>
-            <PostAdd className="Icon" />
-          </ListItemIcon>
+          <Tooltip title="Posts">
+            <ListItemIcon>
+              <PostAdd className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Posts" />
         </ListItem>
         <ListItem button key="Calendar" onClick={CalendarHandler}>
-          <ListItemIcon>
-            <CalendarToday className="Icon" />
-          </ListItemIcon>
+          <Tooltip title="Calendar">
+            <ListItemIcon>
+              <CalendarToday className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Calendar" />
         </ListItem>
         <ListItem button key="Reports" onClick={ReportsHandler}>
-          <ListItemIcon>
-            <Assessment className="Icon" />
-          </ListItemIcon>
+          <Tooltip title="Reports">
+            <ListItemIcon>
+              <Assessment className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Reports" />
         </ListItem>
         {/* <ListItem button key="Messages" onClick={MessagesHandler}>
+        <Tooltip title="Messages">
           <ListItemIcon>
             <Email className="Icon" />
           </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Messages" />
         </ListItem> */}
       </List>
