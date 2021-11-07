@@ -75,6 +75,8 @@ export default function Settings({
     { color: "#90caf9", title: "Primary Dark default" },
     { color: "#f44336", title: "Secondary Light default" },
     { color: "#ce93d8", title: "Secondary Dark default" },
+    { color: "#ffffff", title: "Background Light default" },
+    { color: "#121212", title: "Background Dark default" },
     { color: "#f44336", title: "error" },
     { color: "#ffa726", title: "warning" },
     { color: "#29b6f6", title: "info" },
@@ -415,6 +417,7 @@ export default function Settings({
                 color={PrimaryLightColor}
                 onChange={handlePLColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             {RadioValue === "SecondaryLightColor" ? (
@@ -422,6 +425,7 @@ export default function Settings({
                 color={SecondaryLightColor}
                 onChange={handleSLColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             {RadioValue === "BackgroundLightColor" ? (
@@ -429,6 +433,7 @@ export default function Settings({
                 color={BackgroundLightColor}
                 onChange={handleBLColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             {RadioValue === "PrimaryDarkColor" ? (
@@ -436,6 +441,7 @@ export default function Settings({
                 color={PrimaryDarkColor}
                 onChange={handlePDColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             {RadioValue === "SecondaryDarkColor" ? (
@@ -443,6 +449,7 @@ export default function Settings({
                 color={SecondaryDarkColor}
                 onChange={handleSDColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             {RadioValue === "BackgroundDarkColor" ? (
@@ -450,6 +457,7 @@ export default function Settings({
                 color={BackgroundDarkColor}
                 onChange={handleBDColorChange}
                 presetColors={PresetColors}
+                width="250px"
               />
             ) : null}
             <Button
