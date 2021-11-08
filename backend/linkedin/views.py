@@ -18,7 +18,7 @@ from rest_framework.views import APIView
 from .linkedin_helpers import *
 from .models import LinkedInPost
 from .serialzers import LinkedInPostSerializer
-# from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 User = get_user_model()
@@ -60,8 +60,11 @@ class LinkedinPost(GenericAPIView):
         serializer = LinkedInPostSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user)
-    
+
+        scheduler = BackgroundScheduler()
+
         try:
+
             linkedin_access_token = user.linked_in_access_token
             linkedin_headers = headers(linkedin_access_token)  # Make the headers to attach to the API call.
             linkedin_me_url = os.environ.get('LINKEDIN_ME_URL')
@@ -77,7 +80,7 @@ class LinkedinPost(GenericAPIView):
             #print("this is the value of has_media: ",has_media)
 
             linkedin_image_registration_url = os.environ.get('LINKEDIN_IMAGE_REGISTRATION_URL')
-            image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers)
+            image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers) if 'image' in request.data.keys() else ""
 
             post_data = {
                 "author": linkedin_author,
@@ -123,29 +126,36 @@ class LinkedinPost(GenericAPIView):
                 }
             }
 
-            # scheduler = BackgroundScheduler()
-            # content = request.data['content']
-            #
-            # if 'post_date_time' in request.data.keys() and has_media:
-            #     trigger = request.data['post_date_time']
-            #     job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_with_image)
-            #     scheduler.add_job(job, 'date', run_date=trigger, id=content, replace_existing=True)
-            #     scheduler.start()
-            # elif 'post_date_time' in request.data.keys() and not has_media:
-            #     trigger = request.data['post_date_time']
-            #     job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data)
-            #     scheduler.add_job(job, 'date', run_date=trigger, id=content, replace_existing=True)
-            #     scheduler.start()
-            # else:
-            post_data_for_request = post_data_with_image if has_media else post_data
-            requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
+
+
+            if 'post_date_time' in request.data.keys() and has_media:
+                 trigger = request.data['post_date_time']
+                 job = requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_with_image)
+                 scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, replace_existing=True)
+                 scheduler.start()
+            elif 'post_date_time' in request.data.keys() and not has_media:
+                 trigger = request.data['post_date_time']
+
+                 def job(func, head, jason):
+                    requests.post(func, headers=head, json=jason)
+                 print('created')
+                 """ 
+                 #SCHEDULING
+                 scheduler.add_job(job, 'date', run_date=trigger, id=linkedin_post_message, args=[linkedin_post_url, linkedin_headers, post_data],
+                                   replace_existing=True)
+                 scheduler.start()
+                 scheduler.print_jobs()
+                 """
+
+            else:
+                post_data_for_request = post_data_with_image if has_media else post_data
+                requests.post(linkedin_post_url, headers=linkedin_headers, json=post_data_for_request)
 
             return Response({"message": "post successful."})
 
         except Exception as e:
             print(e)
             return Response({"error": str(e)})
-
 
 class ListLinkedinPosts(ListAPIView):
     serializer_class = LinkedInPostSerializer

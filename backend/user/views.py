@@ -97,18 +97,20 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
             linkedin_me_url = os.environ.get('LINKEDIN_ME_URL')
             linkedin_headers = headers(access_token)  # Make the headers to attach to the API call.
             linkedin_user_info = user_info(linkedin_headers,linkedin_me_url)  # Get user info
-            print(linkedin_user_info)
             avatar_object_url =  "https://api.linkedin.com/v2/me?projection=(id,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" + access_token
             avatar_response = requests.get(avatar_object_url)
-            avatar_url = avatar_response.json()['profilePicture']['displayImage~']['elements'][0]['identifiers'][0]['identifier']
+            response_complete = avatar_response.json()
+            print( response_complete)
+            avatar_url_identifiers = avatar_response.json()['profilePicture']['displayImage~']['elements'][0]['identifiers']#[0]['identifier']
             response = {
                 "id": linkedin_user_info['id'],
                 "first_name": linkedin_user_info['firstName']['localized']['en_US'],
                 "last_name": linkedin_user_info['lastName']['localized']['en_US'],
-                "avatar_url": avatar_url
+                "avatar_url_identifiers": avatar_url_identifiers
             }
 
             return Response({"results": response})
+            #return Response(response_complete)
         except Exception as e:
             print(e)
             return Response({"error":str(e)})
