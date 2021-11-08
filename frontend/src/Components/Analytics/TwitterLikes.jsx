@@ -5,14 +5,14 @@ import {CustomToolTipWrapper, GraphWrapper} from './TwitterLikesStyles'
 
 
 export default function TwitterLikes() {
-    const [chartType, setChartType] = useState(false)
+    // const [chartType, setChartType] = useState(false)
     // const [data, setData] = useState(false)
     const data = [
-        {likes: 5, created_at_short: 'this is a date', created_at: 'this is a date LONG', content: 'this is the tweet content1' },
-        {likes: 3, created_at_short: 'this is a date', created_at: 'this is a date LONG', content: 'this is the tweet content2' },
-        {likes: 6, created_at_short: 'this is a date', created_at: 'this is a date LONG', content: 'this is the tweet content3' },
-        {likes: 1, created_at_short: 'this is a date', created_at: 'this is a date LONG', content: 'this is the tweet content4' },
-        {likes: 2, created_at_short: 'this is a date', created_at: 'this is a date LONG', content: 'this is the tweet content5' },
+        {likes: 5, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content1' },
+        {likes: 3, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content2' },
+        {likes: 6, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content3' },
+        {likes: 1, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content4' },
+        {likes: 2, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content5' },
     ]
 
     function CustomTooltip({ payload, label, active }) {
