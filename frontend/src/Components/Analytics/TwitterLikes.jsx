@@ -1,21 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { BarChart, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import {CustomToolTipWrapper, GraphWrapper} from './AnalyticsStyles'
 import { useTheme } from "@mui/material/styles";
 
 
 export default function TwitterLikes() {
-    // const [chartType, setChartType] = useState(false)
     const [data, setData] = useState(false)
     const theme = useTheme()
-    // const data = [
-    //     {likes: 5, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content1' },
-    //     {likes: 3, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'thisisareallylongtweetthisisareallylongtweetthisisareallylongtweetthisisareallylongtweet' },
-    //     {likes: 6, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content3' },
-    //     {likes: 1, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content4' },
-    //     {likes: 2, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content5' },
-    // ]
 
     function CustomTooltip({ payload, label, active }) {
         if (active) {
@@ -63,7 +55,6 @@ export default function TwitterLikes() {
     return (
         <div >
             {data && renderLineChart()}
-            {/* {data && <span>{data[0].likes}test</span> } */}
         </div>
     )
 }

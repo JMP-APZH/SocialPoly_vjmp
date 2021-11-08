@@ -16,4 +16,19 @@ export const GraphWrapper = styled.div`
     height: 100%;
     min-height: auto;
     overflow: hidden;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .percentWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h5 {
+            font-size: 50px;
+        }
+
+    }
 `
