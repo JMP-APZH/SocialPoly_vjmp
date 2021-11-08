@@ -11,6 +11,7 @@ import {
   Radio,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
 import {
   FormatColorFill,
@@ -23,6 +24,9 @@ import {
 export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
   const [RadioValue, setRadioValue] = React.useState("PrimaryLightColor");
   const [SuccessOpen, setSuccessOpen] = React.useState(false);
+  const [HowItWorksOpen, setHowItWorksOpen] = React.useState(false);
+  const [LightDescriptionOpen, setLightDescriptionOpen] = React.useState(false);
+  const [DarkDescriptionOpen, setDarkDescriptionOpen] = React.useState(false);
 
   const [PrimaryLightColor, setPrimaryLightColor] = useState(
     CustomUserTheme.PrimaryLightColor
@@ -54,10 +58,10 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
 
   const PresetColors = [
     { color: "#1976d2", title: "Primary Light default" },
-    { color: "#90caf9", title: "Primary Dark default" },
     { color: "#f44336", title: "Secondary Light default" },
-    { color: "#ce93d8", title: "Secondary Dark default" },
     { color: "#ffffff", title: "Background Light default" },
+    { color: "#90caf9", title: "Primary Dark default" },
+    { color: "#ce93d8", title: "Secondary Dark default" },
     { color: "#121212", title: "Background Dark default" },
     { color: "#f44336", title: "error" },
     { color: "#ffa726", title: "warning" },
@@ -101,6 +105,18 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
     setSuccessOpen(false);
   };
 
+  const handleHIWOHelp = () => {
+    setHowItWorksOpen(!HowItWorksOpen);
+  };
+
+  const handleLDHelp = () => {
+    setLightDescriptionOpen(!LightDescriptionOpen);
+  };
+
+  const handleDDHelp = () => {
+    setDarkDescriptionOpen(!DarkDescriptionOpen);
+  };
+
   return (
     <div
       style={{
@@ -126,6 +142,35 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
             <FormatColorFill />
           </span>
           <h4>Light Theme (most bright Background and bright colors)</h4>
+          {LightDescriptionOpen ? (
+            <span
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <IconButton>
+                <KeyboardArrowUp onClick={handleLDHelp} />
+              </IconButton>
+              <p style={{ marginBottom: "10px" }}>
+                Primary: All Main Buttons and the Header <br />
+                Secondary: All Minor Buttons
+              </p>
+            </span>
+          ) : (
+            <span
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <IconButton>
+                <Help onClick={handleLDHelp} />
+              </IconButton>
+            </span>
+          )}
           <div
             style={{
               display: "flex",
@@ -169,6 +214,35 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
             </Card>
           </div>
           <h4>Dark Theme (most dark background and soft colors)</h4>
+          {DarkDescriptionOpen ? (
+            <span
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <IconButton>
+                <KeyboardArrowUp onClick={handleDDHelp} />
+              </IconButton>
+              <p style={{ marginBottom: "10px" }}>
+                Primary: All Main Buttons <br />
+                Secondary: All Minor Buttons
+              </p>
+            </span>
+          ) : (
+            <span
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <IconButton>
+                <Help onClick={handleDDHelp} />
+              </IconButton>
+            </span>
+          )}
           <div
             style={{
               display: "flex",
@@ -211,13 +285,6 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
               </Button>
             </Card>
           </div>
-          <h4>How it works</h4> <Help /> <KeyboardArrowUp />
-          <p style={{ marginBottom: "10px" }}>
-            Select the Componentgroup you'd like to edit. Choose your preffered
-            Color. You can see immediately your changes directly in the Preview
-            Section. When you're satisfied with it, please save it and the Theme
-            will update.
-          </p>
           <span
             style={{
               display: "flex",
@@ -234,6 +301,37 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
               >
                 Which Component would you like to change?
               </FormLabel>
+              {HowItWorksOpen ? (
+                <span
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <IconButton>
+                    <KeyboardArrowUp onClick={handleHIWOHelp} />
+                  </IconButton>
+                  <p style={{ marginBottom: "10px" }}>
+                    Select the Componentgroup you'd like to edit. Choose your
+                    preffered Color. You can see immediately your changes
+                    directly in the Preview Section. When you're satisfied with
+                    it, please save it and the Theme will update.
+                  </p>
+                </span>
+              ) : (
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <IconButton>
+                    <Help onClick={handleHIWOHelp} />
+                  </IconButton>
+                </span>
+              )}
               <RadioGroup
                 row
                 aria-label="Component"
@@ -362,17 +460,36 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
                 width="250px"
               />
             ) : null}
-            <Button
-              variant="contained"
-              startIcon={<Save />}
-              onClick={() => {
-                SaveCustomUserTheme(CustomTheme);
-                SuccessAlert();
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                width: "80%",
               }}
-              sx={{ mt: 2, width: "30%" }}
             >
-              Save
-            </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  window.localStorage.removeItem("Theme");
+                  window.location.reload();
+                }}
+                sx={{ mt: 2, width: "40%" }}
+              >
+                Set to Default
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<Save />}
+                onClick={() => {
+                  SaveCustomUserTheme(CustomTheme);
+                  SuccessAlert();
+                }}
+                sx={{ mt: 2, width: "40%" }}
+              >
+                Save
+              </Button>
+            </div>
             <Snackbar
               open={SuccessOpen}
               autoHideDuration={6000}
