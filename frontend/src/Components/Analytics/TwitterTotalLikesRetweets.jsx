@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { BarChart, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Bar } from 'recharts';
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Bar } from 'recharts';
 import {CustomToolTipWrapper, GraphWrapper} from './AnalyticsStyles'
 import { useTheme } from "@mui/material/styles";
 
@@ -36,7 +36,6 @@ export default function TwitterTotalLikesRetweets() {
             const token = localStorage.getItem("token");
             const config = { headers: { Authorization: `Bearer ${token}` } };
             const {data} = await axios.get(`https://socialpoly.ch/backend/api/twitter/analitycs/`, config)
-            console.log(data)
             let likes = 0
             let retweets = 0
             data.forEach(element => {

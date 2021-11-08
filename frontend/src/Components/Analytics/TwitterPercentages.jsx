@@ -1,20 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { GraphWrapper} from './AnalyticsStyles'
-import { useTheme } from "@mui/material/styles";
 
 
 export default function TwitterPercentages() {
     const [data, setData] = useState(false)
-    const theme = useTheme()
-
 
     useEffect(() => {
         async function getData() {
             const token = localStorage.getItem("token");
             const config = { headers: { Authorization: `Bearer ${token}` } };
             const {data} = await axios.get(`https://socialpoly.ch/backend/api/twitter/analitycs/`, config)
-            console.log(data)
             let likes = 0
             let retweets = 0
             let total = 0

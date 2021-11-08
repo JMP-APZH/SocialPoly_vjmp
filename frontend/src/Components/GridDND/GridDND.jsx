@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../Parrot.png";
 import { GridLayout, GridDiv } from "./GridDNDStyle";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
