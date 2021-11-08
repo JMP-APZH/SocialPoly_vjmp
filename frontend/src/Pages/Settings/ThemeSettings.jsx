@@ -12,7 +12,13 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import { FormatColorFill, Save, Edit } from "@mui/icons-material";
+import {
+  FormatColorFill,
+  Save,
+  Edit,
+  Help,
+  KeyboardArrowUp,
+} from "@mui/icons-material";
 
 export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
   const [RadioValue, setRadioValue] = React.useState("PrimaryLightColor");
@@ -205,7 +211,7 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
               </Button>
             </Card>
           </div>
-          <h4>How it works</h4>
+          <h4>How it works</h4> <Help /> <KeyboardArrowUp />
           <p style={{ marginBottom: "10px" }}>
             Select the Componentgroup you'd like to edit. Choose your preffered
             Color. You can see immediately your changes directly in the Preview
