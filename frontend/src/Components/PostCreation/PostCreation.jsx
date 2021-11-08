@@ -334,6 +334,32 @@ export default function PostCreation() {
           <span>{280 - postText.length} characters left</span>
         </div>
 
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ m: 1 }}
+          className="fileDropWrapper"
+        >
+          <FileDrop className="test" dragover={dragOver}>
+            <div
+              className="fileDrop"
+              {...getRootProps()}
+              onDragEnter={() => setDragOver(true)}
+            >
+              <input {...getInputProps()} />
+              <p>{fileName}</p>
+            </div>
+
+            <div
+              className="dragOverlay"
+              {...getRootProps()}
+              onDragLeave={() => setDragOver(false)}
+            >
+              <input {...getInputProps()} />
+            </div>
+          </FileDrop>
+        </Button>
+
         <div className="postControls">
           <span>Updates</span>
           <TextField
@@ -391,32 +417,6 @@ export default function PostCreation() {
             Delete
           </Button>
         </div>
-
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ m: 1 }}
-          className="fileDropWrapper"
-        >
-          <FileDrop className="test" dragover={dragOver}>
-            <div
-              className="fileDrop"
-              {...getRootProps()}
-              onDragEnter={() => setDragOver(true)}
-            >
-              <input {...getInputProps()} />
-              <p>{fileName}</p>
-            </div>
-
-            <div
-              className="dragOverlay"
-              {...getRootProps()}
-              onDragLeave={() => setDragOver(false)}
-            >
-              <input {...getInputProps()} />
-            </div>
-          </FileDrop>
-        </Button>
       </div>
 
       {previews.length >= 1 && (
