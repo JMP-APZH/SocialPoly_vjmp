@@ -77,7 +77,7 @@ class LinkedinPost(GenericAPIView):
         #print("this is the value of has_media: ",has_media)
 
         linkedin_image_registration_url = os.environ.get('LINKEDIN_IMAGE_REGISTRATION_URL')
-        image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers) if has_media else ""
+        image_upload_asset = register_image_and_return_asset(linkedin_image_registration_url,linkedin_author,image,headers=linkedin_headers) if 'image' in request.data.keys() else ""
 
         post_data = {
             "author": linkedin_author,
