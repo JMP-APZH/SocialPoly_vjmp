@@ -52,10 +52,10 @@ export default function TwitterLikes() {
             <GraphWrapper >
             <ResponsiveContainer width='100%' aspect={2} >
             <LineChart width={100} height={400} data={data} margin={{ top: 0, right: 20, bottom: 0, left: 0 }} >
-                <Line type="monotone" dataKey="likes" stroke={theme.palette.primary.main} strokeWidth={2} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="likes" stroke={theme.palette.primary.main} fill={theme.palette.primary.main} strokeWidth={2} activeDot={{ r: 6 }} />
                 <YAxis dataKey='likes'/>
                 <XAxis dataKey="created_at_short" />
-                <CartesianGrid stroke={theme.palette.grey[500]}  />
+                <CartesianGrid stroke={theme.palette.grey[500]} strokeDasharray='3 3' />
                 <Tooltip content={<CustomTooltip />} />
             </LineChart>
             </ResponsiveContainer>
