@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import {
   Dashboard,
@@ -12,7 +13,7 @@ import {
   PostAdd,
   CalendarToday,
   Assessment,
-  Email,
+  /* Email, */
 } from "@mui/icons-material";
 import { useHistory } from "react-router";
 
@@ -38,50 +39,65 @@ export default function DrawerContent() {
     e.preventDefault();
     history.push("/reports/");
   };
-  const MessagesHandler = (e) => {
+  /*   const MessagesHandler = (e) => {
     e.preventDefault();
     history.push("/messages/");
-  };
+  }; */
 
   return (
-    <Toolbar style={{ padding: 0 }}>
+    <Toolbar
+      className="Toolbar"
+      style={{ padding: 0 }} /* sx={{ color: "white" }} */
+    >
       <List style={{ width: "100%" }}>
         <ListItem button key="Dashboard" onClick={DashboardHandler}>
-          <ListItemIcon>
-            <Dashboard />
-          </ListItemIcon>
+          <Tooltip title="Dashboard">
+            <ListItemIcon>
+              <Dashboard className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button key="Accounts" onClick={AccountsHandler}>
-          <ListItemIcon>
-            <AccountCircle />
-          </ListItemIcon>
+          <Tooltip title="Accounts">
+            <ListItemIcon>
+              <AccountCircle className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Accounts" />
         </ListItem>
         <ListItem button key="Posts" onClick={PostsHandler}>
-          <ListItemIcon>
-            <PostAdd />
-          </ListItemIcon>
+          <Tooltip title="Posts">
+            <ListItemIcon>
+              <PostAdd className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Posts" />
         </ListItem>
         <ListItem button key="Calendar" onClick={CalendarHandler}>
-          <ListItemIcon>
-            <CalendarToday />
-          </ListItemIcon>
+          <Tooltip title="Calendar">
+            <ListItemIcon>
+              <CalendarToday className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Calendar" />
         </ListItem>
         <ListItem button key="Reports" onClick={ReportsHandler}>
-          <ListItemIcon>
-            <Assessment />
-          </ListItemIcon>
+          <Tooltip title="Reports">
+            <ListItemIcon>
+              <Assessment className="Icon" />
+            </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Reports" />
         </ListItem>
-        <ListItem button key="Messages" onClick={MessagesHandler}>
+        {/* <ListItem button key="Messages" onClick={MessagesHandler}>
+        <Tooltip title="Messages">
           <ListItemIcon>
-            <Email />
+            <Email className="Icon" />
           </ListItemIcon>
+          </Tooltip>
           <ListItemText primary="Messages" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Toolbar>
   );

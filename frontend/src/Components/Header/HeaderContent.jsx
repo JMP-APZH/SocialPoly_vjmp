@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
 import {
   /* Badge, */
   IconButton,
@@ -15,11 +16,13 @@ import {
   BrightnessHigh,
   Brightness4,
   Logout,
+  Palette,
 } from "@mui/icons-material";
 
 export default function HeaderContent(props) {
   const [UserData, setUserData] = React.useState(false);
   const [UserAvatar, setUserAvatar] = React.useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     async function getUserData() {
@@ -30,15 +33,16 @@ export default function HeaderContent(props) {
         config
       );
       if (response.data) {
-          console.log(response.data)
+        console.log(response.data);
         setUserData(response.data);
         if (response.data.avatar) {
-        setUserAvatar(
-          response.data.avatar.replace(
-            "http://backend:8000",
-            "https://socialpoly.ch"
-          )
-        )};
+          setUserAvatar(
+            response.data.avatar.replace(
+              "http://backend:8000",
+              "https://socialpoly.ch"
+            )
+          );
+        }
       }
     }
     getUserData();
@@ -62,18 +66,35 @@ export default function HeaderContent(props) {
     <div>
       <IconButton color="inherit" onClick={props.toggleDarkMode}>
         {props.darkMode ? (
-          <BrightnessHigh className="Icon" />
+          <Tooltip title="Change to Lightmode">
+            <BrightnessHigh className="Icon" />
+          </Tooltip>
         ) : (
-          <Brightness4 className="Icon" />
+          <Tooltip title="Change to Darkmode">
+            <Brightness4 className="Icon" />
+          </Tooltip>
         )}
       </IconButton>
-      <IconButton color="inherit">
-        {/* <Badge badgeContent={4} color="secondary">
+      <Tooltip title="Change Theme Colors">
+        <IconButton
+          color="inherit"
+          onClick={(e) => {
+            e.preventDefault();
+            history.push("/themesettings/");
+          }}
+        >
+          <Palette className="Icon" />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Notifications">
+        <IconButton color="inherit">
+          {/* <Badge badgeContent={4} color="secondary">
           <Notifications />
         </Badge> */}
-        <Notifications />
-      </IconButton>
-      <Tooltip title="Account settings">
+          <Notifications />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Account">
         <IconButton onClick={handleClick}>
           <Avatar src={UserAvatar}></Avatar>
         </IconButton>

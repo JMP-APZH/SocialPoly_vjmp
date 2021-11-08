@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from draft.models import Draft
 from draft.serializers import DraftSerializer
 
 User = get_user_model()
+
 
 class CreateDraft(GenericAPIView):
     serializer_class = DraftSerializer
@@ -26,7 +28,7 @@ class CreateDraft(GenericAPIView):
         return Response(serializer.data)
 
 
-class SearchTweetView(ListCreateAPIView):
+class SearchDraftView(ListCreateAPIView):
     serializer_class = DraftSerializer
     queryset = Draft.objects.all()
 
@@ -41,3 +43,5 @@ class RetrieveUpdateDeleteDraftView(RetrieveUpdateDestroyAPIView):
     queryset = Draft.objects.all()
     serializer_class = DraftSerializer
     lookup_field = 'id'
+
+    permission_classes = [IsAuthenticated]

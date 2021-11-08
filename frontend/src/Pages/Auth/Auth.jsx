@@ -241,7 +241,7 @@ export default function Auth() {
           <div className="buttonWrapper">
             <ButtonMain
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
-              onClick={(e) => submitLogin(e)}
+              onSubmit={(e) => submitLogin(e)}
               type="submit"
             >
               login

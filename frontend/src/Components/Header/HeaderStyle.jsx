@@ -16,7 +16,11 @@ export const HeaderMain = styled.div`
     justify-content: center;
     align-items: center;
     height: 55px;
-    min-height: 28px;
+    cursor: pointer;
+  }
+  h1 {
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
   }
 `;
@@ -38,7 +42,6 @@ export const MobileHeaderMain = styled.div`
     justify-content: center;
     align-items: center;
     height: 55px;
-    min-height: 28px;
     cursor: pointer;
   }
 `;

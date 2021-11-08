@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 User = get_user_model()
 
 
@@ -98,7 +99,8 @@ class ShowMe(APIView):
             "friends_count": user['friends_count'],
             "statuses_count": user['statuses_count'],
             "profile_image_url_https": user['profile_image_url_https'],
-            "profile_background_image_url_https": user['profile_background_image_url_https']
+            "profile_background_image_url_https": user['profile_background_image_url_https'],
+            # "profile_banner_url": user['profile_banner_url']
         }
         try:
             return Response(user_infos)
@@ -115,6 +117,19 @@ class SearchTweetView(ListCreateAPIView):
         if search:
             return Tweet.objects.filter(content__contains=search)
         return Tweet.objects.all()
+
+
+class GetScheduledTweets(ListAPIView):
+    serializer_class = TwitterSerializer
+    queryset = Tweet.objects.all().filter(send_time__contains=" ")
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GetFollowers(APIView):
@@ -164,7 +179,10 @@ class GetAllTweets(ListAPIView):
     queryset = Tweet.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        if self.kwargs:
+            queryset = self.get_queryset().filter(author=self.kwargs['author_id'])
+        else:
+            queryset = self.get_queryset().filter(author=request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

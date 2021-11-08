@@ -5,22 +5,17 @@ import {
   PostCreationWrapper,
   PostTextArea,
 } from "./PostCreationStyle";
-import {
-  ButtonMain,
-  ButtonMinor,
-  PostScheduler,
-} from "../../Components/Button/ButtonStyle";
+import { PostScheduler } from "../../Components/Button/ButtonStyle";
 import TwitterIcon from "../../assets/svgs/twitter-icon.svg";
 import FacebookIcon from "../../assets/svgs/facebook-icon.svg";
 import InstagramIcon from "../../assets/svgs/instagram-icon.svg";
 import LinkedIn from "../../assets/svgs/linkedin-icon.svg";
 import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
 import { useDropzone } from "react-dropzone";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
-import { FormControlLabel, Switch, TextField } from "@mui/material";
+import { Alert, FormControlLabel, Snackbar, Switch, TextField, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import DisplayPreview from "../Previews/DisplayPreview";
-import PostError from "./PostError";
 
 export default function PostCreation() {
   const theme = useTheme();
@@ -36,7 +31,7 @@ export default function PostCreation() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
-  const [errorTitle, setErrorTitle] = useState(false)
+  const [errorTitle, setErrorTitle] = useState(false);
 
   const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
@@ -47,7 +42,7 @@ export default function PostCreation() {
   const [draftTitle, setDraftTitle] = useState("");
   const [schedualPost, setSchedualPost] = useState(false);
   const [schedualTime, setSchedualTime] = useState("");
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState("");
 
   const { getRootProps, getInputProps } = useDropzone({
     accept:
@@ -110,7 +105,11 @@ export default function PostCreation() {
         },
       })
       .catch(function (error) {
-        if (error.response) {return error.response} else {return {status: 413}}
+        if (error.response) {
+          return error.response;
+        } else {
+          return { status: 413 };
+        }
       });
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
@@ -127,7 +126,7 @@ export default function PostCreation() {
     const body = new FormData();
     // body.append("title", draftTitle);
     body.append("content", postText);
-    body.append('link', link)
+    body.append("link", link);
     if (schedualPost) {
       if (schedualTime) {
         let timeString = schedualTime;
@@ -140,7 +139,7 @@ export default function PostCreation() {
       }
     } else {
       body.append("post_date_time", "");
-    } 
+    }
     if (file) {
       body.append("image", file);
     }
@@ -148,14 +147,12 @@ export default function PostCreation() {
     const response = await axios
       .post(`https://socialpoly.ch/backend/api/linkedin/posts/`, body, config, {
         validateStatus: (status) => {
-          return true; // Always give return status 
+          return true; // Always give return status
         },
       })
       .catch(function (error) {
-          console.log(error.response)
         if (error.response) {return error.response} else {return {status: 413}}
       });
-    console.log(response)
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
     } else if (response.status === 413) {
@@ -184,25 +181,109 @@ export default function PostCreation() {
     }
   };
 
-  const closeErrors = () => {
-    setErrorTime(false);
-    setErrorPlatform(false);
-    setSuccessAlert(false);
-    setErrorAlert(false);
-    setErrorSize(false);
-    setErrorContent(false);
-    setErrorTitle(false)
-  };
+  const saveDraftHandler = async () => {
+    if (
+        !statusTwitter &&
+        !statusFacebook &&
+        !statusInstagram &&
+        !statusLinkedIn &&
+        !statusTiktok
+      ) {
+        setErrorPlatform(true);
+      } else if (!postText.replace(/\s/g, "")) {
+        setErrorContent(true);
+      } else if (!draftTitle.replace(/\s/g, "")) {
+        setErrorTitle(true);
+      } else {
+            const token = localStorage.getItem("token");
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+            const body = new FormData();
+            body.append("title", draftTitle);
+            body.append("content", postText);
+            statusTwitter && body.append('is_twitter', true)
+            statusLinkedIn && body.append('is_linkedin', true)
+            // statusFacebook && body.append('is_facebook', true)
+            // statusInstagram && body.append('is_instagram', true)
+            // statusTiktok && body.append('is_tiktok', true)
+
+            // checking for schedule time
+            if (schedualPost) {
+                if (schedualTime) {
+                    let timeString = schedualTime;
+                    timeString = timeString.replace("T", " ");
+                    timeString += ":00";
+                    body.append("send_time", timeString);
+                } else {
+                    setErrorTime(true);
+                    return null;
+                }
+            } else {
+                body.append("send_time", "");
+            }
+
+            // adding image if there is one
+            if (file) {
+            body.append("images", file);
+            }
+            const response = await axios.post(`https://socialpoly.ch/backend/api/draft/create/`, body, config, {
+                validateStatus: (status) => {
+                    return true; // Always give return status 
+                },
+                }).catch(function (error) {
+                    if (error.response) {return error.response} else {return {status: 413}}
+                });
+            if (response.status >= 200 && response.status < 300) {
+                setSuccessAlert(true);
+            } else if (response.status === 413) {
+                setErrorSize(true);
+            } else {
+                setErrorAlert(true);
+            }
+        }
+  }
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
-      {errorTitle && <PostError closeErrors={closeErrors} type='title' /> }
-      {errorSize && <PostError closeErrors={closeErrors} type="size" />}
-      {successAlert && <PostError closeErrors={closeErrors} type="success" />}
-      {errorTime && <PostError closeErrors={closeErrors} type="time" />}
-      {errorPlatform && <PostError closeErrors={closeErrors} type="platform" />}
-      {errorContent && <PostError closeErrors={closeErrors} type="content" />}
-      {errorAlert && <PostError closeErrors={closeErrors} type="error" />}
+        <Snackbar open={errorTitle} autoHideDuration={6000} onClose={() => setErrorTitle(false)}  >
+            <Alert onClose={() => setErrorTitle(false)} severity="error" sx={{ width: '200%' }}>
+            You must have a Draft Title!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorSize} autoHideDuration={6000} onClose={() => setErrorSize(false)}  >
+            <Alert onClose={() => setErrorSize(false)} severity="error" sx={{ width: '200%' }}>
+            This file is too large and could not be sent, please choose a smaller file.
+            </Alert>
+        </Snackbar>
+        <Snackbar open={successAlert} autoHideDuration={6000} onClose={() => setSuccessAlert(false)}  >
+            <Alert onClose={() => setSuccessAlert(false)} severity="success" sx={{ width: '200%' }}>
+            Your post has been scheduled!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorTime} autoHideDuration={6000} onClose={() => setErrorTime(false)}  >
+            <Alert onClose={() => setErrorTime(false)} severity="error" sx={{ width: '200%' }}>
+            You have not input a time to schedule your post!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorPlatform} autoHideDuration={6000} onClose={() => setErrorPlatform(false)}  >
+            <Alert onClose={() => setErrorPlatform(false)} severity="error" sx={{ width: '200%' }}>
+            You must choose at least one platform to post on!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorContent} autoHideDuration={6000} onClose={() => setErrorContent(false)}  >
+            <Alert onClose={() => setErrorContent(false)} severity="error" sx={{ width: '200%' }}>
+            Your post must have text content!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorContent} autoHideDuration={6000} onClose={() => setErrorContent(false)}  >
+            <Alert onClose={() => setErrorContent(false)} severity="error" sx={{ width: '200%' }}>
+            Your post must have text content!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorAlert} autoHideDuration={6000} onClose={() => setErrorAlert(false)}  >
+            <Alert onClose={() => setErrorAlert(false)} severity="error" sx={{ width: '200%' }}>
+            Something went wrong! Your post was not sent!
+            </Alert>
+        </Snackbar>
       <div className="postWrapper">
         <div className="postContent">
           <div className="platformButtons">
@@ -242,7 +323,6 @@ export default function PostCreation() {
           </div>
 
           <PostTextArea
-            sx={{ boxShadow: 5, borderColor: "primary.dark" }}
             multiline
             label="Create new Post"
             name="textContent"
@@ -250,70 +330,16 @@ export default function PostCreation() {
             onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
-          {statusLinkedIn && <TextField id="outlined-basic" label="Link" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
+          {statusLinkedIn && <TextField id="outlined-basic" label="Link (Linked in only!)" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
           <span>{280 - postText.length} characters left</span>
         </div>
 
-        <div className="postControls">
-          <span>Updates</span>
-          <TextField
-            id="outlined-basic"
-            label="Draft Title"
-            variant="outlined"
-            value={draftTitle}
-            onChange={(e) => setDraftTitle(e.target.value)}
-            sx={{
-              width: 220,
-              boxShadow: 5,
-              outlineColor: "primary.dark",
-              borderRadius: "4px",
-            }}
-          />
-          <ButtonMinor
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
-          >
-            Save Draft
-          </ButtonMinor>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={schedualPost}
-                onChange={() => setSchedualPost(!schedualPost)}
-                name="schedual"
-              />
-            }
-            label="Schedule Post"
-          />
-          <PostScheduler
-            disabled={!schedualPost}
-            value={schedualTime}
-            onChange={(e) => setSchedualTime(e.target.value)}
-            id="datetime-local"
-            label="Schedule Post"
-            type="datetime-local"
-            sx={{
-              width: 220,
-              boxShadow: 5,
-              border: 2,
-              borderColor: "primary.dark",
-            }}
-            InputLabelProps={{ shrink: true }}
-            variant="filled"
-          />
-          <ButtonMain
-            onClick={() => postButtonHandler()}
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
-          >
-            Post
-          </ButtonMain>
-          <ButtonMinor
-            sx={{ boxShadow: 5, border: 2, borderColor: "primary.main" }}
-          >
-            Delete
-          </ButtonMinor>
-        </div>
-
-        <div className="fileDropWrapper">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ m: 1 }}
+          className="fileDropWrapper"
+        >
           <FileDrop className="test" dragover={dragOver}>
             <div
               className="fileDrop"
@@ -332,6 +358,64 @@ export default function PostCreation() {
               <input {...getInputProps()} />
             </div>
           </FileDrop>
+        </Button>
+
+        <div className="postControls">
+          <span>Updates</span>
+          <TextField
+            id="outlined-basic"
+            label="Draft Title"
+            variant="outlined"
+            value={draftTitle}
+            onChange={(e) => setDraftTitle(e.target.value)}
+            sx={{
+              m: 1,
+              width: "60%",
+            }}
+          />
+            <Button
+            onClick={() => saveDraftHandler()}
+            variant="contained"
+            color="secondary"
+            sx={{ m: 1, width: "60%" }}
+          >
+            Save Draft
+          </Button>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={schedualPost}
+                onChange={() => setSchedualPost(!schedualPost)}
+                name="schedual"
+              />
+            }
+            label="Schedule Post"
+          />
+          <PostScheduler
+            disabled={!schedualPost}
+            value={schedualTime}
+            onChange={(e) => setSchedualTime(e.target.value)}
+            id="datetime-local"
+            label="Schedule Post"
+            type="datetime-local"
+            sx={{
+              width: "60%",
+              m: 1,
+            }}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => postButtonHandler()}
+            sx={{ m: 1, width: "60%" }}
+          >
+            Post
+          </Button>
+          <Button variant="contained" color="error" sx={{ m: 1, width: "60%" }}>
+            Delete
+          </Button>
         </div>
       </div>
 

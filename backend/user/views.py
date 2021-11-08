@@ -100,13 +100,13 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
             avatar_object_url =  "https://api.linkedin.com/v2/me?projection=(id,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" + access_token
             avatar_response = requests.get(avatar_object_url)
             response_complete = avatar_response.json()
-            print( response_complete)
-            avatar_url_identifiers = avatar_response.json()['profilePicture']['displayImage~']['elements'][0]['identifiers']#[0]['identifier']
+            print(response_complete)
+            avatar_picture_data = avatar_response.json()#['profilePicture']['displayImage~']['elements'][0]['identifiers'][0]['identifier']
             response = {
                 "id": linkedin_user_info['id'],
                 "first_name": linkedin_user_info['firstName']['localized']['en_US'],
                 "last_name": linkedin_user_info['lastName']['localized']['en_US'],
-                "avatar_url_identifiers": avatar_url_identifiers
+                "avatar_picture_data": avatar_picture_data
             }
 
             return Response({"results": response})
