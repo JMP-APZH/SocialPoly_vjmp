@@ -170,8 +170,6 @@ export const FileDrop = styled.div`
   display: flex;
   height: 80px;
   width: 100%;
-  border: ${global.borderColor} 0px
-    ${(props) => (props.dragover ? "dashed" : "solid")};
   flex-grow: 1;
 
   div {

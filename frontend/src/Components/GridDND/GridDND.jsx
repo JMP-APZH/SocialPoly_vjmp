@@ -7,6 +7,7 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import { Fab } from "@mui/material";
 import { Edit, EditOff } from "@mui/icons-material";
 import PostCreation from "../PostCreation/PostCreation";
+import TwitterLikes from '../Analytics/TwitterLikes';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
@@ -95,7 +96,7 @@ export default class GridDND extends React.PureComponent {
           </GridDiv>
           <GridDiv key="2" data-grid={{ w: 8, h: 12, x: 8, y: 0 }}>
             <span className="Large">
-              <img src={logo} className="App-logo" alt="logo" />
+              <TwitterLikes />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
