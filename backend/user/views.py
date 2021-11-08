@@ -106,7 +106,6 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
                 "id": linkedin_user_info['id'],
                 "first_name": linkedin_user_info['firstName']['localized']['en_US'],
                 "last_name": linkedin_user_info['lastName']['localized']['en_US'],
-                "avatar_object_url": avatar_object_url,
                 "avatar_picture_data": avatar_picture_data
             }
 
