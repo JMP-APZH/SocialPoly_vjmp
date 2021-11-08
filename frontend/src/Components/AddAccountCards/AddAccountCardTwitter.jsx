@@ -247,7 +247,6 @@ export default function AddAccountCardTwitter() {
           alignItems: "center",
         }}
       >
-        <Typography paragraph>Twitter API Connection</Typography>
         {UserData ? (
           <LoadingButton
             variant="contained"

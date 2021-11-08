@@ -233,7 +233,6 @@ export default function AddAccountCardLinkedIn() {
           alignItems: "center",
         }}
       >
-        <Typography paragraph>LinkedIn API Connection</Typography>
         {UserData ? (
           <LoadingButton
             variant="contained"
