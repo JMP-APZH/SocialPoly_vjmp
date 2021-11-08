@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { BarChart, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import {CustomToolTipWrapper, GraphWrapper} from './TwitterLikesStyles'
+import { useTheme } from "@mui/material/styles";
 
 
 export default function TwitterLikes() {
     // const [chartType, setChartType] = useState(false)
     // const [data, setData] = useState(false)
+    const theme = useTheme()
     const data = [
         {likes: 5, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content1' },
         {likes: 3, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content2' },
@@ -62,6 +64,7 @@ export default function TwitterLikes() {
 
     return (
         <div>
+            {console.log('theme',theme)}
             {data && renderLineChart()}
             {/* {data && <span>{data[0].likes}test</span> } */}
         </div>
