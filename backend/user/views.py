@@ -101,7 +101,7 @@ class RetrieveUpdateUserLinkedinView(GenericAPIView):
             avatar_response = requests.get(avatar_object_url)
             response_complete = avatar_response.json()
             print(response_complete)
-            avatar_picture_data = avatar_response.json()#['profilePicture']['displayImage~']['elements'][0]['identifiers'][0]['identifier']
+            avatar_picture_data = avatar_response.json()['profilePicture']['displayImage~']['elements'][0]['identifiers'][0]['identifier']
             response = {
                 "id": linkedin_user_info['id'],
                 "first_name": linkedin_user_info['firstName']['localized']['en_US'],
