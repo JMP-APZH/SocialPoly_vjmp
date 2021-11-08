@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import { SketchPicker } from "react-color";
 import { SettingsMain, FormDiv } from "./SettingsStyle";
 import {
-  FormControl,
-  FormLabel,
-  FormControlLabel,
+  Alert,
   Button,
   Card,
-  RadioGroup,
-  Radio,
-  Snackbar,
-  Alert,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
+  Radio,
+  RadioGroup,
+  Snackbar,
 } from "@mui/material";
 import {
-  FormatColorFill,
-  Save,
   Edit,
+  FormatColorFill,
   Help,
   KeyboardArrowUp,
+  Save,
 } from "@mui/icons-material";
 
 export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
