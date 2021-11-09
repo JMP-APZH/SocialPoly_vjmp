@@ -25,9 +25,10 @@ export default function PostCreation() {
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
 
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [successDraft, setSuccessDraft] = useState(false)
   const [errorTime, setErrorTime] = useState(false);
   const [errorPlatform, setErrorPlatform] = useState(false);
-  const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
@@ -111,13 +112,7 @@ export default function PostCreation() {
           return { status: 413 };
         }
       });
-    if (response.status >= 200 && response.status < 300) {
-      setSuccessAlert(true);
-    } else if (response.status === 413) {
-      setErrorSize(true);
-    } else {
-      setErrorAlert(true);
-    }
+      return response.status
   };
 
   const postLinkedIn = async () => {
@@ -153,13 +148,58 @@ export default function PostCreation() {
       .catch(function (error) {
         if (error.response) {return error.response} else {return {status: 413}}
       });
-    if (response.status >= 200 && response.status < 300) {
-      setSuccessAlert(true);
-    } else if (response.status === 413) {
-      setErrorSize(true);
+      return response.status
+    // if (response.status >= 200 && response.status < 300) {
+    //   setSuccessAlert(true);
+    // } else if (response.status === 413) {
+    //   setErrorSize(true);
+    // } else {
+    //   setErrorAlert(true);
+    // }
+  };
+
+
+  const postFacebook = async () => {
+    const token = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const body = new FormData();
+    // body.append("title", draftTitle);
+    body.append("content", postText);
+    if (schedualPost) {
+      if (schedualTime) {
+        let timeString = schedualTime;
+        timeString = timeString.replace("T", " ");
+        timeString += ":00";
+        body.append("send_time", timeString);
+      } else {
+        setErrorTime(true);
+        return null;
+      }
     } else {
-      setErrorAlert(true);
+      body.append("post_date_time", "");
     }
+    if (file) {
+      body.append("image", file);
+    }
+
+    const response = await axios
+      .post(`https://socialpoly.ch/backend/api/facebook/create/`, body, config, {
+        validateStatus: (status) => {
+          return true; // Always give return status
+        },
+      })
+      .catch(function (error) {
+        if (error.response) {return error.response} else {return {status: 413}}
+      });
+      return response.status
+
+    // if (response.status >= 200 && response.status < 300) {
+    //   setSuccessAlert(true);
+    // } else if (response.status === 413) {
+    //   setErrorSize(true);
+    // } else {
+    //   setErrorAlert(true);
+    // }
   };
 
   const postButtonHandler = async () => {
@@ -176,8 +216,55 @@ export default function PostCreation() {
     } else if (!draftTitle.replace(/\s/g, "")) {
       setErrorTitle(true);
     } else {
-      statusTwitter && (await postTwitter());
-      statusLinkedIn && (await postLinkedIn());
+      let responseTwitter = 0
+      let responseLinkedIn = 0
+      let responseFacebook = 0
+      statusTwitter && (responseTwitter = await postTwitter());
+      if (responseTwitter !== 0) {
+        if (responseTwitter >= 200 && responseTwitter < 300) {
+            responseTwitter = 200
+        } else if (responseTwitter === 413) {
+            console.log('twitter failed 1')
+            setErrorSize(true);
+            return
+        } else {
+            console.log('twitter failed 2')
+            setErrorAlert(true);
+            return
+        } 
+      }
+      statusLinkedIn && (responseLinkedIn = await postLinkedIn());
+      if (responseLinkedIn !== 0) {
+        if (responseLinkedIn >= 200 && responseLinkedIn < 300) {
+            responseLinkedIn = 200
+        } else if (responseLinkedIn === 413) {
+            console.log('linked in failed 1')
+            setErrorSize(true);
+            return
+        } else {
+            console.log('linked in failed 2')
+            setErrorAlert(true);
+            return
+        } 
+      }
+      statusFacebook && (responseFacebook = await postFacebook())
+      if (responseFacebook !== 0) {
+        if (responseFacebook >= 200 && responseFacebook < 300) {
+            responseFacebook = 200
+        } else if (responseFacebook === 413) {
+            console.log('facebook failed 1')
+            setErrorSize(true);
+            return
+        } else {
+            console.log('facebook failed 2')
+            setErrorAlert(true);
+            return
+        } 
+      }
+      if (responseTwitter === 200 || responseLinkedIn === 200 || responseFacebook === 200) {
+          console.log(responseTwitter, responseLinkedIn, responseFacebook)
+          setSuccessAlert(true)
+      } else {console.log('something went really wrong!', responseTwitter, responseLinkedIn, responseFacebook)}
     }
   };
 
@@ -202,9 +289,9 @@ export default function PostCreation() {
             body.append("content", postText);
             statusTwitter && body.append('is_twitter', true)
             statusLinkedIn && body.append('is_linkedin', true)
-            // statusFacebook && body.append('is_facebook', true)
-            // statusInstagram && body.append('is_instagram', true)
-            // statusTiktok && body.append('is_tiktok', true)
+            statusFacebook && body.append('is_facebook', true)
+            statusInstagram && body.append('is_instagram', true)
+            statusTiktok && body.append('is_tiktok', true)
 
             // checking for schedule time
             if (schedualPost) {
@@ -233,7 +320,7 @@ export default function PostCreation() {
                     if (error.response) {return error.response} else {return {status: 413}}
                 });
             if (response.status >= 200 && response.status < 300) {
-                setSuccessAlert(true);
+                setSuccessDraft(true);
             } else if (response.status === 413) {
                 setErrorSize(true);
             } else {
@@ -257,6 +344,11 @@ export default function PostCreation() {
         <Snackbar open={successAlert} autoHideDuration={6000} onClose={() => setSuccessAlert(false)}  >
             <Alert onClose={() => setSuccessAlert(false)} severity="success" sx={{ width: '200%' }}>
             Your post has been scheduled!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={successDraft} autoHideDuration={6000} onClose={() => setSuccessDraft(false)}  >
+            <Alert onClose={() => setSuccessDraft(false)} severity="success" sx={{ width: '200%' }}>
+            Your draft has been Saved!
             </Alert>
         </Snackbar>
         <Snackbar open={errorTime} autoHideDuration={6000} onClose={() => setErrorTime(false)}  >
@@ -300,7 +392,6 @@ export default function PostCreation() {
               <img src={LinkedIn} alt="" />
             </PlatformButton>
             <PlatformButton
-              disabled
               onClick={() => setStatusFacebook(!statusFacebook)}
               active={statusFacebook}
             >
@@ -331,7 +422,7 @@ export default function PostCreation() {
             rows={10}
           ></PostTextArea>
           {statusLinkedIn && <TextField id="outlined-basic" label="Link (Linked in only!)" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
-          <span>{280 - postText.length} characters left</span>
+          {statusTwitter && <span>{280 - postText.length} characters left</span>}
         </div>
 
         <Button

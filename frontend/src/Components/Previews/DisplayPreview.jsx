@@ -4,6 +4,7 @@ import TwitterPreview from './TwitterPreview'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Button } from '@mui/material';
+import FacebookPreview from './FacebookPreview';
 
 export default function DisplayPreview(props) {
     const [previews, ] = useState(props.previews)
@@ -14,6 +15,8 @@ export default function DisplayPreview(props) {
             <TwitterPreview image={props.image} textContent={props.textContent} />
         )} else if (previews[activePreview] === 'Linked In') {return (
             <LinkedInPreview image={props.image} textContent={props.textContent} />
+        )} else if (previews[activePreview] === 'Facebook') {return (
+            <FacebookPreview image={props.image} textContent={props.textContent} />
         )} else {return (
             <h1>Preview ERROR!</h1>
         )}
