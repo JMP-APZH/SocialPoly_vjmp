@@ -128,6 +128,16 @@ export default class GridDND extends React.PureComponent {
   }
 }
 
+/* function getFromDB(key){
+  let ls = {};
+  if (UserData.dashboard){
+    try {
+      ls = JSON.parse(global.localStorage.getItem("dashboard")) || {};
+    } catch (e) {}
+  }
+  return ls[key];
+  } */
+
 function getFromLS(key) {
   let ls = {};
   if (global.localStorage) {
@@ -137,6 +147,16 @@ function getFromLS(key) {
   }
   return ls[key];
 }
+
+/* function saveToDB(key, value){
+  if (UserData.dashboard){
+    global.localStorage.setItem(
+      "dashboard",
+      JSON.stringify({
+        [key]: value,
+      })
+    );
+  } */
 
 function saveToLS(key, value) {
   if (global.localStorage) {
