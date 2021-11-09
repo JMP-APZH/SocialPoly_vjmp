@@ -58,11 +58,10 @@ export const GridDiv = styled.div`
   .Large {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     h6 {
+        text-align: center;
         font-size: ${global.fontS};
+        text-decoration: underline;
     }
     img {
       height: 100%;
