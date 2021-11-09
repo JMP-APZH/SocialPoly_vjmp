@@ -13,7 +13,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 User = get_user_model()
-
+bearer_token = os.environ.get('TWITTER_BEARER_TOKEN')
 
 class CreateTweetOnTime(GenericAPIView):
     serializer_class = TwitterSerializer
@@ -255,3 +255,28 @@ class ShowTweetDetails(APIView):
             return Response(reduced_tweets)
         except:
             return Response({'message': 'Error during auth'})
+
+
+class RetrieveNewData(APIView):
+
+    def get(self, request):
+        access_token = self.request.user.twitter_access_token
+        access_token_secret = self.request.user.twitter_access_token_secret
+        auth = tweepy.OAuthHandler(os.environ.get('TWITTER_API_KEY'), os.environ.get('TWITTER_API_KEY_SECRET'))
+        auth.set_access_token(access_token, access_token_secret)
+        api = tweepy.API(auth)
+        api.verify_credentials()
+        cursor = tweepy.Cursor(api.user_timeline, tweet_mode="extended").items()
+        tweets = []
+        for tweet in cursor:
+            json_str = json.dumps(tweet._json)
+            parsed = json.loads(json_str)
+            tweets.append(parsed)
+
+        user = tweets[0]['user']
+        user_id = user['id']
+        # client = tweepy.Client(bearer_token=bearer_token)
+        # print_user = client.get_user(user_id)
+        print_user = api.get_user(user_id)
+
+        return Response({'user': print_user})
