@@ -13,10 +13,9 @@ import LinkedIn from "../../assets/svgs/linkedin-icon.svg";
 import TiktokIcon from "../../assets/svgs/tiktok-icon.svg";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { Alert, FormControlLabel, Snackbar, Switch, TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { FormControlLabel, Switch, TextField, Button } from "@mui/material";
 import DisplayPreview from "../Previews/DisplayPreview";
-import PostError from "./PostError";
 
 export default function PostCreation() {
   const theme = useTheme();
@@ -152,14 +151,8 @@ export default function PostCreation() {
         },
       })
       .catch(function (error) {
-        console.log(error.response);
-        if (error.response) {
-          return error.response;
-        } else {
-          return { status: 413 };
-        }
+        if (error.response) {return error.response} else {return {status: 413}}
       });
-    console.log(response);
     if (response.status >= 200 && response.status < 300) {
       setSuccessAlert(true);
     } else if (response.status === 413) {
@@ -188,25 +181,109 @@ export default function PostCreation() {
     }
   };
 
-  const closeErrors = () => {
-    setErrorTime(false);
-    setErrorPlatform(false);
-    setSuccessAlert(false);
-    setErrorAlert(false);
-    setErrorSize(false);
-    setErrorContent(false);
-    setErrorTitle(false);
-  };
+  const saveDraftHandler = async () => {
+    if (
+        !statusTwitter &&
+        !statusFacebook &&
+        !statusInstagram &&
+        !statusLinkedIn &&
+        !statusTiktok
+      ) {
+        setErrorPlatform(true);
+      } else if (!postText.replace(/\s/g, "")) {
+        setErrorContent(true);
+      } else if (!draftTitle.replace(/\s/g, "")) {
+        setErrorTitle(true);
+      } else {
+            const token = localStorage.getItem("token");
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+            const body = new FormData();
+            body.append("title", draftTitle);
+            body.append("content", postText);
+            statusTwitter && body.append('is_twitter', true)
+            statusLinkedIn && body.append('is_linkedin', true)
+            // statusFacebook && body.append('is_facebook', true)
+            // statusInstagram && body.append('is_instagram', true)
+            // statusTiktok && body.append('is_tiktok', true)
+
+            // checking for schedule time
+            if (schedualPost) {
+                if (schedualTime) {
+                    let timeString = schedualTime;
+                    timeString = timeString.replace("T", " ");
+                    timeString += ":00";
+                    body.append("send_time", timeString);
+                } else {
+                    setErrorTime(true);
+                    return null;
+                }
+            } else {
+                body.append("send_time", "");
+            }
+
+            // adding image if there is one
+            if (file) {
+            body.append("images", file);
+            }
+            const response = await axios.post(`https://socialpoly.ch/backend/api/draft/create/`, body, config, {
+                validateStatus: (status) => {
+                    return true; // Always give return status 
+                },
+                }).catch(function (error) {
+                    if (error.response) {return error.response} else {return {status: 413}}
+                });
+            if (response.status >= 200 && response.status < 300) {
+                setSuccessAlert(true);
+            } else if (response.status === 413) {
+                setErrorSize(true);
+            } else {
+                setErrorAlert(true);
+            }
+        }
+  }
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
-      {errorTitle && <PostError closeErrors={closeErrors} type="title" />}
-      {errorSize && <PostError closeErrors={closeErrors} type="size" />}
-      {successAlert && <PostError closeErrors={closeErrors} type="success" />}
-      {errorTime && <PostError closeErrors={closeErrors} type="time" />}
-      {errorPlatform && <PostError closeErrors={closeErrors} type="platform" />}
-      {errorContent && <PostError closeErrors={closeErrors} type="content" />}
-      {errorAlert && <PostError closeErrors={closeErrors} type="error" />}
+        <Snackbar open={errorTitle} autoHideDuration={6000} onClose={() => setErrorTitle(false)}  >
+            <Alert onClose={() => setErrorTitle(false)} severity="error" sx={{ width: '200%' }}>
+            You must have a Draft Title!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorSize} autoHideDuration={6000} onClose={() => setErrorSize(false)}  >
+            <Alert onClose={() => setErrorSize(false)} severity="error" sx={{ width: '200%' }}>
+            This file is too large and could not be sent, please choose a smaller file.
+            </Alert>
+        </Snackbar>
+        <Snackbar open={successAlert} autoHideDuration={6000} onClose={() => setSuccessAlert(false)}  >
+            <Alert onClose={() => setSuccessAlert(false)} severity="success" sx={{ width: '200%' }}>
+            Your post has been scheduled!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorTime} autoHideDuration={6000} onClose={() => setErrorTime(false)}  >
+            <Alert onClose={() => setErrorTime(false)} severity="error" sx={{ width: '200%' }}>
+            You have not input a time to schedule your post!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorPlatform} autoHideDuration={6000} onClose={() => setErrorPlatform(false)}  >
+            <Alert onClose={() => setErrorPlatform(false)} severity="error" sx={{ width: '200%' }}>
+            You must choose at least one platform to post on!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorContent} autoHideDuration={6000} onClose={() => setErrorContent(false)}  >
+            <Alert onClose={() => setErrorContent(false)} severity="error" sx={{ width: '200%' }}>
+            Your post must have text content!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorContent} autoHideDuration={6000} onClose={() => setErrorContent(false)}  >
+            <Alert onClose={() => setErrorContent(false)} severity="error" sx={{ width: '200%' }}>
+            Your post must have text content!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={errorAlert} autoHideDuration={6000} onClose={() => setErrorAlert(false)}  >
+            <Alert onClose={() => setErrorAlert(false)} severity="error" sx={{ width: '200%' }}>
+            Something went wrong! Your post was not sent!
+            </Alert>
+        </Snackbar>
       <div className="postWrapper">
         <div className="postContent">
           <div className="platformButtons">
@@ -253,19 +330,35 @@ export default function PostCreation() {
             onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
-          {statusLinkedIn && (
-            <TextField
-              id="outlined-basic"
-              label="Link"
-              placeholder="Linked in only"
-              variant="outlined"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              sx={{ margin: "10px", boxShadow: 5 }}
-            />
-          )}
+          {statusLinkedIn && <TextField id="outlined-basic" label="Link (Linked in only!)" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
           <span>{280 - postText.length} characters left</span>
         </div>
+
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ m: 1 }}
+          className="fileDropWrapper"
+        >
+          <FileDrop className="test" dragover={dragOver}>
+            <div
+              className="fileDrop"
+              {...getRootProps()}
+              onDragEnter={() => setDragOver(true)}
+            >
+              <input {...getInputProps()} />
+              <p>{fileName}</p>
+            </div>
+
+            <div
+              className="dragOverlay"
+              {...getRootProps()}
+              onDragLeave={() => setDragOver(false)}
+            >
+              <input {...getInputProps()} />
+            </div>
+          </FileDrop>
+        </Button>
 
         <div className="postControls">
           <span>Updates</span>
@@ -280,7 +373,8 @@ export default function PostCreation() {
               width: "60%",
             }}
           />
-          <Button
+            <Button
+            onClick={() => saveDraftHandler()}
             variant="contained"
             color="secondary"
             sx={{ m: 1, width: "60%" }}
@@ -323,32 +417,6 @@ export default function PostCreation() {
             Delete
           </Button>
         </div>
-
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ m: 1 }}
-          className="fileDropWrapper"
-        >
-          <FileDrop className="test" dragover={dragOver}>
-            <div
-              className="fileDrop"
-              {...getRootProps()}
-              onDragEnter={() => setDragOver(true)}
-            >
-              <input {...getInputProps()} />
-              <p>{fileName}</p>
-            </div>
-
-            <div
-              className="dragOverlay"
-              {...getRootProps()}
-              onDragLeave={() => setDragOver(false)}
-            >
-              <input {...getInputProps()} />
-            </div>
-          </FileDrop>
-        </Button>
       </div>
 
       {previews.length >= 1 && (
