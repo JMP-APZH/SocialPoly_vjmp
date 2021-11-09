@@ -168,7 +168,7 @@ export default function AddAccountCardLinkedIn() {
             </Typography>
           </span>
         ) : (
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ mb: 6.5 }}>
             You must connect your LinkedIn Account before you can use it.
           </Typography>
         )}

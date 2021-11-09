@@ -52,7 +52,7 @@ export default function AddAccountCardTikTok() {
         subheader="No Account Connected"
       />
       <CardContent>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ mb: 6.5 }}>
           You must connect your TikTok Account before you can use it.
         </Typography>
       </CardContent>
