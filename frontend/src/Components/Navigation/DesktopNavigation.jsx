@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 import DrawerContent from "../Drawer/DrawerContent";
 import { StyledBox } from "../Drawer/DrawerStyle";
 import ParrotFeather from "../../assets/images/ParrotFeather2.jpg";
+import SITLogoSide from "../../assets/images/SIT-academy-white-side.png";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -93,6 +94,26 @@ export default function DesktopNavigation({
         >
           <Toolbar />
           <DrawerContent />
+          {drawerWidth > 60 ? (
+            <img
+              src={SITLogoSide}
+              alt="SIT Logo"
+              style={{
+                marginLeft: "95px",
+                marginBottom: "-70px",
+                bottom: 0,
+                width: "29px",
+                height: "200px",
+                transform: "rotate(90deg)",
+              }}
+            />
+          ) : (
+            <img
+              src={SITLogoSide}
+              alt="SIT Logo"
+              style={{ margin: "15px", width: "29px", height: "200px" }}
+            />
+          )}
         </Drawer>
       </StyledBox>
     </div>

@@ -6,23 +6,21 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import { Fab } from "@mui/material";
 import { Edit, EditOff } from "@mui/icons-material";
 import PostCreation from "../PostCreation/PostCreation";
-import TwitterLikes from '../Analytics/TwitterLikes';
-import DraftPlatforms from '../Analytics/DraftPlatforms';
-import TwitterTotalLikesRetweets from '../Analytics/TwitterTotalLikesRetweets';
-import TwitterPercentages from '../Analytics/TwitterPercentages';
-
+import TwitterLikes from "../Analytics/TwitterLikes";
+import DraftPlatforms from "../Analytics/DraftPlatforms";
+import TwitterTotalLikesRetweets from "../Analytics/TwitterTotalLikesRetweets";
+import TwitterPercentages from "../Analytics/TwitterPercentages";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
 
 export default class GridDND extends React.PureComponent {
-    
   constructor(props) {
     super(props);
 
     this.state = {
       layouts: JSON.parse(JSON.stringify(originalLayouts)),
-      editGrid: false
+      editGrid: false,
     };
   }
 
@@ -99,21 +97,21 @@ export default class GridDND extends React.PureComponent {
           </GridDiv>
           <GridDiv key="2" data-grid={{ w: 8, h: 12, x: 8, y: 0 }}>
             <span className="Large">
-                <h6>Likes on your past 5 posts</h6>
+              <h6>Likes on your past 5 posts</h6>
               <TwitterLikes />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
           <GridDiv key="3" data-grid={{ w: 8, h: 12, x: 16, y: 0 }}>
             <span className="Large">
-                <h6>Draft platform distrabution</h6>
+              <h6>Draft platform distribution</h6>
               <DraftPlatforms />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
           <GridDiv key="4" data-grid={{ w: 8, h: 12, x: 24, y: 0 }}>
             <span className="Large">
-                <h6>Total likes and Retweets</h6>
+              <h6>Total likes and Retweets</h6>
               <TwitterTotalLikesRetweets />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
