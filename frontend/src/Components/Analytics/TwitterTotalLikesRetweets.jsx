@@ -8,13 +8,6 @@ import { useTheme } from "@mui/material/styles";
 export default function TwitterTotalLikesRetweets() {
     const [data, setData] = useState(false)
     const theme = useTheme()
-    // const data = [
-    //     {likes: 5, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content1' },
-    //     {likes: 3, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'thisisareallylongtweetthisisareallylongtweetthisisareallylongtweetthisisareallylongtweet' },
-    //     {likes: 6, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content3' },
-    //     {likes: 1, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content4' },
-    //     {likes: 2, created_at_short: 'FAKE DATA', created_at: 'this is a date LONG', content: 'this is the tweet content5' },
-    // ]
 
     function CustomTooltip({ payload, label, active }) {
         if (active) {
@@ -51,7 +44,7 @@ export default function TwitterTotalLikesRetweets() {
     const renderLineChart = () => {
         return (
             <GraphWrapper >
-            <ResponsiveContainer width='100%' aspect={2} >
+            <ResponsiveContainer width='100%' aspect={1.5} >
             <BarChart width={500} height={300} data={data} margin={{ top: 0, right: 20, bottom: 0, left: 0 }} >
                 <YAxis tick={{ fill: theme.palette.text.primary }} dataKey='amount'/>
                 <XAxis tick={{ fill: theme.palette.text.primary }} dataKey="type" />

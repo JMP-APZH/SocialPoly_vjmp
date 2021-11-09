@@ -31,12 +31,12 @@ export default function TwitterPercentages() {
         {data && 
             <GraphWrapper >
                 <div className='percentWrapper'>
-                    <span>Tweet Like percent</span>
-                    <h5>{(100 / data.total * data.likes).toFixed(0)}%</h5>
+                    <span>Avg. Likes per Tweet</span>
+                    <h5>{(data.likes / data.total ).toFixed(2)}</h5>
                 </div>
                 <div className='percentWrapper'>
-                    <span>Retweet percent</span>
-                    <h5>{(100 / data.total * data.retweets).toFixed(0)}%</h5>
+                    <span>Avg. Retweets per Tweet</span>
+                    <h5>{(data.retweets / data.total ).toFixed(2)}</h5>
                 </div>
             </GraphWrapper>
         }
