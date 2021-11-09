@@ -69,7 +69,12 @@ export default function DraftPlatforms() {
                 if (element.is_instagram) {dataInstagram.amount = dataInstagram.amount + 1}
                 if (element.is_tiktok) {dataTiktok.amount = dataTiktok.amount + 1}
             });
-            const newData = [dataTwitter, dataLinkedin, dataFacebook, dataTiktok, dataInstagram]
+            const newData = []
+            dataTwitter.amount && newData.push(dataTwitter)
+            dataLinkedin.amount && newData.push(dataLinkedin)
+            dataFacebook.amount && newData.push(dataFacebook)
+            dataTiktok.amount && newData.push(dataTiktok)
+            dataInstagram.amount && newData.push(dataInstagram)
             setData(newData)
             const sum = dataTwitter.amount + dataLinkedin.amount + dataFacebook.amount + dataTiktok.amount + dataInstagram.amount
             setSumOfAll(sum)

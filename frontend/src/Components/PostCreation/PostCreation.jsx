@@ -404,13 +404,13 @@ export default function PostCreation() {
             >
               <img src={InstagramIcon} alt="" />
             </PlatformButton>
-            <PlatformButton
+            {/* <PlatformButton
               disabled
               onClick={() => setStatusTiktok(!statusTiktok)}
               active={statusTiktok}
             >
               <img src={TiktokIcon} alt="" />
-            </PlatformButton>
+            </PlatformButton> */}
           </div>
 
           <PostTextArea
@@ -431,7 +431,7 @@ export default function PostCreation() {
           sx={{ m: 1 }}
           className="fileDropWrapper"
         >
-          <FileDrop className="test" dragover={dragOver}>
+          <FileDrop className="dragArea" dragover={dragOver}>
             <div
               className="fileDrop"
               {...getRootProps()}

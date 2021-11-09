@@ -5,6 +5,7 @@ import { AuthWrapper } from "./AuthStyle";
 import { useTheme } from "@mui/material/styles";
 import { useHistory } from "react-router";
 import axios from "axios";
+import Parrot from '../../Parrot.png'
 
 export default function Auth() {
   const history = useHistory();
@@ -69,7 +70,7 @@ export default function Auth() {
           <div className="inputWrapper">
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -127,42 +128,42 @@ export default function Auth() {
           <div className="inputWrapper2">
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Validation Code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="First Name"
               value={first}
               onChange={(e) => setFirst(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Last Name"
               value={last}
               onChange={(e) => setLast(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Password"
               type="password"
               value={password}
@@ -170,7 +171,7 @@ export default function Auth() {
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Password repeat"
               type="password"
               value={password2}
@@ -199,7 +200,7 @@ export default function Auth() {
             </span>
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -224,14 +225,14 @@ export default function Auth() {
           <div className="inputWrapper">
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               required
-              id="outlined-required"
+              variant='filled'
               label="Password"
               type="password"
               value={password}
@@ -258,5 +259,12 @@ export default function Auth() {
     }
   };
 
-  return <AuthWrapper theme={theme}>{pageType()}</AuthWrapper>;
+  return (
+    <AuthWrapper theme={theme} >
+        <img src={Parrot} alt="" className='sideParrot' />
+        <div className='formWrapper'>
+            {pageType()}
+        </div>
+    </AuthWrapper>
+  );
 }

@@ -29,6 +29,9 @@ export const GraphWrapper = styled.div`
         h5 {
             font-size: 50px;
         }
+        h6 {
+            font-size: ${global.fontS};
+        }
 
     }
 `
