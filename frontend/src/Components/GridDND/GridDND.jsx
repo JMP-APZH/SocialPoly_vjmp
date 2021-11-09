@@ -89,34 +89,34 @@ export default class GridDND extends React.PureComponent {
             this.onLayoutChange(layout, layouts)
           }
         >
-          <GridDiv key="1" data-grid={{ w: 18, h: 12, x: 0, y: 0 }}>
+          <GridDiv key="1" data-grid={{ w: 25, h: 48, x: 25, y: 33 }}>
             <span className="Large" id="postCreation">
               <PostCreation />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
-          <GridDiv key="2" data-grid={{ w: 8, h: 12, x: 8, y: 0 }}>
+          <GridDiv key="2" data-grid={{ w: 25, h: 22, x: 0, y: 0 }}>
             <span className="Large">
-              <h6>Likes on your past 5 posts</h6>
+              <h6>Likes on your last 5 posts</h6>
               <TwitterLikes />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
-          <GridDiv key="3" data-grid={{ w: 8, h: 12, x: 16, y: 0 }}>
+          <GridDiv key="3" data-grid={{ w: 25, h: 23, x: 0, y: 22 }}>
             <span className="Large">
-              <h6>Draft platform distribution</h6>
+              <h6>Draft Platform distribution</h6>
               <DraftPlatforms />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
-          <GridDiv key="4" data-grid={{ w: 8, h: 12, x: 24, y: 0 }}>
+          <GridDiv key="4" data-grid={{ w: 25, h: 25, x: 25, y: 0 }}>
             <span className="Large">
-              <h6>Total likes and Retweets</h6>
+              <h6>Total Likes and Retweets</h6>
               <TwitterTotalLikesRetweets />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
-          <GridDiv key="5" data-grid={{ w: 8, h: 12, x: 32, y: 0 }}>
+          <GridDiv key="5" data-grid={{ w: 25, h: 8, x: 25, y: 25 }}>
             <span className="Large">
               <TwitterPercentages />
             </span>
@@ -132,7 +132,7 @@ function getFromLS(key) {
   let ls = {};
   if (global.localStorage) {
     try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
+      ls = JSON.parse(global.localStorage.getItem("dashboard")) || {};
     } catch (e) {}
   }
   return ls[key];
@@ -141,7 +141,7 @@ function getFromLS(key) {
 function saveToLS(key, value) {
   if (global.localStorage) {
     global.localStorage.setItem(
-      "rgl-8",
+      "dashboard",
       JSON.stringify({
         [key]: value,
       })
