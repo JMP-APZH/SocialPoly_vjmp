@@ -30,11 +30,12 @@ export const GridDiv = styled.div`
   justify-content: center;
   align-items: center;
   overflow: auto;
-  border: ${global.colorMainD} 2px solid;
   padding: 30px;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px ${global.colorMainD};
-
+  border-radius: 4px;
+  box-shadow: -1px -2px 6px 0px;
+  :hover {
+    box-shadow: 0px 0px 20px 0px;
+  }
 
   #postCreation {
     overflow-x: hidden;

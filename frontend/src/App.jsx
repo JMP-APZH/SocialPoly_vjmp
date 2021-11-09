@@ -43,10 +43,10 @@ function App() {
       : {
           PrimaryLightColor: "#1A76D2",
           SecondaryLightColor: "#f44336",
-          BackgroundLightColor: "#ffffff",
+          BackgroundLightColor: "#f2f2f2",
           PrimaryDarkColor: "#90caf9",
           SecondaryDarkColor: "#ce93d8",
-          BackgroundDarkColor: "#121212",
+          BackgroundDarkColor: "#1c1c1c",
         }
   );
 

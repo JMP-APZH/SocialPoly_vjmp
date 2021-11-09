@@ -132,7 +132,7 @@ export default function AddAccountCardLinkedIn() {
       <CardHeader
         avatar={
           UserData ? (
-            <Avatar sx={{ bgcolor: "#0866C2" }} alt="Avatar"></Avatar>
+            <Avatar src={UserData.avatar_picture_data} alt="Avatar"></Avatar>
           ) : (
             <Avatar sx={{ bgcolor: red[500] }} alt="Avatar">
               N/A
@@ -168,7 +168,7 @@ export default function AddAccountCardLinkedIn() {
             </Typography>
           </span>
         ) : (
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ mb: 6.5 }}>
             You must connect your LinkedIn Account before you can use it.
           </Typography>
         )}
