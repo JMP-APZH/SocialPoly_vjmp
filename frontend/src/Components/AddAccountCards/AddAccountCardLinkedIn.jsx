@@ -132,7 +132,7 @@ export default function AddAccountCardLinkedIn() {
       <CardHeader
         avatar={
           UserData ? (
-            <Avatar sx={{ bgcolor: "#0866C2" }} alt="Avatar"></Avatar>
+            <Avatar src={UserData.avatar_picture_data} alt="Avatar"></Avatar>
           ) : (
             <Avatar sx={{ bgcolor: red[500] }} alt="Avatar">
               N/A

@@ -59,10 +59,10 @@ export default function Settings({ CustomUserTheme, SaveCustomUserTheme }) {
   const PresetColors = [
     { color: "#1976d2", title: "Primary Light default" },
     { color: "#f44336", title: "Secondary Light default" },
-    { color: "#ffffff", title: "Background Light default" },
+    { color: "#f2f2f2", title: "Background Light default" },
     { color: "#90caf9", title: "Primary Dark default" },
     { color: "#ce93d8", title: "Secondary Dark default" },
-    { color: "#121212", title: "Background Dark default" },
+    { color: "#1c1c1c", title: "Background Dark default" },
     { color: "#f44336", title: "error" },
     { color: "#ffa726", title: "warning" },
     { color: "#29b6f6", title: "info" },
