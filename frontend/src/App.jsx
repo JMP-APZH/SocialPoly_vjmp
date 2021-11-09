@@ -19,7 +19,7 @@ import NotFound404 from "./Pages/NotFound404/NotFound404";
 import axios from "axios";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [UserData, setUserData] = useState(false);
   const [UserAvatar, setUserAvatar] = useState(false);
 
