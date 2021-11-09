@@ -70,5 +70,4 @@ class GetLastPosts(APIView):
         access_token = 'EAAMENll1rP8BAOxFKnsD2UJO4wMIFy1yYQu7MZBZBp16DmvWijHlKH5MBoTVss15LwCZALsGDXxBCtlipQGbxP0venthmByvo1ZBY86zhXQbBWCuUXrU0BHpkOfcffZCST2nMuZBKBbMJUrFBtffbLlx6vFFHy5x6i9xpZCbjZAml8DrwoqZB5sI5VBvfsp3VHhda1C36RAFff2k86ZA4h41g9'
         graph = GraphAPI(access_token)
         feed = graph.get_objects(112589361217762)
-
         return Response({'users feed': feed})
