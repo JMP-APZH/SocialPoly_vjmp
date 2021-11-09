@@ -21,6 +21,9 @@ class User(AbstractUser):
     twitter_access_token_secret = models.CharField(max_length=255, blank=True, null=True)
     linked_in_auth_code = models.CharField(max_length=500, blank=True, null=True)
     linked_in_access_token = models.CharField(max_length=500, blank=True, null=True)
+    darkmode = models.TextField(blank=True, null=True)
+    dashboard = models.TextField(blank=True, null=True)
+    theme_colors = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.email

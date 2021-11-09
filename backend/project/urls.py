@@ -23,7 +23,6 @@ from twitter.views import ShowMe
 from user.views import CustomTokenObtainPairView
 
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Poly API",
@@ -40,6 +39,7 @@ urlpatterns = [
     path('backend/api/users/', include('user.urls')),
     path('backend/api/twitter/', include('twitter.urls')),
     path('backend/api/linkedin/', include('linkedin.urls')),
+    path('backend/api/facebook/', include('fb.urls')),
     path('backend/api/users/me/twitter/', ShowMe.as_view()),
     path('backend/api/draft/', include('draft.urls')),
     path('backend/api/registration/', include('registration_profile.urls')),
