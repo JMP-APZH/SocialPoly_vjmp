@@ -47,8 +47,8 @@ export const PostCreationWrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
-    max-height: 120px;
-    width: 100%;
+    max-height: 70px;
+    width: 60%;
     max-width: 400px;
     margin: auto;
   }
@@ -103,6 +103,7 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
     span {
       margin-bottom: 10px;
     }

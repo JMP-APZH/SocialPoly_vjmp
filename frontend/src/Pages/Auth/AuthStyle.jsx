@@ -1,11 +1,23 @@
 import styled from 'styled-components';
+import * as global from '../../globalStyle'
 
 
 
 export const AuthWrapper = styled.div`
-    margin: calc(10vh) auto;
-    width: 40%;
-    height: 60vh;
+
+.sideParrot {
+    position: fixed;
+    object-fit: cover;
+    height: 50%;
+    top: 25%;
+    margin-left: 3%;
+}
+
+.formWrapper {
+    margin: 15vh auto;
+    width: 60%;
+    height: 70vh;
+    padding: 5%;
     min-height: 390px;
     display: flex;
     flex-direction: column;
@@ -14,6 +26,8 @@ export const AuthWrapper = styled.div`
     border-radius: 4px;
     border: ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']} 2px solid;
     box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']};
+    background: radial-gradient(circle, ${global.colorMainL} 0%, ${global.colorMain} 50%, ${global.colorMainD} 100%);
+    border-radius: 8px;
 
     form {
         flex-grow: 1;
@@ -31,8 +45,12 @@ export const AuthWrapper = styled.div`
             justify-content: center;
             &>div {
                 margin: 3%;
+                border-radius: 4px;
+                background-color: ${(props) => props.theme.palette.background.default};
             }
             
+        }
+        input {
         }
     }
     p {
@@ -64,4 +82,5 @@ export const AuthWrapper = styled.div`
         font-size: 28px;
 
     }
+}
 `

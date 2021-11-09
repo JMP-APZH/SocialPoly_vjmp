@@ -61,7 +61,6 @@ export const GridDiv = styled.div`
     &>h6 {
         text-align: center;
         font-size: ${global.fontS};
-        text-decoration: underline;
     }
     img {
       height: 100%;
