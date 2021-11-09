@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import * as global from "../../globalStyle";
 
 export const FacebookPreviewWrapper = styled.div`
     width: 100%;

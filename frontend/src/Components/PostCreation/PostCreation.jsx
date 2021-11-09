@@ -25,9 +25,10 @@ export default function PostCreation() {
   const [statusLinkedIn, setStatusLinkedIn] = useState(false);
   const [statusTiktok, setStatusTiktok] = useState(false);
 
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [successDraft, setSuccessDraft] = useState(false)
   const [errorTime, setErrorTime] = useState(false);
   const [errorPlatform, setErrorPlatform] = useState(false);
-  const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
@@ -319,7 +320,7 @@ export default function PostCreation() {
                     if (error.response) {return error.response} else {return {status: 413}}
                 });
             if (response.status >= 200 && response.status < 300) {
-                setSuccessAlert(true);
+                setSuccessDraft(true);
             } else if (response.status === 413) {
                 setErrorSize(true);
             } else {
@@ -343,6 +344,11 @@ export default function PostCreation() {
         <Snackbar open={successAlert} autoHideDuration={6000} onClose={() => setSuccessAlert(false)}  >
             <Alert onClose={() => setSuccessAlert(false)} severity="success" sx={{ width: '200%' }}>
             Your post has been scheduled!
+            </Alert>
+        </Snackbar>
+        <Snackbar open={successDraft} autoHideDuration={6000} onClose={() => setSuccessDraft(false)}  >
+            <Alert onClose={() => setSuccessDraft(false)} severity="success" sx={{ width: '200%' }}>
+            Your draft has been Saved!
             </Alert>
         </Snackbar>
         <Snackbar open={errorTime} autoHideDuration={6000} onClose={() => setErrorTime(false)}  >
