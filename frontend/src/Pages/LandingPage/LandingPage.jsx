@@ -13,7 +13,7 @@ return (
     <div className='innerDiv'>
         <h1>Welcome to Social POLY!</h1>
         <img src={Parrot} alt="" />
-        <ButtonMain onClick={() => history.push('/auth')}>start!</ButtonMain>
+        <ButtonMain className='startButton' onClick={() => history.push('/auth')}>start!</ButtonMain>
     </div>
     <button className='secretButton' onClick={() => setSecret(!secret)} >This is a secret</button>
 </LandingPageWrapper>

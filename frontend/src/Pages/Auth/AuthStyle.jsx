@@ -4,6 +4,25 @@ import * as global from '../../globalStyle'
 
 
 export const AuthWrapper = styled.div`
+background: radial-gradient(circle, ${global.colorMainL} 0%, ${global.colorMain} 50%, ${global.colorMainD} 100%);
+
+.authMainButton {
+    border: white 2px solid;
+    
+}
+.authInput {
+    width: 90%;
+    margin: 3%;
+    border-radius: 4px;
+    background-color: ${(props) => props.theme.palette.background.default};
+    
+}
+
+@media only screen and (max-width: 1026px) {
+    .sideParrot {
+        display: none;
+    }
+}
 
 .sideParrot {
     position: fixed;
@@ -23,11 +42,8 @@ export const AuthWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-    border: ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']} 2px solid;
-    box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']};
-    background: radial-gradient(circle, ${global.colorMainL} 0%, ${global.colorMain} 50%, ${global.colorMainD} 100%);
-    border-radius: 8px;
+    /* border: ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']} 2px solid;
+    box-shadow: 0px 0px 10px ${(props) => props.theme.palette.mode === 'dark' ? props.theme.palette.primary.dark : props.theme.palette.grey['300']}; */
 
     form {
         flex-grow: 1;
@@ -44,9 +60,6 @@ export const AuthWrapper = styled.div`
             flex-wrap: wrap;
             justify-content: center;
             &>div {
-                margin: 3%;
-                border-radius: 4px;
-                background-color: ${(props) => props.theme.palette.background.default};
             }
             
         }
@@ -59,8 +72,11 @@ export const AuthWrapper = styled.div`
     .titleWrapper{
     }
     .inputWrapper {
-        min-width: 400px;
-        width: 50%;
+        min-width: 300px;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        padding: none;
     }
     .inputWrapper2 {
         min-width: 400px;
@@ -71,6 +87,7 @@ export const AuthWrapper = styled.div`
         &>*:first-child {
             grid-column: 1/3;
             margin: 1.5%;
+            width: 95%;
         }
         &>*{
             flex-grow: 1;

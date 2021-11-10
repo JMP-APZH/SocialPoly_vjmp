@@ -9,7 +9,12 @@ export const LandingPageWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    background: radial-gradient(circle, ${global.colorMainL} 0%, ${global.colorMain} 50%, ${global.colorMainD} 100%);
     ${(props) => props.secret && `background-image: url(${SecretParrot})`};
+
+    .startButton {
+        border: white 2px solid;
+    }
     
     .innerDiv {
         width: 40%;

@@ -68,7 +68,7 @@ export default function Auth() {
             <h4>Register</h4>
           </div>
           <div className="inputWrapper">
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="E-mail"
@@ -77,7 +77,7 @@ export default function Auth() {
             />
           </div>
           <div className="buttonWrapper">
-            <ButtonMain
+            <ButtonMain className='authMainButton'
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
               onClick={(e) => submitRegister1(e)}
             >
@@ -110,7 +110,7 @@ export default function Auth() {
             </p>
           </div>
           <div className="buttonWrapper">
-            <ButtonMain
+            <ButtonMain className='authMainButton'
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
               onClick={() => setPageState("register3")}
             >
@@ -126,42 +126,42 @@ export default function Auth() {
             <h4>Register</h4>
           </div>
           <div className="inputWrapper2">
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Validation Code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="First Name"
               value={first}
               onChange={(e) => setFirst(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Last Name"
               value={last}
               onChange={(e) => setLast(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Password"
@@ -169,7 +169,7 @@ export default function Auth() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Password repeat"
@@ -179,7 +179,7 @@ export default function Auth() {
             />
           </div>
           <div className="buttonWrapper">
-            <ButtonMain
+            <ButtonMain className='authMainButton'
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
               onClick={(e) => submitRegister3(e)}
             >
@@ -198,7 +198,7 @@ export default function Auth() {
             <span>
               Please enter your E-mail, and we will send you a recovery code!
             </span>
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="E-mail"
@@ -207,7 +207,7 @@ export default function Auth() {
             />
           </div>
           <div className="buttonWrapper">
-            <ButtonMain
+            <ButtonMain className='authMainButton'
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
               onClick={(e) => submitRegister3(e)}
             >
@@ -223,14 +223,14 @@ export default function Auth() {
             <h4>Login</h4>
           </div>
           <div className="inputWrapper">
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <TextField
+            <TextField className='authInput'
               required
               variant='filled'
               label="Password"
@@ -240,7 +240,7 @@ export default function Auth() {
             />
           </div>
           <div className="buttonWrapper">
-            <ButtonMain
+            <ButtonMain className='authMainButton'
               sx={{ boxShadow: 5, border: 2, borderColor: "primary.dark" }}
               onSubmit={(e) => submitLogin(e)}
               type="submit"
