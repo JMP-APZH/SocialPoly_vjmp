@@ -163,7 +163,7 @@ export default function PostCreation() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = new FormData();
-    // body.append("title", draftTitle);
+    body.append("title", draftTitle);
     body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
@@ -179,7 +179,7 @@ export default function PostCreation() {
       body.append("post_date_time", "");
     }
     if (file) {
-      body.append("image", file);
+      body.append("images", file);
     }
 
     const response = await axios
@@ -392,6 +392,7 @@ export default function PostCreation() {
               <img src={LinkedIn} alt="" />
             </PlatformButton>
             <PlatformButton
+              disabled
               onClick={() => setStatusFacebook(!statusFacebook)}
               active={statusFacebook}
             >
