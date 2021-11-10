@@ -114,17 +114,17 @@ export const PostCreationWrapper = styled.div`
     width: 95%;
     padding: 10px;
     box-sizing: content-box;
-    border: ${global.colorMain} solid 2px;
+    /* border: ${global.colorMain} solid 2px; */
     border-radius: 5px;
-    box-shadow: 0px 0px 10px ${global.colorMainD};
+    /* box-shadow: 0px 0px 10px ${global.colorMainD}; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: ${(props) =>
+    /* background-color: ${(props) =>
       props.theme.palette.mode === "dark"
         ? "transparent"
-        : global.colorMainL + "40"};
+        : global.colorMainL + "40"}; */
   }
   .previewTitle {
     font-size: ${global.fontXL};
