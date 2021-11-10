@@ -9,7 +9,8 @@ import TwitterLikes from "../Analytics/TwitterLikes";
 import DraftPlatforms from "../Analytics/DraftPlatforms";
 import TwitterTotalLikesRetweets from "../Analytics/TwitterTotalLikesRetweets";
 import TwitterPercentages from "../Analytics/TwitterPercentages";
-import LastMulipostEngagement from '../Analytics/LastMulipostEngagement';
+import LastMulipostEngagement from "../Analytics/LastMulipostEngagement";
+import TwitterPostList from "../../Components/PostLists/TwitterPostList";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
@@ -120,6 +121,12 @@ export default class GridDND extends React.PureComponent {
           <GridDiv key="5" data-grid={{ w: 25, h: 8, x: 25, y: 25 }}>
             <span className="Large">
               <TwitterPercentages />
+            </span>
+            {this.state.editGrid && <div className="movingOverlay" />}
+          </GridDiv>
+          <GridDiv key="6" data-grid={{ w: 25, h: 8, x: 25, y: 40 }}>
+            <span className="Large">
+              <TwitterPostList />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>

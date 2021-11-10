@@ -66,7 +66,7 @@ export default function TwitterPreview(props) {
         </div>
 
         <span className="timestamp">
-          5:23 PM · Jul 4, 2021 · Twitter Web App DISPLAY FROM SCHEDUAL
+          5:23 PM · Jul 4, 2021 · Twitter Web App
         </span>
         <div className="engagment">
           <span>
