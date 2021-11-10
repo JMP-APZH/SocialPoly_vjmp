@@ -52,9 +52,10 @@ export default function DrawerContent() {
         alignItems: "flex-start",
         padding: 0,
         height: "100%",
-      }} /* sx={{ color: "white" }} */
+        width: "100%",
+      }}
     >
-      <div style={{ top: 0 }}>
+      <div style={{ top: 0, width: "100%" }}>
         <List style={{ width: "100%" }}>
           <ListItem button key="Dashboard" onClick={DashboardHandler}>
             <Tooltip title="Dashboard">

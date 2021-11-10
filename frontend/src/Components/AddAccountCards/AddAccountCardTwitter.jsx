@@ -137,13 +137,16 @@ export default function AddAccountCardTwitter() {
     >
       <CardHeader
         avatar={
-          <Avatar
-            sx={{ bgcolor: red[500] }}
-            alt="Avatar"
-            src={UserData.profile_image_url_https}
-          >
-            N/A
-          </Avatar>
+          UserData ? (
+            <Avatar
+              src={UserData.profile_image_url_https}
+              alt="Avatar"
+            ></Avatar>
+          ) : (
+            <Avatar sx={{ bgcolor: red[500] }} alt="Avatar">
+              N/A
+            </Avatar>
+          )
         }
         action={
           <IconButton aria-label="settings">
