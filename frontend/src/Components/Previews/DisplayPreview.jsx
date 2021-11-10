@@ -15,7 +15,7 @@ export default function DisplayPreview(props) {
       return (
         <TwitterPreview image={props.image} textContent={props.textContent} />
       );
-    } else if (previews[activePreview] === "Linked In") {
+    } else if (previews[activePreview] === "LinkedIn") {
       return (
         <LinkedInPreview image={props.image} textContent={props.textContent} />
       );

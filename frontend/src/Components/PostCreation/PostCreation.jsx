@@ -65,7 +65,7 @@ export default function PostCreation() {
     statusTwitter && previewsArray.push("Twitter");
     statusFacebook && previewsArray.push("Facebook");
     statusInstagram && previewsArray.push("Instagram");
-    statusLinkedIn && previewsArray.push("Linked In");
+    statusLinkedIn && previewsArray.push("LinkedIn");
     statusTiktok && previewsArray.push("Tik Tok");
     setPreviews(previewsArray);
   }, [
@@ -422,7 +422,7 @@ export default function PostCreation() {
             onChange={(e) => setPostText(e.target.value)}
             rows={10}
           ></PostTextArea>
-          {statusLinkedIn && <TextField id="outlined-basic" label="Link (Linked in only!)" placeholder='Linked in only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />}
+          {/* {statusLinkedIn && <TextField id="outlined-basic" label="Link (LinkedIn only!)" placeholder='LinkedIn only' variant="outlined" value={link} onChange={(e) => setLink(e.target.value)} sx={{margin: '10px', boxShadow: 5}} />} */}
           {statusTwitter && <span>{280 - postText.length} characters left</span>}
         </div>
 
