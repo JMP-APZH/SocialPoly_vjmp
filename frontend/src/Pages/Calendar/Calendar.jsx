@@ -6,6 +6,23 @@ import { PersonRounded } from "@mui/icons-material";
 /* import { de } from "date-fns/locale"; */
 
 function Calendar() {
+  /* const [TwitterScheduled, setTwitterScheduled] = React.useState(false);
+
+  useEffect(() => {
+    async function getTwitterScheduled() {
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(
+        `https://socialpoly.ch/backend/api/twitter/scheduled/`,
+        config
+      );
+      if (response.data) {
+        setTwitterScheduled(response.data[0]);
+      }
+    }
+    getTwitterScheduled();
+  }, []); */
+
   return (
     <Fragment>
       <Scheduler
@@ -21,7 +38,7 @@ function Calendar() {
         }}
         resourceViewMode="tabs"
         selectedDate={new Date()}
-        view="week"
+        view="month"
         month={{
           weekDays: [0, 1, 2, 3, 4, 5, 6],
           weekStartOn: 1,
@@ -47,7 +64,7 @@ function Calendar() {
             default: RESOURCES[0].admin_id,
             options: RESOURCES.map((res) => {
               return {
-                id: res.admin_id,
+                id: 1,
                 text: `${res.title} (${res.scheduled_posts})`,
                 value: res.admin_id, //Should match "name" property
               };
@@ -71,7 +88,7 @@ function Calendar() {
                       variant="caption"
                       noWrap
                     >
-                      <PersonRounded /> {admin.text}
+                      <PersonRounded /> {/* {admin.text} */}
                     </Typography>
                   );
                 } else {
