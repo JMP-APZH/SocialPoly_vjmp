@@ -94,7 +94,7 @@ export default function HeaderContent(props) {
           <Notifications />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Account">
+      <Tooltip title="Account" sx={{ mr: 1 }}>
         <IconButton onClick={handleClick}>
           <Avatar src={UserAvatar}></Avatar>
         </IconButton>
