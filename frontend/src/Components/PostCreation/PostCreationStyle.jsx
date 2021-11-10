@@ -103,7 +103,7 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     span {
       margin-bottom: 10px;
     }
@@ -111,7 +111,7 @@ export const PostCreationWrapper = styled.div`
 
   .previewWrapper {
     margin: 30px 0;
-    width: 95%;
+    width: 70%;
     padding: 10px;
     box-sizing: content-box;
     /* border: ${global.colorMain} solid 2px; */
@@ -144,14 +144,8 @@ export const PostCreationWrapper = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: ${(props) =>
-        props.theme.palette.mode === "dark" ? "#3F9FE730" : "#0260b230"};
       z-index: 5;
-
-      &:hover {
-        background-color: ${(props) =>
-          props.theme.palette.mode === "dark" ? "#3f9ee760" : "#0260b260"};
-      }
+      margin: 20px;
       :disabled {
         visibility: hidden;
         /* filter: saturate(10%); */

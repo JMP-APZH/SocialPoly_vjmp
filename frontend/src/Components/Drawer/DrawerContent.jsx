@@ -89,14 +89,14 @@ export default function DrawerContent() {
             </Tooltip>
             <ListItemText primary="Calendar" />
           </ListItem>
-          <ListItem button key="Reports" onClick={ReportsHandler}>
+          {/* <ListItem button key="Reports" onClick={ReportsHandler}>
             <Tooltip title="Reports">
               <ListItemIcon>
                 <Assessment className="Icon" />
               </ListItemIcon>
             </Tooltip>
             <ListItemText primary="Reports" />
-          </ListItem>
+          </ListItem> */}
           {/* <ListItem button key="Messages" onClick={MessagesHandler}>
         <Tooltip title="Messages">
         <ListItemIcon>

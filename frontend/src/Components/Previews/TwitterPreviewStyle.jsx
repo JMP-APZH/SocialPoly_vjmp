@@ -6,7 +6,7 @@ export const TwitterPreviewWrapper = styled.div`
   overflow-x: auto;
   display: flex;
   justify-content: center;
-  
+
   .twitterPostWrapper {
     min-width: 450px;
     max-width: 600px;
@@ -17,6 +17,12 @@ export const TwitterPreviewWrapper = styled.div`
     padding: 0 16px;
     box-sizing: border-box;
     border: #eff3f4 1px solid;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: -1px -2px 6px 0px;
+    :hover {
+      box-shadow: 0px 0px 20px 0px;
+    }
     color: #000000;
 
     div {
@@ -66,7 +72,7 @@ export const TwitterPreviewWrapper = styled.div`
       overflow-wrap: anywhere;
       display: flex;
       flex-direction: column;
-      align-items: flex-start ;
+      align-items: flex-start;
 
       p {
         margin: 0;
