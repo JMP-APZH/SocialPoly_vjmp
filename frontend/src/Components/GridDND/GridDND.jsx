@@ -5,11 +5,11 @@ import "react-resizable/css/styles.css";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import { Fab } from "@mui/material";
 import { Edit, EditOff } from "@mui/icons-material";
-import PostCreation from "../PostCreation/PostCreation";
 import TwitterLikes from "../Analytics/TwitterLikes";
 import DraftPlatforms from "../Analytics/DraftPlatforms";
 import TwitterTotalLikesRetweets from "../Analytics/TwitterTotalLikesRetweets";
 import TwitterPercentages from "../Analytics/TwitterPercentages";
+import LastMulipostEngagement from '../Analytics/LastMulipostEngagement';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
@@ -91,7 +91,8 @@ export default class GridDND extends React.PureComponent {
         >
           <GridDiv key="1" data-grid={{ w: 25, h: 48, x: 25, y: 33 }}>
             <span className="Large" id="postCreation">
-              <PostCreation />
+              <h6>Latest Multi-Post preformance</h6>
+              <LastMulipostEngagement />
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>

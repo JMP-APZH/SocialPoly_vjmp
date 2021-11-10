@@ -13,7 +13,7 @@ export default function DisplayPreview(props) {
     const previewToDisplay = () => {
         if (previews[activePreview] === 'Twitter') {return (
             <TwitterPreview image={props.image} textContent={props.textContent} />
-        )} else if (previews[activePreview] === 'Linked In') {return (
+        )} else if (previews[activePreview] === 'LinkedIn') {return (
             <LinkedInPreview image={props.image} textContent={props.textContent} />
         )} else if (previews[activePreview] === 'Facebook') {return (
             <FacebookPreview image={props.image} textContent={props.textContent} />

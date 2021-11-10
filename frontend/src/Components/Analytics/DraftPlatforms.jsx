@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Tooltip, ResponsiveContainer, Pie, PieChart } from 'recharts';
+import { Tooltip, ResponsiveContainer, Pie, PieChart, Cell } from 'recharts';
 import {CustomToolTipWrapper, GraphWrapper} from './AnalyticsStyles'
 import { useTheme } from "@mui/material/styles";
 
@@ -57,11 +57,11 @@ export default function DraftPlatforms() {
             const token = localStorage.getItem("token");
             const config = { headers: { Authorization: `Bearer ${token}` } };
             const {data} = await axios.get(`https://socialpoly.ch/backend/api/draft/create/`, config)
-            const dataTwitter = {type: 'Twitter', amount: 0}
-            const dataLinkedin = {type: 'Linked In', amount: 0}
-            const dataFacebook = {type: 'Facebook', amount: 0}
-            const dataTiktok = {type: 'TikTok', amount: 0}
-            const dataInstagram = {type: 'Instagram', amount: 0}
+            const dataTwitter = {type: 'Twitter', amount: 0, color: '#1D9BF0'}
+            const dataLinkedin = {type: 'LinkedIn', amount: 0, color: '#1df039'}
+            const dataFacebook = {type: 'Facebook', amount: 0, color: '#f09c1d'}
+            const dataTiktok = {type: 'TikTok', amount: 0, color: '#f01d4b'}
+            const dataInstagram = {type: 'Instagram', amount: 0, color: '#911df0'}
             data.forEach(element => {
                 if (element.is_twitter) {dataTwitter.amount = dataTwitter.amount + 1}
                 if (element.is_linkedin) {dataLinkedin.amount = dataLinkedin.amount + 1}
@@ -85,9 +85,11 @@ export default function DraftPlatforms() {
     const renderLineChart = () => {
         return (
             <GraphWrapper >
-            <ResponsiveContainer width='100%' aspect={1.7} >
+            <ResponsiveContainer height='100%' aspect={1.8} >
             <PieChart width={400} height={400} >
-                <Pie data={data} dataKey="amount" cx="50%" cy="50%" outerRadius='40%' fill={theme.palette.primary.main} label={customLabel} tooltipType='pie' />
+                <Pie data={data} dataKey="amount" cx="50%" cy="50%" outerRadius='60%' fill={theme.palette.primary.main} label={customLabel} tooltipType='pie' >
+                    {data.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                </Pie>
                 <Tooltip content={CustomTooltip} />
             </PieChart>
             </ResponsiveContainer>
