@@ -113,7 +113,7 @@ export const RESOURCES = [
   {
     admin_id: 5,
     title: "LinkedIn",
-    scheduled_posts: " Posts Scheduled",
+    scheduled_posts: "4 Posts Scheduled",
     color: "#2867B2",
   },
   /* {
