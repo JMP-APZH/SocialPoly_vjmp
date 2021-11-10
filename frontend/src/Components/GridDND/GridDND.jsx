@@ -4,7 +4,7 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import { Fab } from "@mui/material";
-import { Edit, EditOff } from "@mui/icons-material";
+import { Edit, Save } from "@mui/icons-material";
 import PostCreation from "../PostCreation/PostCreation";
 import TwitterLikes from "../Analytics/TwitterLikes";
 import DraftPlatforms from "../Analytics/DraftPlatforms";
@@ -69,7 +69,7 @@ export default class GridDND extends React.PureComponent {
             }}
           >
             {this.state.editGrid ? (
-              <EditOff className="Icon" />
+              <Save className="Icon" />
             ) : (
               <Edit className="Icon" />
             )}
