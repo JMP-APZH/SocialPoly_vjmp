@@ -31,14 +31,13 @@ export const PostCreationWrapper = styled.div`
   display: flex;
 
   .postWrapper {
-    width: 100%;
-    min-width: 100%;
+    width: 70%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     grid-gap: 20px;
     overflow: wrap;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: start;
   }
 
   .fileDropWrapper {
@@ -103,10 +102,7 @@ export const PostCreationWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    span {
-      margin-bottom: 10px;
-    }
+    margin-top: 52px;
   }
 
   .previewWrapper {

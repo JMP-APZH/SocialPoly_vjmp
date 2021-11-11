@@ -553,9 +553,8 @@ export default function PostCreation() {
           {statusTwitter && (
             <span>{280 - postText.length} characters left</span>
           )}
-        </div>
-
         <Button
+          style={{margin: '20px'}}
           variant="contained"
           color="primary"
           sx={{ m: 1, color: "primary.contrastText" }}
@@ -580,9 +579,10 @@ export default function PostCreation() {
             </div>
           </FileDrop>
         </Button>
+        </div>
+
 
         <div className="postControls">
-          <span>Updates</span>
           <TextField
             id="outlined-basic"
             label="Draft Title"
