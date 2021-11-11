@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Bar, Cell } from 'recharts';
 import {CustomToolTipWrapper, GraphWrapper} from './AnalyticsStyles'
 import { useTheme } from "@mui/material/styles";
