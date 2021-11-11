@@ -86,22 +86,22 @@ export const EVENTS = [
   {
     event_id: 5,
     title: "NikeTown",
-    start: new Date("2021 11 12 11:30"),
-    end: new Date("2021 11 12 12:30"),
+    start: new Date("2021 11 11 11:30"),
+    end: new Date("2021 11 11 12:30"),
     admin_id: 1,
   },
   {
     event_id: 205,
     title: "NikeTown",
-    start: new Date("2021 11 12 11:30"),
-    end: new Date("2021 11 12 12:30"),
+    start: new Date("2021 11 11 11:30"),
+    end: new Date("2021 11 11 12:30"),
     admin_id: 2,
   },
   {
     event_id: 505,
     title: "NikeTown",
-    start: new Date("2021 11 12 11:30"),
-    end: new Date("2021 11 12 12:30"),
+    start: new Date("2021 11 11 11:30"),
+    end: new Date("2021 11 11 12:30"),
     admin_id: 5,
   },
 ];
