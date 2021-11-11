@@ -86,8 +86,8 @@ export const EVENTS = [
   {
     event_id: 5,
     title: "NikeTown",
-    start: new Date("2021 11 19 11:30"),
-    end: new Date("2021 11 19 12:30"),
+    start: new Date("2021 11 12 11:30"),
+    end: new Date("2021 11 12 12:30"),
     admin_id: 1,
   },
   {
