@@ -83,19 +83,40 @@ export const EVENTS = [
     end: new Date("2021 11 19 12:30"),
     admin_id: 5,
   },
+  {
+    event_id: 5,
+    title: "NikeTown",
+    start: new Date("2021 11 19 11:30"),
+    end: new Date("2021 11 19 12:30"),
+    admin_id: 1,
+  },
+  {
+    event_id: 205,
+    title: "NikeTown",
+    start: new Date("2021 11 12 11:30"),
+    end: new Date("2021 11 12 12:30"),
+    admin_id: 2,
+  },
+  {
+    event_id: 505,
+    title: "NikeTown",
+    start: new Date("2021 11 12 11:30"),
+    end: new Date("2021 11 12 12:30"),
+    admin_id: 5,
+  },
 ];
 
 export const RESOURCES = [
   {
     admin_id: 1,
     title: "All",
-    scheduled_posts: "4 Posts Scheduled",
+    scheduled_posts: "5 Posts Scheduled",
     /* color: "#1ad248", */
   },
   {
     admin_id: 2,
     title: "Twitter",
-    scheduled_posts: "4 Posts Scheduled",
+    scheduled_posts: "5 Posts Scheduled",
     color: "#1D9BF0",
   },
   /* {
@@ -113,7 +134,7 @@ export const RESOURCES = [
   {
     admin_id: 5,
     title: "LinkedIn",
-    scheduled_posts: "4 Posts Scheduled",
+    scheduled_posts: "5 Posts Scheduled",
     color: "#2867B2",
   },
   /* {
