@@ -53,7 +53,7 @@ export default function DisplayPreview(props) {
           sx={{
             boxShadow: 5,
             backgroundColor: "secondary.main",
-            color: "text.primary",
+            color: "primary.contrastText",
             ":hover": {
               backgroundColor: "secondary.dark",
             },
@@ -69,7 +69,7 @@ export default function DisplayPreview(props) {
           sx={{
             boxShadow: 5,
             backgroundColor: "secondary.main",
-            color: "text.primary",
+            color: "primary.contrastText",
             ":hover": {
               backgroundColor: "secondary.dark",
             },

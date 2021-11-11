@@ -39,7 +39,7 @@ export default function PostCreation() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
-//   const [errorTitle, setErrorTitle] = useState(false);
+  //   const [errorTitle, setErrorTitle] = useState(false);
 
   const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
@@ -87,7 +87,9 @@ export default function PostCreation() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = new FormData();
-    draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');;
+    draftTitle
+      ? body.append("title", draftTitle)
+      : body.append("title", "Untitled Draft");
     body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
@@ -173,7 +175,9 @@ export default function PostCreation() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = new FormData();
-    draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');
+    draftTitle
+      ? body.append("title", draftTitle)
+      : body.append("title", "Untitled Draft");
     body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
@@ -232,8 +236,8 @@ export default function PostCreation() {
       setErrorPlatform(true);
     } else if (!postText.replace(/\s/g, "")) {
       setErrorContent(true);
-    // } else if (!draftTitle.replace(/\s/g, "")) {
-    //   setErrorTitle(true);
+      // } else if (!draftTitle.replace(/\s/g, "")) {
+      //   setErrorTitle(true);
     } else {
       let responseTwitter = 0;
       let responseLinkedIn = 0;
@@ -321,13 +325,15 @@ export default function PostCreation() {
       setErrorPlatform(true);
     } else if (!postText.replace(/\s/g, "")) {
       setErrorContent(true);
-    // } else if (!draftTitle.replace(/\s/g, "")) {
-    //   setErrorTitle(true);
+      // } else if (!draftTitle.replace(/\s/g, "")) {
+      //   setErrorTitle(true);
     } else {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const body = new FormData();
-      draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');
+      draftTitle
+        ? body.append("title", draftTitle)
+        : body.append("title", "Untitled Draft");
       body.append("content", postText);
       statusTwitter && body.append("is_twitter", true);
       statusLinkedIn && body.append("is_linkedin", true);
@@ -551,7 +557,7 @@ export default function PostCreation() {
           style={{margin: '20px'}}
           variant="contained"
           color="primary"
-          sx={{ m: 1, color: "text.primary" }}
+          sx={{ m: 1, color: "primary.contrastText" }}
           className="fileDropWrapper"
         >
           <FileDrop className="dragArea" dragover={dragOver}>
@@ -592,7 +598,7 @@ export default function PostCreation() {
             onClick={() => saveDraftHandler()}
             variant="contained"
             color="secondary"
-            sx={{ m: 1, width: "60%", color: "text.primary" }}
+            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
           >
             Save Draft
           </Button>
@@ -624,14 +630,14 @@ export default function PostCreation() {
             variant="contained"
             color="primary"
             onClick={() => postButtonHandler()}
-            sx={{ m: 1, width: "60%", color: "text.primary" }}
+            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
           >
             Post
           </Button>
           <Button
             variant="contained"
             color="error"
-            sx={{ m: 1, width: "60%", color: "text.primary" }}
+            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
           >
             Delete
           </Button>
