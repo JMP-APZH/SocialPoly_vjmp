@@ -39,7 +39,7 @@ export default function PostCreation() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
-  const [errorTitle, setErrorTitle] = useState(false);
+//   const [errorTitle, setErrorTitle] = useState(false);
 
   const [previews, setPreviews] = useState([]);
   const [dragOver, setDragOver] = useState(false);
@@ -87,7 +87,7 @@ export default function PostCreation() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = new FormData();
-    body.append("title", draftTitle);
+    draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');;
     body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
@@ -173,7 +173,7 @@ export default function PostCreation() {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const body = new FormData();
-    body.append("title", draftTitle);
+    draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');
     body.append("content", postText);
     if (schedualPost) {
       if (schedualTime) {
@@ -232,8 +232,8 @@ export default function PostCreation() {
       setErrorPlatform(true);
     } else if (!postText.replace(/\s/g, "")) {
       setErrorContent(true);
-    } else if (!draftTitle.replace(/\s/g, "")) {
-      setErrorTitle(true);
+    // } else if (!draftTitle.replace(/\s/g, "")) {
+    //   setErrorTitle(true);
     } else {
       let responseTwitter = 0;
       let responseLinkedIn = 0;
@@ -309,13 +309,13 @@ export default function PostCreation() {
       setErrorPlatform(true);
     } else if (!postText.replace(/\s/g, "")) {
       setErrorContent(true);
-    } else if (!draftTitle.replace(/\s/g, "")) {
-      setErrorTitle(true);
+    // } else if (!draftTitle.replace(/\s/g, "")) {
+    //   setErrorTitle(true);
     } else {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const body = new FormData();
-      body.append("title", draftTitle);
+      draftTitle ? body.append("title", draftTitle) : body.append("title", 'Untitled Draft');
       body.append("content", postText);
       statusTwitter && body.append("is_twitter", true);
       statusLinkedIn && body.append("is_linkedin", true);
@@ -367,7 +367,7 @@ export default function PostCreation() {
 
   return (
     <PostCreationWrapper remainingText={280 - postText.length} theme={theme}>
-      <Snackbar
+      {/* <Snackbar
         open={errorTitle}
         autoHideDuration={6000}
         onClose={() => setErrorTitle(false)}
@@ -379,7 +379,7 @@ export default function PostCreation() {
         >
           You must have a Draft Title!
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
       <Snackbar
         open={errorSize}
         autoHideDuration={6000}
