@@ -125,7 +125,7 @@ export default class GridDND extends React.PureComponent {
             </span>
             {this.state.editGrid && <div className="movingOverlay" />}
           </GridDiv>
-          <GridDiv key="6" data-grid={{ w: 25, h: 8, x: 25, y: 40 }}>
+          <GridDiv key="6" data-grid={{ w: 25, h: 8, x: 0, y: 40 }}>
             <span className="Large">
               <TwitterPostList />
             </span>
