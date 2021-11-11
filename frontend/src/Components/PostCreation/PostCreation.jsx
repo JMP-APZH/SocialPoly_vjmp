@@ -287,6 +287,18 @@ export default function PostCreation() {
       ) {
         console.log(responseTwitter, responseLinkedIn, responseFacebook);
         setSuccessAlert(true);
+        setFilePreview("");
+        setFileName("Upload Media");
+        setPostText("");
+        setDraftTitle("");
+        setSchedualPost(false);
+        setSchedualTime("");
+        setLink("");
+        setStatusTwitter(false);
+        setStatusFacebook(false);
+        setStatusInstagram(false);
+        setStatusLinkedIn(false);
+        setStatusTiktok(false);
       } else {
         console.log(
           "something went really wrong!",
