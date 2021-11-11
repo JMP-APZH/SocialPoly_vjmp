@@ -86,6 +86,7 @@ export default class GridDND extends React.PureComponent {
           isResizable={this.state.editGrid}
           isDraggable={this.state.editGrid}
           isRearrangeable={this.state.editGrid}
+          compactType={null}
           onLayoutChange={(layout, layouts) =>
             this.onLayoutChange(layout, layouts)
           }
