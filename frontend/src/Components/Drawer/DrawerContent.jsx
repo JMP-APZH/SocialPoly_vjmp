@@ -65,14 +65,6 @@ export default function DrawerContent() {
             </Tooltip>
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem button key="Accounts" onClick={AccountsHandler}>
-            <Tooltip title="Accounts">
-              <ListItemIcon>
-                <AccountCircle className="Icon" />
-              </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Accounts" />
-          </ListItem>
           <ListItem button key="Posts" onClick={PostsHandler}>
             <Tooltip title="Posts">
               <ListItemIcon>
@@ -88,6 +80,14 @@ export default function DrawerContent() {
               </ListItemIcon>
             </Tooltip>
             <ListItemText primary="Calendar" />
+          </ListItem>
+          <ListItem button key="Accounts" onClick={AccountsHandler}>
+            <Tooltip title="Accounts">
+              <ListItemIcon>
+                <AccountCircle className="Icon" />
+              </ListItemIcon>
+            </Tooltip>
+            <ListItemText primary="Accounts" />
           </ListItem>
           {/* <ListItem button key="Reports" onClick={ReportsHandler}>
             <Tooltip title="Reports">
