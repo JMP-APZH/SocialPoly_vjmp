@@ -12,8 +12,8 @@ import {
   AccountCircle,
   PostAdd,
   CalendarToday,
-  Assessment,
-  /* Email, */
+  /* Assessment,
+  Email, */
 } from "@mui/icons-material";
 import { useHistory } from "react-router";
 
@@ -35,10 +35,10 @@ export default function DrawerContent() {
     e.preventDefault();
     history.push("/calendar/");
   };
-  const ReportsHandler = (e) => {
+  /*   const ReportsHandler = (e) => {
     e.preventDefault();
     history.push("/reports/");
-  };
+  }; */
   /*   const MessagesHandler = (e) => {
     e.preventDefault();
     history.push("/messages/");
