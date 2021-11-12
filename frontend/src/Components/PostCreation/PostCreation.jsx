@@ -171,6 +171,16 @@ export default function PostCreation() {
     // }
   };
 
+  const deleteDraftHandler = () => {
+    setPreviews([]);
+    setFile(null);
+    setFilePreview("");
+    setPostText("");
+    setDraftTitle("");
+    setSchedualPost(false);
+    setSchedualTime("");
+  };
+
   const postFacebook = async () => {
     const token = localStorage.getItem("token");
     const config = { headers: { Authorization: `Bearer ${token}` } };
@@ -553,34 +563,33 @@ export default function PostCreation() {
           {statusTwitter && (
             <span>{280 - postText.length} characters left</span>
           )}
-        <Button
-          style={{margin: '20px'}}
-          variant="contained"
-          color="primary"
-          sx={{ m: 1, color: "primary.contrastText" }}
-          className="fileDropWrapper"
-        >
-          <FileDrop className="dragArea" dragover={dragOver}>
-            <div
-              className="fileDrop"
-              {...getRootProps()}
-              onDragEnter={() => setDragOver(true)}
-            >
-              <input {...getInputProps()} />
-              <p>{fileName}</p>
-            </div>
+          <Button
+            style={{ margin: "20px" }}
+            variant="contained"
+            color="primary"
+            sx={{ m: 1, color: "primary.contrastText" }}
+            className="fileDropWrapper"
+          >
+            <FileDrop className="dragArea" dragover={dragOver}>
+              <div
+                className="fileDrop"
+                {...getRootProps()}
+                onDragEnter={() => setDragOver(true)}
+              >
+                <input {...getInputProps()} />
+                <p>{fileName}</p>
+              </div>
 
-            <div
-              className="dragOverlay"
-              {...getRootProps()}
-              onDragLeave={() => setDragOver(false)}
-            >
-              <input {...getInputProps()} />
-            </div>
-          </FileDrop>
-        </Button>
+              <div
+                className="dragOverlay"
+                {...getRootProps()}
+                onDragLeave={() => setDragOver(false)}
+              >
+                <input {...getInputProps()} />
+              </div>
+            </FileDrop>
+          </Button>
         </div>
-
 
         <div className="postControls">
           <TextField
@@ -638,6 +647,7 @@ export default function PostCreation() {
             variant="contained"
             color="error"
             sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
+            onClick={() => deleteDraftHandler()}
           >
             Delete
           </Button>
