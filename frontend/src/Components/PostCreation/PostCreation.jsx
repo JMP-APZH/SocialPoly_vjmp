@@ -567,7 +567,7 @@ export default function PostCreation() {
             style={{ margin: "20px" }}
             variant="contained"
             color="primary"
-            sx={{ m: 1, color: "primary.contrastText" }}
+            sx={{ m: 1, color: "white" }}
             className="fileDropWrapper"
           >
             <FileDrop className="dragArea" dragover={dragOver}>
@@ -607,7 +607,7 @@ export default function PostCreation() {
             onClick={() => saveDraftHandler()}
             variant="contained"
             color="secondary"
-            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
+            sx={{ m: 1, width: "60%", color: "white" }}
           >
             Save Draft
           </Button>
@@ -639,14 +639,14 @@ export default function PostCreation() {
             variant="contained"
             color="primary"
             onClick={() => postButtonHandler()}
-            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
+            sx={{ m: 1, width: "60%", color: "white" }}
           >
             Post
           </Button>
           <Button
             variant="contained"
             color="error"
-            sx={{ m: 1, width: "60%", color: "primary.contrastText" }}
+            sx={{ m: 1, width: "60%", color: "white" }}
             onClick={() => deleteDraftHandler()}
           >
             Delete
